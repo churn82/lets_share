@@ -39,10 +39,7 @@
 
 				</div>
 			
-			<div>
-				<button>신고하기</button>
-				<button>가이드</button>
-			</div>	
+				
 
 			<!-- Main -->
 			<div class="wrapper style1">
@@ -65,9 +62,9 @@
 				</div>
 		
 		
-		<a href="template.jsp" class="btn btn-primary left">글쓰기</a> <!-- 글쓰기.jsp 페이지로 이동 -->
+		<a href="template.jsp" class="btn btn-primary right">글쓰기</a> <!-- 글쓰기.jsp 페이지로 이동 -->
 		<!-- 로그인 상태라면 if() {} -->
-			<a href="template.jsp" class="btn btn-primary right">내 문의내역</a>
+			<a href="template.jsp" class="btn btn-primary left">내 문의내역</a>
 		
 	
 		
