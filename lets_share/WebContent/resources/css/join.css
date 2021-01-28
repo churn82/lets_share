@@ -1,0 +1,29 @@
+@charset "UTF-8";
+.wrapper{
+	padding:2% 2% 2% 2%;
+}
+.agreement{
+	display:flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	align-items:center;
+}
+.agreement_title{
+	font-weight: bold;
+	font-size:3.5vw;
+	margin-bottom: 1.5%;
+}
+.agreement_content{
+	height:200px;
+	width:100%;
+}
+.agreement_check{
+	margin-top:1%;
+	width:20%;
+	display:flex;
+	align-self:flex-end;
+	align-items: center;
+}
+.agreement_next{
+	width:20%;
+}
