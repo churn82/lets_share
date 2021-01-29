@@ -1,13 +1,25 @@
 @charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 .wrapper{
 	padding:2% 2% 2% 2%;
+	font-family: 'Noto Sans KR', sans-serif;
+	display:flex;
+	justify-content: center;
+}
+.login{
+	width:70%;
+	display:flex;
+	flex-direction: column;
+	align-items: center;
 }
 .login_title{
 	font-weight: bold;
 	font-size:3.5vw;
 	margin-bottom: 1.5%;
+	align-self:flex-start;
 }
 .loginbox{
+	width:100%;
 	display:flex;
 	justify-content: space-between;
 	border:thin solid;
@@ -53,5 +65,8 @@
 	justify-content:left;
 	align-items:center;
 }
-
+#register_btn{
+	font-size:2vw;
+	font-weight:bold;
+}
 

@@ -1,17 +1,21 @@
 @charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 .wrapper{
 	padding:2% 2% 2% 2%;
+	display:flex;
+	justify-content: center;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 .agreement{
+	width:80%;
 	display:none;
 	flex-direction: column;
-	flex-wrap: wrap;
 	align-items:center;
 }
 .agreement_title{
 	font-weight: bold;
 	font-size:3.5vw;
-	margin-bottom: 1.5%;
+	margin-bottom: 2%;
 }
 .agreement_content{
 	height:200px;
@@ -19,13 +23,17 @@
 }
 .agreement_check{
 	margin-top:1%;
-	width:20%;
 	display:flex;
 	align-self:flex-end;
-	align-items: center;
+	align-items:center;
 }
 .agreement_next{
 	width:20%;
+}
+.member_info{
+	width:80%;
+	display:flex;
+	flex-direction:column;
 }
 .member_info_title{
 	font-weight: bold;
@@ -38,36 +46,52 @@
 	flex-direction: column;
 	align-items:center;
 	justify-content: space-around;
-	height:450px;
+	height:50vw;
 	padding-top:2%;
 }
-.member_info_form label{
-	width:60%;
+.wrap_line2{
+	width:70%;
+	height:8%;
 	display:flex;
 	align-items:center;
 }
-
-.wrap_check{
-	width:80%;
+.wrap_line2>input{
+	width:70% !important;
+}
+.confirm_msg{
+	color:red;
+	width:50% !important;
+}
+.wrap_line2>span{
+	width:30%;
+}
+.wrap_line3{
+	width:70%;
+	height:8%;
+	display:flex;
+	align-items:center;
+}
+.wrap_line3>input{
+	width:40% !important;
+}
+.wrap_line3>button{
+	margin-left:10px;
+	height:80%;
+	font-size:1vw;
+}
+.wrap_line3>span{
+	width:30%;
+}
+.wrap_register{
+	width:100%;
 	display:flex;
 	justify-content: center;
-	align-items:baseline;
+	padding-top:2%;
+	border-top:1px solid;
 }
-.wrap_check>label{
-	width:47%;
+#register_btn{
+	width:25%;
+	font-size:1.5vw;
 }
-.wrap_check>button{
-	padding:0;
-	margin-left:5%;
-	width:10%;
-	height:70%;
-}
-.member_info_form span{
-	width:30%;
-	text-align:right;
-	margin-right:20px;
-
-}
-
 
 

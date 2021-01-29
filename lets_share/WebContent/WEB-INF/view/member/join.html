@@ -52,24 +52,49 @@
 							지라 인간의 동산에는 사랑의 풀이 돋고 이상의 꽃이 피고 희망의 놀이 뜨고 열락의 새가
 							불러 내는 것이 따뜻한 봄바람이다 인생에 따뜻한 봄바람을 불어 보내는 것은 청춘의 끓는 피다 청춘의 피
 						</textarea>
-						<label class="agreement_check"><span>약관에 동의합니다.</span><input type="checkbox" style="width:30px;height:30px;background-color:blue"></label>
+						<label class="agreement_check"><span>약관에 동의합니다.</span><input type="checkbox" style="width:20px;height:20px;background-color:lightgray"></label>
 						<button class="agreement_next">다음</button>
 					</div>
 					<div class="member_info">
 						<h1 class="member_info_title">회원 정보 입력</h1>
 						<form class="member_info_form">
-							<div class="wrap_check">
-							<label><span>아이디</span> <input type="text" placeholder="아이디를 입력하세요"></label>
-							<button>중복확인</button>
+							<div class="wrap_line3">
+								<span>아이디</span>
+								<input type="text" placeholder="아이디를 입력하세요">
+								<button>중복확인</button>
 							</div>
-							<label><span>비밀번호</span> <input type="password" placeholder="비밀번호 입력하세요"></label>
-							<label><span>비밀번호 확인</span> <input type="password" placeholder="비밀번호를 다시 입력하세요"></label>
-							<div class="wrap_check">
-							<label><span>닉네임</span> <input type="text" placeholder="닉네임을 입력하세요"></label>
-							<button>중복확인</button>
+							<div class="wrap_line2">
+								<span></span>
+								<span class="confirm_msg" id="confirm_id">중복된 아이디입니다.</span>
 							</div>
-							<label><span>이메일</span> <input type="text" placeholder="이메일을 입력하세요"></label>
-							<button>가입하기</button>
+							<div class="wrap_line2">
+								<span>비밀번호</span> 
+								<input type="password" placeholder="비밀번호를 입력하세요">
+							</div>
+							<div class="wrap_line2">
+								<span>비밀번호 확인</span>
+								<input type="password" placeholder="비밀번호를 다시 입력하세요">
+							</div>
+							<div class="wrap_line2">
+								<span></span>
+								<span class="confirm_msg" id="confirm_pw">같은 비밀번호를 입력해주세요.</span>
+							</div>
+							<div class="wrap_line3">
+								<span>닉네임</span>
+								<input type="text" placeholder="닉네임을 입력하세요">
+								<button>중복확인</button>
+							</div>
+							<div class="wrap_line2">
+								<span></span>
+								<span class="confirm_msg" id="confirm_nick">중복된 닉네임입니다.</span>
+							</div>
+							<div class="wrap_line2">
+								<span>이메일</span>
+								<input type="text" placeholder="이메일을 입력하세요">
+							</div>
+							<div class="wrap_register">
+								<button id="register_btn">가입하기</button>
+							</div>
 						</form>
 					</div>
 				</div>
