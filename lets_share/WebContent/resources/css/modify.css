@@ -1,0 +1,109 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+.wrapper{
+	padding:2% 2% 2% 2%;
+	font-family: 'Noto Sans KR', sans-serif;
+}
+.left_menu{
+	position:fixed;
+	left:2%;
+	display:flex;
+	flex-direction: column;
+	height:15%;
+	justify-content: space-around;
+}
+.left_menu>div{
+	font-size:14pt;
+	font-weight:bold;
+}
+.modify_title{
+	font-weight: bold;
+	font-size:3.5vw;
+	margin-bottom: 1.5%;
+	transform:translateX(20%);
+	width:70%;
+}
+.contents{
+	border-top: 1px solid;
+	transform:translateX(20%);
+	width:70%;
+}
+.pw_secure{
+	display:none;
+	flex-direction:column;
+	align-items:center;
+	justify-content: space-around;
+	height:15vw;
+}
+
+.pw_secure_auth{
+	width:75%;
+	display:flex;
+	align-items:center;
+	justify-content: space-around;
+}
+.pw_secure_auth>*{
+	height:100%;
+	width:20%;
+	display:flex;
+	align-items:center;
+	justify-content: center;
+}
+.pw_secure_auth input{
+	width:50% !important;
+}
+.wrap_info{
+	display:flex;
+	flex-direction:column;
+	justify-content: space-between;
+	height:500px;
+}
+.wrap_info>div{
+	display:flex;
+}
+.infobox{
+	display:flex;
+	flex-direction:row;
+	align-items:center;
+	text-align:center;
+	height:10%;
+}
+.infobox>input{
+	height:100%;
+}
+.name{
+	width:30%;
+}
+.value{
+	width:50% !important;
+	text-align:left;
+}
+.infobox>button{
+	margin-left:10px;
+	height:100%;
+	font-size:1vw;
+}
+.confirm_msg{
+	color:red;
+	text-align:center;
+}
+.wrap_btn{
+	border-top:1px solid;
+	display:flex;
+	justify-content:flex-end;
+	padding-top:10px;
+	height:80px;
+}
+.wrap_btn>*{
+	height:70%;
+	font-size:1vw;
+	display:flex;
+	align-items:center;
+}
+#leave_btn{
+	margin-right:50%;
+}
+#cancel_btn{
+	margin-right:1%;
+}
+
