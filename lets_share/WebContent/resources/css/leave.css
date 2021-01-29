@@ -10,6 +10,10 @@
 	height:15%;
 	justify-content: space-around;
 }
+.left_menu>div{
+	font-size:14pt;
+	font-weight:bold;
+}
 .modify_title{
 	font-weight: bold;
 	font-size:3.5vw;

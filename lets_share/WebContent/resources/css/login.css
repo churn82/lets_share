@@ -1,5 +1,9 @@
 @charset "UTF-8";
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+body{
+	min-height:1000px;
+	min-width:1200px;
+}
 .wrapper{
 	padding:2% 2% 2% 2%;
 	font-family: 'Noto Sans KR', sans-serif;
