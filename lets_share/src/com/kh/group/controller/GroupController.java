@@ -23,24 +23,34 @@ public class GroupController extends HttpServlet {
 		case "form":
 			goForm(request, response);
 			break;
-		case "upload":
-
-		case "download":
-
+		case "view":
+			goView(request, response);
+			break;
+		case "search":
+			goSearch(request, response);
+			break;
 		default : 
 			response.setStatus(404);
 			break;
 		}
-		
 	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 	
 	protected void goForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/view/group/groupform.jsp")
+		request.getRequestDispatcher("/WEB-INF/view/group/group_form.jsp")
+		.forward(request, response);
+	}
+	
+	protected void goView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/group/group_view.jsp")
+		.forward(request, response);
+	}
+	
+	protected void goSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/group/group_search.jsp")
 		.forward(request, response);
 	}
 
