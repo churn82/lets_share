@@ -1,0 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/view/include/head.jsp" %>
+<body>
+	<script type="text/javascript">
+		location.href="/index";
+	</script>
+	<!-- test -->
+</body>
+</html>
