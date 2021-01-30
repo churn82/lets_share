@@ -1756,9 +1756,9 @@ section, summary, time, mark, audio, video {
 				margin-bottom: 0;
 			}
 	
-			section.special > header, section.special > footer, article.special > header, article.special > footer {
+			/* section.special > header, section.special > footer, article.special > header, article.special > footer {
 				text-align: center;
-			}
+			}  */
 
 			.row > section, .row > article {
 				margin-bottom: 0;
@@ -1773,7 +1773,6 @@ section, summary, time, mark, audio, video {
 				font-size: 1.5em;
 				margin: 1em 0 2em 0;
 				line-height: 1.5em;
-				text-align: inherit;
 			}
 
 			footer {
