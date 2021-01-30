@@ -46,19 +46,30 @@
 								<div class="slide">
 									<div class="title"><a>Step1 .공유할 계정의 서비스를 선택 하세요</a></div>
 									<div class="node_box">
-										<div class="node" id="netflix"></div>
-										<div class="node" id="watcha"></div>
+										<div class="node" id="netflix">
+											<div class="service_logo"><img src="../../../resources/images/netflix.png" alt=""></div>
+										</div>
+										<div class="node" id="watcha">
+											<div class="service_logo"><img src="../../../resources/images/watcha.png" alt=""></div>
+										</div>
+										<div class="node" id="coupang">
+											<div class="service_logo"><img src="../../../resources/images/coupang.png" alt=""></div>
+										</div>
 									</div>
 									<br>
 									<div class="node_box">
-										<div class="node" id="node3"></div>
-										<div class="node" id="node4"></div>
+										<div class="node" id="wavve">
+											<div class="service_logo"><img src="../../../resources/images/wavve.png" alt=""></div>
+										</div>
+										<div class="node" id="tving">
+											<div class="service_logo"><img src="../../../resources/images/tving.png" alt=""></div>
+										</div>
 									</div>
 								</div>
 								<div class="slide">
 									<div class="title"><a>Step2 .계좌 정보 및 결제일을 선택 하세요</a></div>
 									<div class="bank_box">
-										<div class="bank_icon"><a href="#ex1" rel="modal:open">은행 선택</a></div>
+										<div class="bank_icon"><a href="#ex1" rel="modal:open" id="bank_btn">은행 선택</a></div>
 										<input type="text" class="bank_account" id="bank_account" placeholder=" '-' 빼고 입력해 주세요" style="width: 70%;">
 									</div>
 									<div class="calendar">
@@ -98,14 +109,32 @@
 						<div class="btn_box" id="next"><i class="fas fa-angle-right next"></i></div>
 					</div>
 				</div>
+				<div id="ex1" class="modal">
+					<h1>입금 은행을 선택 하세요</h1>
+					<div class="content">
+						<div class="bank" id="농협 은행">농협 은행</div>
+						<div class="bank" id="국민 은행">국민 은행</div>
+						<div class="bank" id="신한 은행">신한 은행</div>
+						<div class="bank" id="우리 은행">우리 은행</div>
+						<div class="bank" id="KEB 하나 은행">KEB 하나 은행</div>
+						<div class="bank" id="기업 은행">기업 은행</div>
+						<div class="bank" id="대구 은행">대구 은행</div>
+						<div class="bank" id="부산 은행">부산 은행</div>
+						<div class="bank" id="우체국">우체국</div>
+						<div class="bank" id="경남 은행">경남 은행</div>
+						<div class="bank" id="카카오 뱅크">카카오 뱅크</div>
+						<div class="bank" id="SC 제일 은행">SC 제일 은행</div>
+						<div class="bank" id="수협 은행">수협 은행</div>
+						<div class="bank" id="씨티 은행">씨티 은행</div>
+						<input type="text" placeholder="직접 입력" id="bank" name="bank">
+						<button id="confirm_btn"><a href="#" rel="modal:close">확인</a></button>
+					</div>
+					<!-- <a href="#" rel="modal:close">Close</a> -->
+				</div>	
 			</form>
 			<!-- Footer -->
 			<div id="footer">
 				<div style="text-align: center;">Copyright © 1998-2021 KH Information Educational Institute All Right Reserved</div>
-			</div>
-			<div id="ex1" class="modal">
-				<p>입금 은행을 선택하세요</p>
-				<!-- <a href="#" rel="modal:close">Close</a> -->
 			</div>
 		</div>
 		<!-- Scripts -->
@@ -163,6 +192,17 @@
 					document.querySelector("#date").value = e.target.id;
 				})
 			}))
+			
+			// Step2에 은행 선택하면 input에 은행들어감
+			document.querySelectorAll(".bank").forEach((node)=>{
+				node.addEventListener("click", (e)=>{
+					document.querySelector("#bank").value = e.target.id;
+				})
+			})
+			document.querySelector("#confirm_btn").addEventListener("click",(e)=>{
+				document.querySelector("#bank_btn").innerHTML = document.querySelector("#bank").value;
+				
+			})
 		</script>
 	</body>
 </html>
