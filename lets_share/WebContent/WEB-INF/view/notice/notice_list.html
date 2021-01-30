@@ -6,8 +6,8 @@
 -->
 <html>
 <head>
-	<title>Let's Share</title>
-	<meta charset="utf-8" />
+<title>Let's Share</title>
+<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="../../../resources/css/htmlMain.css" />
 	<link rel="stylesheet" href="../../../resources/css/notice_list.css" />
@@ -57,17 +57,17 @@
 		
 		<div class="tab_content">
 			<div id="search_bar">
-				<select class="search_sel">
-					<option value="sel_all">전체</option>
+				<select id="search_sel" name="select">
+					<option value="sel_all">전체  ▼ </option>
 					<option value="sel_title">제목</option>
 					<option value="sel_content">내용</option>
 				</select>
 				<input type="text" class="searchText" name="searchText" placeholder="검색어를 입력하세요.">
-				<button class="search_btn" name="search_btn">조회</button>
+				<button class="search_btn" onclick="searchList">조회</button>
 			</div>
-			
+	
 			<div class="table_wrap">
-				<table>
+				<table class="tb_list">
 					<thead>
 						<tr>
 							<th>번호</th>
@@ -169,6 +169,7 @@
 				</table>
 
 			</div>
+					
 				<!-- 게시판 페이지 번호 -->
 				<div class="paging">
 					<a class="page_btn" href="">1</a>
@@ -184,20 +185,22 @@
 	</div>
 <!-- </div> -->
 	
-	<!-- Footer -->
-	<footer id="footer">
-		<div>Copyright © 1998-2021 KH Information Educational Institute All Right Reserved</div>
-	
-	</footer>
-	
-<!-- 	<div id="footer">
-		<div style="text-align: center;">Copyright © 1998-2021 KH Information Educational Institute All Right Reserved</div>
-	</div> 
--->
-
-
-
+	<!-- Footer -->	
+<div id="footer">
+	<div style="text-align: center;">
+		Copyright © 1998-2021 KH Information Educational Institute All Right Reserved
 	</div>
+</div> 
+
+
+
+
+</div>
+
+
+
+
+
 
 <!-- Scripts -->
 <script src="../../../resources/js/jquery.min.js"></script>

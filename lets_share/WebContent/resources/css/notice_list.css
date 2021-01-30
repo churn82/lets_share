@@ -15,15 +15,16 @@ h2{
 	padding: 0px 0px 30px;
 }
 
-footer{
-	text-align: center;
+tr{
+	display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
 }
 
+td:hover{
+	background: #d8dce3;
+}
 
-/* 
-margin: 3rem auto;
-border: 1px solid #d8dce3;
-*/
 .section{
 	width: 75%;
 	height: 100%;
@@ -32,7 +33,6 @@ border: 1px solid #d8dce3;
     padding: 60px;
 }
 
-
 .tab_menu{
 	padding: 0;
 	display: flex;
@@ -40,8 +40,6 @@ border: 1px solid #d8dce3;
 	padding-bottom: 2vw;
 	margin: 0;
 	width: 100%;
-	
-	
 }
 
 .tab_menu li{
@@ -63,17 +61,15 @@ border: 1px solid #d8dce3;
 #search_bar{
 	display: flex;
 	justify-content: space-between;
+	text-align: center;
+	align-content: center;
 }
 
-
-
-.search_sel{
-	display:flex;
+#search_sel{
 	font-size: 1vw;
-	width: 18%;
+	width: 10%;
 	border: 1px solid #d8dce3;
-	text-align-last: center; 
-	
+	text-align-last: center;
 }
 
 /* 검색바 */
@@ -91,12 +87,17 @@ border: 1px solid #d8dce3;
 	border-radius: 0;
 }
 
-
 .table_wrap{
 	padding-top: 2vw;
 	padding-bottom: 2vw;
-	
-	
+}
+
+.tb_list{
+	border-top: 1px solid #d8dce3;
+}
+
+.tb_list td{
+	border-bottom: 1px solid #d8dce3;
 }
 
 td> a{
