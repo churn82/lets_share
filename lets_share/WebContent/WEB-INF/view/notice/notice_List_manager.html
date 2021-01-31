@@ -10,7 +10,7 @@
 <meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="../../../resources/css/htmlMain.css" />
-	<link rel="stylesheet" href="../../../resources/css/notice/notice_list.css" />
+	<link rel="stylesheet" href="../../../resources/css/notice/notice_list_manager.css" />
 	<noscript><link rel="stylesheet" href="../../../resources/css/noscript.css" /></noscript>
 </head>
 <body class="no-sidebar is-preload">
@@ -44,8 +44,7 @@
 <!-- <div class="wrapper style1"> -->
 	<div id="main">
 		<div class="section">
-		<h2>게시판</h2>
-			
+		<h2>관리자 게시판</h2>
 		<ul class="tab_menu">
 			<li class="n_menu">
 				<a href="">공지사항</a>
@@ -70,6 +69,7 @@
 				<table class="tb_list">
 					<thead>
 						<tr>
+							<th class="checkbox_all"><input type="checkbox"></th>
 							<th>번호</th>
 							<th>제목</th>
 							<th>작성자</th>
@@ -87,6 +87,7 @@
 						</tr>
 					
 						<tr>
+							<td class="ckbox"><input type="checkbox" name="checkbox"></td>
 							<td class="num"><span>1</span></td>
 							<td class="title"><a href="">게시판</a></td>
 							<td class="writer"><span>작성자</span></td>
@@ -94,6 +95,7 @@
 							<td class="hit"><span>5</span></td>
 						</tr>
 						<tr>
+							<td class="ckbox"><input type="checkbox" name="checkbox"></td>
 							<td class="num">2</td>
 							<td class="title">게시판 만들기</td>
 							<td class="writer">관리자</td>
@@ -101,12 +103,84 @@
 							<td class="hit">32</td>
 						</tr>	
 						
+						<tr>
+							<td class="ckbox"><input type="checkbox" name="checkbox"></td>
+							<td class="num">3</td>
+							<td class="title">점검 예정입니다.</td>
+							<td class="writer">관리자</td>
+							<td class="date">2021-01-29</td>
+							<td class="hit">32</td>
+						</tr> 
+						
+						<tr>
+							<td class="ckbox"><input type="checkbox" name="checkbox"></td>
+							<td class="num">4</td>
+							<td class="title">신고 관련 공지입니다.</td>
+							<td class="writer">관리자</td>
+							<td class="date">2021-01-29</td>
+							<td class="hit">92</td>
+						</tr>
+						
+						<tr>
+							<td class="ckbox"><input type="checkbox" name="checkbox"></td>
+							<td class="num">5</td>
+							<td class="title">등급 관련 안내</td>
+							<td class="writer">관리자</td>
+							<td class="date">2021-01-30</td>
+							<td class="hit">152</td>
+						</tr>
+						
+						<tr>
+							<td class="ckbox"><input type="checkbox" name="checkbox"></td>
+							<td class="num">6</td>
+							<td class="title">등급 관련 안내</td>
+							<td class="writer">관리자</td>
+							<td class="date">2021-01-30</td>
+							<td class="hit">152</td>
+						</tr>
+						
+						<tr>
+							<td class="ckbox"><input type="checkbox" name="checkbox"></td>
+							<td class="num">7</td>
+							<td class="title">신고 관련</td>
+							<td class="writer">관리자</td>
+							<td class="date">2021-01-31</td>
+							<td class="hit">2</td>
+						</tr>
+						
+						<tr>
+							<td class="ckbox"><input type="checkbox" name="checkbox"></td>
+							<td class="num">8</td>
+							<td class="title">신고 관련</td>
+							<td class="writer">관리자</td>
+							<td class="date">2021-01-31</td>
+							<td class="hit">2</td>
+						</tr>
+						
+						<tr>
+							<td class="ckbox"><input type="checkbox" name="checkbox"></td>
+							<td class="num">9</td>
+							<td class="title">신고 관련</td>
+							<td class="writer">관리자</td>
+							<td class="date">2021-01-31</td>
+							<td class="hit">2</td>
+						</tr>
+						
+						<tr>
+							<td class="ckbox"><input type="checkbox" name="checkbox"></td>
+							<td class="num">10</td>
+							<td class="title">신고 관련</td>
+							<td class="writer">관리자</td>
+							<td class="date">2021-01-31</td>
+							<td class="hit">2</td>
+						</tr>
 								
 					</tbody>				
 				</table>
 
 			</div>
-					
+			
+			<div class="bottom_wrap">
 				<!-- 게시판 페이지 번호 -->
 				<div class="paging">
 					<a class="page_btn" href="">1</a>
@@ -114,6 +188,12 @@
 					<a class="page_btn" href="">3</a>
 					<a class="page_btn" href="">4</a>
 				</div>
+				<!-- 수정 버튼 -->
+				<div class="list_btn">
+				<a>수정</a>
+				</div>
+			</div>
+
 				
 
 			</div>

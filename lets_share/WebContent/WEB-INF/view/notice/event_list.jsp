@@ -1,17 +1,13 @@
-<!DOCTYPE HTML>
-<!--
-	Helios by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/view/include/head.jsp" %>
 <head>
-<title>Let's Share</title>
-<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="../../../resources/css/htmlMain.css" />
-	<link rel="stylesheet" href="../../../resources/css/notice/notice_list.css" />
-	<noscript><link rel="stylesheet" href="../../../resources/css/noscript.css" /></noscript>
+		<title>Let's Share</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/resources/css/main.css" />
+		<link rel="stylesheet" href="../../../resources/css/notice/event_list.css"/>
+		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
 </head>
 <body class="no-sidebar is-preload">
 	
@@ -88,20 +84,18 @@
 					
 						<tr>
 							<td class="num"><span>1</span></td>
-							<td class="title"><a href="">게시판</a></td>
-							<td class="writer"><span>작성자</span></td>
+							<td class="title"><a href="">1회 이벤트 당첨 안내</a></td>
+							<td class="writer"><span>관리자</span></td>
 							<td class="date"><span>2020-01-29</span></td>
 							<td class="hit"><span>5</span></td>
 						</tr>
 						<tr>
 							<td class="num">2</td>
-							<td class="title">게시판 만들기</td>
+							<td class="title">2회 이벤트 당첨 안내</td>
 							<td class="writer">관리자</td>
 							<td class="date">2021-01-29</td>
 							<td class="hit">32</td>
-						</tr>	
-						
-								
+						</tr>						
 					</tbody>				
 				</table>
 
@@ -121,33 +115,25 @@
 		
 	</div>
 <!-- </div> -->
-	
-	<!-- Footer -->	
-<div id="footer">
-	<div style="text-align: center;">
-		Copyright © 1998-2021 KH Information Educational Institute All Right Reserved
+
+<!-- Footer -->
+	<div id="footer">
+		<div style="text-align: center;">
+			Copyright © 1998-2021 KH Information Educational Institute All Right Reserved
+		</div>
 	</div>
-</div> 
 
-
-
-
-</div>
-
-
-
-
-
+		</div>
 
 <!-- Scripts -->
-<script src="../../../resources/js/jquery.min.js"></script>
-<script src="../../../resources/js/jquery.dropotron.min.js"></script>
-<script src="../../../resources/js/jquery.scrolly.min.js"></script>
-<script src="../../../resources/js/jquery.scrollex.min.js"></script>
-<script src="../../../resources/js/browser.min.js"></script>
-<script src="../../../resources/js/breakpoints.min.js"></script>
-<script src="../../../resources/js/util.js"></script>
-<script src="../../../resources/js/main.js"></script>
+	<script src="/resources/js/jquery.min.js"></script>
+	<script src="/resources/js/jquery.dropotron.min.js"></script>
+	<script src="/resources/js/jquery.scrolly.min.js"></script>
+	<script src="/resources/js/jquery.scrollex.min.js"></script>
+	<script src="/resources/js/browser.min.js"></script>
+	<script src="/resources/js/breakpoints.min.js"></script>
+	<script src="/resources/js/util.js"></script>
+	<script src="/resources/js/main.js"></script>
 
-</body>
+	</body>
 </html>

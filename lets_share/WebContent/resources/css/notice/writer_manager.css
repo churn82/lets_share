@@ -15,14 +15,8 @@ h2{
 	padding: 0px 0px 30px;
 }
 
-tr{
-	display: table-row;
-    vertical-align: inherit;
-    border-color: inherit;
-}
-
-td:hover{
-	background: #d8dce3;
+pre{
+	white-space: pre-line;
 }
 
 .section{
@@ -58,16 +52,56 @@ td:hover{
 	border-bottom: 0;
 }
 
-.content_wrap{
-	border-top: 1px solid #d8dce3;
+.form{
+	margin: 0;
 	
 }
 
-.content_wrap .content_body{
-	padding: 1rem;
+.form div{
+	font-size: 1.6vw;
+	font-weight: 600;
+}
+
+.title_wrap{
+	display: flex;
+}
+
+.form_space{
+	padding: 10px 0;
+}
+
+.submits{
+	display: flex;
+    float: right;
+    padding-top: 20px;
 }
 
 
+.submits button{
+    text-align: center;
+    cursor: pointer;
+    
+    
+}
+
+.save_btn{
+	margin-left:10px;
+	padding: 10px 20px;
+}
+
+.write_btn{
+	padding: 10px 35px;
+}
+
+.file_sel{
+	padding-top: 20px;
+}
+
+.list_btn{
+	display: flex;
+	text-align: center;
+	justify-content: center;
+}
 
 
 

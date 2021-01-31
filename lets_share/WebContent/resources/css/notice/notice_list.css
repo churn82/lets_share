@@ -58,6 +58,10 @@ td:hover{
 	border-bottom: 0;
 }
 
+.tab_menu .n_menu{
+	background-color: #d8dce3;
+}
+
 #search_bar{
 	display: flex;
 	justify-content: space-between;
@@ -65,6 +69,7 @@ td:hover{
 	align-content: center;
 }
 
+/* 드롭다운 */
 #search_sel{
 	font-size: 1vw;
 	width: 10%;
