@@ -1,23 +1,49 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
-</head>
-<body>
+		<title>Let's Share</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../../resources/css/htmlMain.css" />
+		<noscript><link rel="stylesheet" href="../../../resources/css/noscript.css" /></noscript>
+	</head>
+	<body class="no-sidebar is-preload">
+	
+		<div id="page-wrapper">
+			
+			<!-- Header -->
+				<div id="header">
+
+					<!-- Inner -->
+						<div class="inner">
+							<header>
+								<h1><a href="index.html" id="logo">Let's Share</a></h1>
+							</header>
+						</div>
+
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li><a href="#">êµ¬ë§¤ì ëª¨ì§‘</a></li>
+								<li><a href="left-sidebar.html">êµ¬ë§¤ ì°¸ì—¬</a></li>
+								<li><a href="right-sidebar.html">ì‹ ê³  ê²Œì‹œíŒ</a></li>
+								<li><a href="no-sidebar.html">ê³µì§€ ì‚¬í•­</a></li>
+							</ul>
+						</nav>
+
+				</div>
 <div class='rep_content'>
-<h2 class="rep">½Å°í°Ô½ÃÆÇ</h2>
-<div class="desc_board">
-<div class="rep_board">
-					Á¦¸ñ : <input type="text" name="title" required="required"/>
-					<!-- multiple : ¿©·¯°³ ÆÄÀÏ ¼±ÅÃÀ» Çã¿ëÇÏ´Â ¼Ó¼º -->
-					ÆÄÀÏ : <input type="file" name="files" id="contract_file" multiple/>
+<h2 class="rep">ì‹ ê³ ê²Œì‹œíŒ</h2>
+<div class="drep_board">
+	<div class="rep_board">
+					ì œëª© : <input type="text" name="title" required="required"/>
+					íŒŒì¼ : <input type="file" name="files" id="contract_file" multiple/>
 </div>
 <div class="text">
 					<textarea id="rep-content" class="rep-content" name="content" 
-					style="width:100%; height:500px;" required="required"></textarea>
+					style="width:50%; height:500px;" required="required"></textarea>
 		</div>
 	</div>
 </div>
@@ -39,7 +65,26 @@
 
 
 <div class="btn_section">
-		<button style="background-color:skyblue; color:white">Àü¼Û</button>
+		<button style="background-color:skyblue; color:black">ë“±ë¡</button>
+		<button style="background-color:skyblue; color:black"><a>ëª©ë¡</a></button>
 </div>
+
+	<!-- Footer -->
+				
+				
+					<div id="footer">
+					<div style="text-align: center;">Copyright Â© 1998-2021 KH Information Educational Institute All Right Reserved</div>
+				</div>
+
+		<!-- Scripts -->
+			<script src="../../../resources/js/jquery.min.js"></script>
+			<script src="../../../resources/js/jquery.dropotron.min.js"></script>
+			<script src="../../../resources/js/jquery.scrolly.min.js"></script>
+			<script src="../../../resources/js/jquery.scrollex.min.js"></script>
+			<script src="../../../resources/js/browser.min.js"></script>
+			<script src="../../../resources/js/breakpoints.min.js"></script>
+			<script src="../../../resources/js/util.js"></script>
+			<script src="../../../resources/js/main.js"></script>
+
 </body>
 </html>
