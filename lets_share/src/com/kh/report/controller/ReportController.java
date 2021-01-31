@@ -64,9 +64,9 @@ public class ReportController extends HttpServlet {
 		.forward(request, response);
 	}
 	protected void uploadRboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String bdIdx = request.getParameter("bdIdx");
 		
-		request.getRequestDispatcher("/WEB-INF/view/report/reportView.jsp")
+		
+		request.getRequestDispatcher("/WEB-INF/view/report/reportDetail.jsp")
 		.forward(request, response);
 	}
 	protected void downloadFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

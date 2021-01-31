@@ -49,13 +49,10 @@
 				padding : 10px 10px;
 			}
 			.btn{
-			max-width : 100%;
+			
 			height: auto;
 			width : 450px;
-			
-			
 			}
-		
 			
 		
 		</style>
@@ -132,9 +129,13 @@
 				
 	  
           <button onclick="submitData('list')"><span>목록</span></button>
-       	
-		  <a href="template.jsp" class="btng">글쓰기</a> <!-- 글쓰기.jsp 페이지로 이동 -->
+       	 <div class ="btn_del" style="display:inline;"> <button><span>삭제</span></button> </div>
+       	 <div class ="btn_modify" style="display:inline;"> <button><span>수정</span></button></div>
 		 
+		  <a href="template.jsp" class="btng">글쓰기</a> <!-- 글쓰기.jsp 페이지로 이동 -->
+		  <!-- 로그인 상태라면 if() {} -->
+			<a href="template.jsp" class="btnm">내 문의내역</a>
+		  
 		  	<div class="btn" style="margin:0px 550px;">
 		  		<button class="page_btnl">이전</button>
 		  		<button class="page_btn">1</button>
