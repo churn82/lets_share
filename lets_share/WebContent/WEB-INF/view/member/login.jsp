@@ -5,6 +5,7 @@
 		<title>Let's Share</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/resources/css/member/login.css" />
 		<link rel="stylesheet" href="/resources/css/main.css" />
 		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
 </head>
@@ -35,10 +36,23 @@
 				</div>
 
 			<!-- Main -->
+				
 				<div class="wrapper style1">
-
-					
-
+				<div class="login">
+					<h1 class="login_title">로그인</h1>
+					<div class="loginbox">
+						<form class="loginform">
+							<input type="text" placeholder="아이디">
+							<input type="password" placeholder="비밀번호">
+							<button>로그인</button>
+						</form>
+						<div class="optionbox">
+							<label><span>아이디 저장</span><input type="checkbox" style="width:20px;height:20px;background-color:lightgray"></label>
+							<span></span>
+							<span id="register_btn">회원가입</span>
+						</div>
+					</div>
+				</div>
 				</div>
 
 			<!-- Footer -->
