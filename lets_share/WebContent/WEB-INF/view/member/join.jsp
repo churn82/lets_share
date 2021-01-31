@@ -48,7 +48,7 @@
 							지라 인간의 동산에는 사랑의 풀이 돋고 이상의 꽃이 피고 희망의 놀이 뜨고 열락의 새가
 							불러 내는 것이 따뜻한 봄바람이다 인생에 따뜻한 봄바람을 불어 보내는 것은 청춘의 끓는 피다 청춘의 피
 						</textarea>
-						<label class="agreement_check"><span>약관에 동의합니다.</span><input type="checkbox" style="width:20px;height:20px;background-color:lightgray"></label>
+						<label class="agreement_check"><span>약관에 동의합니다.</span><input type="checkbox"></label>
 						<button class="agreement_next">다음</button>
 					</div>
 					<div class="member_info">

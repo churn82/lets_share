@@ -47,7 +47,7 @@
 							<button>로그인</button>
 						</form>
 						<div class="optionbox">
-							<label><span>아이디 저장</span><input type="checkbox" style="width:20px;height:20px;background-color:lightgray"></label>
+							<label><span>아이디 저장</span><input type="checkbox"></label>
 							<span></span>
 							<span id="register_btn">회원가입</span>
 						</div>

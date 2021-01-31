@@ -9,7 +9,7 @@
 }
 .agreement{
 	width:80%;
-	display:none;
+	display:flex;
 	flex-direction: column;
 	align-items:center;
 }
@@ -28,12 +28,17 @@
 	align-self:flex-end;
 	align-items:center;
 }
+.agreement_check>input{
+	width:20px !important;
+	height:20px !important;
+	background-color:lightgray !important;
+}
 .agreement_next{
 	width:20%;
 }
 .member_info{
 	width:80%;
-	display:flex;
+	display:none;
 	flex-direction:column;
 }
 .member_info_title{

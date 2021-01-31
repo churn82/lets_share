@@ -69,6 +69,11 @@ body{
 	justify-content:left;
 	align-items:center;
 }
+.optionbox input{
+	 width:20px !important;
+	 height:20px !important; 
+	 background-color:lightgray !important;
+}
 #register_btn{
 	font-size:2vw;
 	font-weight:bold;
