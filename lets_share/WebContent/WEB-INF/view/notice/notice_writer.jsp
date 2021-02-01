@@ -1,17 +1,13 @@
-<!DOCTYPE HTML>
-<!--
-	Helios by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/view/include/head.jsp" %>
 <head>
-	<title>Let's Share</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="../../../resources/css/htmlMain.css" />
-	<link rel="stylesheet" href="../../../resources/css/notice/writer_manager.css" />
-	<noscript><link rel="stylesheet" href="../../../resources/css/noscript.css" /></noscript>
+		<title>Let's Share</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/resources/css/main.css" />
+		<link rel="stylesheet" href="../../../resources/css/notice/writer.css" />
+		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
 </head>
 <body class="no-sidebar is-preload">
 	
@@ -43,7 +39,7 @@
 <!-- <div class="wrapper style1"> -->
 <div id="main">
 	<div class="section">
-		<h2>게시판</h2>
+		<h2>공지사항</h2>
 		
 	<div class="content_wrap">
 		<div class="content">
@@ -86,26 +82,22 @@
 	</div>
 </div>
 <!-- </div> -->
-	
-	
-<div id="footer">
-	<div style="text-align: center;">Copyright © 1998-2021 KH Information Educational Institute All Right Reserved</div>
-</div> 
+			<!-- Footer -->
+				<div id="footer">
+					<div style="text-align: center;">Copyright © 1998-2021 KH Information Educational Institute All Right Reserved</div>
+				</div>
 
+		</div>
 
+		<!-- Scripts -->
+			<script src="/resources/js/jquery.min.js"></script>
+			<script src="/resources/js/jquery.dropotron.min.js"></script>
+			<script src="/resources/js/jquery.scrolly.min.js"></script>
+			<script src="/resources/js/jquery.scrollex.min.js"></script>
+			<script src="/resources/js/browser.min.js"></script>
+			<script src="/resources/js/breakpoints.min.js"></script>
+			<script src="/resources/js/util.js"></script>
+			<script src="/resources/js/main.js"></script>
 
-
-</div>
-
-<!-- Scripts -->
-<script src="../../../resources/js/jquery.min.js"></script>
-<script src="../../../resources/js/jquery.dropotron.min.js"></script>
-<script src="../../../resources/js/jquery.scrolly.min.js"></script>
-<script src="../../../resources/js/jquery.scrollex.min.js"></script>
-<script src="../../../resources/js/browser.min.js"></script>
-<script src="../../../resources/js/breakpoints.min.js"></script>
-<script src="../../../resources/js/util.js"></script>
-<script src="../../../resources/js/main.js"></script>
-
-</body>
+	</body>
 </html>

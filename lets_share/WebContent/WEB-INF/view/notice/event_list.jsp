@@ -40,7 +40,7 @@
 <!-- <div class="wrapper style1"> -->
 	<div id="main">
 		<div class="section">
-		<h2>게시판</h2>
+		<h2>이벤트</h2>
 			
 		<ul class="tab_menu">
 			<li class="n_menu">
@@ -84,23 +84,26 @@
 					
 						<tr>
 							<td class="num"><span>1</span></td>
-							<td class="title"><a href="">1회 이벤트 당첨 안내</a></td>
-							<td class="writer"><span>관리자</span></td>
+							<td class="title"><a href="">게시판</a></td>
+							<td class="writer"><span>작성자</span></td>
 							<td class="date"><span>2020-01-29</span></td>
 							<td class="hit"><span>5</span></td>
 						</tr>
 						<tr>
 							<td class="num">2</td>
-							<td class="title">2회 이벤트 당첨 안내</td>
+							<td class="title">게시판 만들기</td>
 							<td class="writer">관리자</td>
 							<td class="date">2021-01-29</td>
 							<td class="hit">32</td>
-						</tr>						
+						</tr>	
+						
+						
+						
+						
 					</tbody>				
 				</table>
 
 			</div>
-					
 				<!-- 게시판 페이지 번호 -->
 				<div class="paging">
 					<a class="page_btn" href="">1</a>
@@ -108,7 +111,11 @@
 					<a class="page_btn" href="">3</a>
 					<a class="page_btn" href="">4</a>
 				</div>
-				
+					
+				<!-- 글쓰기 버튼 -->
+				<div class="write_btn">
+					<button>글쓰기</button>				
+				</div>			
 
 			</div>
 		</div>

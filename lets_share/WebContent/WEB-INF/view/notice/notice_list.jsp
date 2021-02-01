@@ -40,7 +40,7 @@
 <!-- <div class="wrapper style1"> -->
 	<div id="main">
 		<div class="section">
-		<h2>게시판</h2>
+		<h2>공지사항</h2>
 			
 		<ul class="tab_menu">
 			<li class="n_menu">
@@ -97,12 +97,13 @@
 							<td class="hit">32</td>
 						</tr>	
 						
-								
+						
+						
+						
 					</tbody>				
 				</table>
 
 			</div>
-					
 				<!-- 게시판 페이지 번호 -->
 				<div class="paging">
 					<a class="page_btn" href="">1</a>
@@ -110,14 +111,17 @@
 					<a class="page_btn" href="">3</a>
 					<a class="page_btn" href="">4</a>
 				</div>
-				
+					
+				<!-- 글쓰기 버튼 -->
+				<div class="write_btn">
+					<button>글쓰기</button>				
+				</div>			
 
 			</div>
 		</div>
 		
 	</div>
 <!-- </div> -->
-
 
 <!-- Footer -->
 	<div id="footer">

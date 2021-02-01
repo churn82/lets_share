@@ -48,6 +48,10 @@ pre{
 	width: 100%;
 }
 
+.tab_menu .e_menu{
+	background-color: #d8dce3;
+}
+
 .tab_menu a{
 	border-bottom: 0;
 }
@@ -109,16 +113,34 @@ pre{
 	padding-left: 10px;
 }
 
+.update_btn{
+	margin-top:15px;
+	padding:10px 20px;
+	float: right;
+}
+
+.update_btn button{
+	bottom: 40px;
+	font-size:1vw;
+	background-color: #d8dce3;
+	color: black;
+	font-weight: 600;
+}
+
 .list_btn{
 	display: flex;
-	margin-top: 2rem;
+	margin-top: 15px;
+	padding:10px 20px;
 	text-align: center;
 	justify-content: center;
 }
 
 
 .list_btn button{
-	font-size:1.2vw;
+	font-size:1vw;
+	
+	
+	
 }
 
 

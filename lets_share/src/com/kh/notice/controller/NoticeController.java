@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class NoticeController
  */
-@WebServlet("/NoticeController")
+@WebServlet("/notice/*")
 public class NoticeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -26,8 +26,34 @@ public class NoticeController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		String[] uriArr = request.getRequestURI().split("/");
+		switch(uriArr[uriArr.length-1]) {
+		case "noticeList" :
+			goNoticeList(request,response);
+			break;
+		case "eventList" :
+			goEventList(request,response);
+			break;
+		case "noticeDetail" :
+			goNoticeDetail(request,response);
+			break;
+		case "eventDetail" :
+			goEventDetail(request,response);
+			break;
+		case "noticeWriter" :
+			goNoticeWriter(request,response);
+			break;
+		case "eventWriter" :
+			goEventWriter(request,response);
+			break;
+		default : response.setStatus(404);
+			break;
+		}
+		
+		
+		
+		
 	}
 
 	/**
@@ -37,5 +63,42 @@ public class NoticeController extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+	
+	private void goNoticeList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
+		.forward(request, response);
+	}
+	
+	private void goEventList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/notice/event_list.jsp")
+		.forward(request, response);
+	}
+	
+	private void goNoticeDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/notice/notice_detail.jsp")
+		.forward(request, response);
+	}
+	
+	private void goEventDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/notice/event_detail.jsp")
+		.forward(request, response);
+	}
+	
+	private void goNoticeWriter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/notice/notice_writer.jsp")
+		.forward(request, response);
+	}
+	
+	private void goEventWriter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/notice/event_writer.jsp")
+		.forward(request, response);
+	}
+	
+	
+	
+	
+	
+	
+	
 
 }

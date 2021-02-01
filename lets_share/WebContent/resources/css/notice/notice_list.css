@@ -21,10 +21,6 @@ tr{
     border-color: inherit;
 }
 
-td:hover{
-	background: #d8dce3;
-}
-
 .section{
 	width: 75%;
 	height: 100%;
@@ -115,8 +111,6 @@ td> a{
 	text-align: center;
 	font-weight: 500;
 	justify-content: center;
-	
-
 }
 
 .paging a{
@@ -131,19 +125,30 @@ td> a{
 	font-size: 15px;
 	line-height: 30px;
 	border: 1px solid #d8dce3;
-	
-	
 }
 
 .title{
 	text-align: left;
 }
 
+.write_btn{
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	float: right;
+	padding-bottom: 40px;
+	
+}
+
+.write_btn button{
+	font-size:1vw;
+	padding: 9px 20px;
+	bottom: 60px;
+}
+
 .num, .writer, .date,.hit{
 	text-align: center;
 }
-	
-
 
 
 
