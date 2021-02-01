@@ -39,12 +39,18 @@
 <h2 class="rep">신고게시판</h2>
 <div class="drep_board">
 	<div class="rep_board">
-					제목 : <input type="text" name="title" required="required"/>
-					파일 : <input type="file" name="files" id="contract_file" multiple/>
+					<h2>제목 : 제목명.</h2>
+					파일 : 다운로드
+					<div class="info"></div>
+					<span>게시글 번호 : 1</span>
+					<span>작성자 : UserID</span>
+					<span class="date">(작성일) 2021</span>
 </div>
 <div class="text">
 					<textarea id="rep-content" class="rep-content" name="content" 
-					style="width:50%; height:500px;" required="required"></textarea>
+					style="width:70%; height:500px; margin: 0px 150px;" required="required">
+					내용
+					</textarea>
 		</div>
 	</div>
 </div>
@@ -66,8 +72,11 @@
 
 
 <div class="btn_section">
-		<button style="background-color:skyblue; color:black">등록</button>
-		<button style="background-color:skyblue; color:black"><a>목록</a></button>
+		<button style="background-color:skyblue; color:black">이전</button>
+		<button style="background-color:skyblue; color:black">다음</button>
+		<button class="List" onclick="gotoList()" style="background-color:skyblue; color:black"><a>목록</a></button>
+		<button style="background-color:skyblue; color:black">수정</button>
+		<button style="background-color:skyblue; color:black">삭제</button>
 </div>
 
 	<!-- Footer -->

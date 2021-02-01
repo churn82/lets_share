@@ -1,5 +1,10 @@
 package com.kh.member.model.dao;
 
-public class MemberDao {
 
+
+public class MemberDao {
+	
+	
+	
+	
 }

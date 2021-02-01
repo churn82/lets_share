@@ -19,11 +19,13 @@
 			
 			.button{
 			width : 100%;
-			margin : 0 auto;
+			
 			}
 			
 			.btng{
-				float: right;
+				position: absolute;
+				right : 5%;
+				background-color: skyblue;
 			}
 			.btnm{
 					position: absolute;
@@ -48,8 +50,11 @@
 				font-size : 10px;
 				padding : 10px 10px;
 			}
+			.btn{
 			
-		
+			height: auto;
+			width : 450px;
+			}
 			
 		
 		</style>
@@ -106,7 +111,6 @@
 				
 					<thead>
 					<tr>
-						
 						<th style="background-color: #eeeeee; text-align: center;">번호</th>
 						<th style="background-color: #eeeeee; text-align: center;">제목</th>
 						<th style="background-color: #eeeeee; text-align: center;">작성자</th>
@@ -125,16 +129,16 @@
 					</tbody>
 				</table>
 				
-	  <div class="btn_lmd">
+	  
           <button onclick="submitData('list')"><span>목록</span></button>
-       	  <button>수정</button>
-       	  <button>삭제</button>
-       	   <a href=".jsp" class="btng">글쓰기</a> <!-- 글쓰기.jsp 페이지로 이동 -->
-       	 	<a href=".jsp" class="btng" style="margin:0px 20px;">내 문의내역</a>
-       	  </div>
+       	 <div class ="btn_del" style="display:inline;"> <button><span>삭제</span></button> </div>
+       	 <div class ="btn_modify" style="display:inline;"> <button><span>수정</span></button></div>
 		 
-		 
-		  	<div class="btn" style="width : 450px;margin:0px auto;">
+		  <a href="template.jsp" class="btng">글쓰기</a> <!-- 글쓰기.jsp 페이지로 이동 -->
+		  <!-- 로그인 상태라면 if() {} -->
+			<a href="template.jsp" class="btnm">내 문의내역</a>
+		  
+		  	<div class="btn" style="margin:0px 550px;">
 		  		<button class="page_btnl">이전</button>
 		  		<button class="page_btn">1</button>
 		  		<button class="page_btn">2</button>
@@ -148,7 +152,7 @@
 		
 	 <div id="searchForm" class ="searchForm" >
         <form>
-            <select name="option" style= "width : 450px; height : 40px; font-size: small; margin: 0 auto;">
+            <select name="option" style= "width : 150px; height : 40px; font-size: small; margin-left:535px;">
          		
                 <option value="0">제목</option>
                 <option value="1">내용</option>

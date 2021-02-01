@@ -1,3 +1,4 @@
+<!-- 02-01 김승현 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/include/head.jsp" %>
@@ -41,10 +42,10 @@
 				<div class="login">
 					<h1 class="login_title">로그인</h1>
 					<div class="loginbox">
-						<form class="loginform">
-							<input type="text" placeholder="아이디">
-							<input type="password" placeholder="비밀번호">
-							<button>로그인</button>
+						<form action="/member/loginimpl" method="post" class="loginform">
+							<input type="text" name="id" id="id" placeholder="아이디">
+							<input type="password" name="pw" id="pw" placeholder="비밀번호">
+							<button onclick="login()">로그인</button>
 						</form>
 						<div class="optionbox">
 							<label><span>아이디 저장</span><input type="checkbox"></label>

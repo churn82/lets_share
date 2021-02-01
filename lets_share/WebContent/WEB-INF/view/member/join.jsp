@@ -1,7 +1,11 @@
+
+<!-- 김승현 02-01 join수정 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/include/head.jsp" %>
+
 <head>
+<c:set var="context" value="${pageContext.request.contextPath}"/>
 		<title>Let's Share</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -10,6 +14,7 @@
 		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
 </head>
 	<body class="no-sidebar is-preload">
+	
 		<div id="page-wrapper">
 
 			<!-- Header -->
@@ -53,10 +58,10 @@
 					</div>
 					<div class="member_info">
 						<h1 class="member_info_title">회원 정보 입력</h1>
-						<form class="member_info_form">
+						<form action="${context}/member/joinimpl" method="post" id="frm_join" class="member_info_form">
 							<div class="wrap_line3">
 								<span>아이디</span>
-								<input type="text" placeholder="아이디를 입력하세요">
+								<input type="text" name="id" id="id"placeholder="아이디를 입력하세요">
 								<button>중복확인</button>
 							</div>
 							<div class="wrap_line2">
@@ -65,7 +70,7 @@
 							</div>
 							<div class="wrap_line2">
 								<span>비밀번호</span> 
-								<input type="password" placeholder="비밀번호를 입력하세요">
+								<input type="password" name="pw" id="pw" placeholder="비밀번호를 입력하세요">
 							</div>
 							<div class="wrap_line2">
 								<span>비밀번호 확인</span>
@@ -77,7 +82,7 @@
 							</div>
 							<div class="wrap_line3">
 								<span>닉네임</span>
-								<input type="text" placeholder="닉네임을 입력하세요">
+								<input type="text" name="nick" placeholder="닉네임을 입력하세요">
 								<button>중복확인</button>
 							</div>
 							<div class="wrap_line2">
@@ -86,10 +91,15 @@
 							</div>
 							<div class="wrap_line2">
 								<span>이메일</span>
-								<input type="text" placeholder="이메일을 입력하세요">
+								<input type="text" name="email" placeholder="이메일을 입력하세요">
+							</div>
+							<div class="wrap_line2">
+								<span>전화번호</span>
+								<input type="text" name="tel" placeholder="전화번호를 입력하세요">
 							</div>
 							<div class="wrap_register">
-								<button id="register_btn">가입하기</button>
+								
+								<button type="submit" value="가입" id="register_btn" >가입하기</button>
 							</div>
 						</form>
 					</div>

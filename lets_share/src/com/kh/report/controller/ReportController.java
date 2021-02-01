@@ -35,9 +35,9 @@ public class ReportController extends HttpServlet {
 		switch (uriArr[uriArr.length-1]) {
 		case "form": RgotoForm(request,response);
 		break;
-		case "upload": uploadRboard(request,response);
+		case "detail": rdetail(request,response);
 		break;
-		case "gotoview" : gotoview(request,response);
+		case "view" : gotoview(request,response);
 		break;
 		case "download": downloadFile(request,response);
 		break;
@@ -63,7 +63,7 @@ public class ReportController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/report/reportView.jsp")
 		.forward(request, response);
 	}
-	protected void uploadRboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void rdetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
 		request.getRequestDispatcher("/WEB-INF/view/report/reportDetail.jsp")

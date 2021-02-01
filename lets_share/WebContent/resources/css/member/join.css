@@ -9,7 +9,7 @@
 }
 .agreement{
 	width:80%;
-	display:flex;
+	display:none;
 	flex-direction: column;
 	align-items:center;
 }
@@ -38,7 +38,7 @@
 }
 .member_info{
 	width:80%;
-	display:none;
+	display:flex;
 	flex-direction:column;
 }
 .member_info_title{

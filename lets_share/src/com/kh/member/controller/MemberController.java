@@ -34,6 +34,8 @@ public class MemberController extends HttpServlet {
 			case "login" : login(request,response); break;
 			case "modify" : modify(request,response); break;
 			case "rank" : rank(request,response); break;
+			case "mypage" : mypage(request,response); break;//김승현 mypage
+			case "joinimpl" : joinImpl(request,response); break;
 			default : System.out.println("오류");
 		}
 	}
@@ -53,6 +55,7 @@ public class MemberController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/member/join.jsp")
 		.forward(request, response);
 	}
+	
 	private void leave(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/view/member/leave.jsp")
 		.forward(request, response);
@@ -68,5 +71,12 @@ public class MemberController extends HttpServlet {
 	private void rank(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/view/member/rank.jsp")
 		.forward(request, response);
+	}
+	private void mypage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/member/mypage.jsp")
+		.forward(request, response);
+	}
+	private void joinImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 	}
 }

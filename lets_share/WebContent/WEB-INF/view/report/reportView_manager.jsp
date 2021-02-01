@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-
 <!DOCTYPE HTML>
 <!--
 	Helios by HTML5 UP
@@ -19,11 +17,13 @@
 			
 			.button{
 			width : 100%;
-			margin : 0 auto;
+			
 			}
 			
 			.btng{
-				float: right;
+				position: absolute;
+				right : 5%;
+				background-color: skyblue;
 			}
 			.btnm{
 					position: absolute;
@@ -48,7 +48,13 @@
 				font-size : 10px;
 				padding : 10px 10px;
 			}
+			.btn{
+			max-width : 100%;
+			height: auto;
+			width : 450px;
 			
+			
+			}
 		
 			
 		
@@ -125,16 +131,13 @@
 					</tbody>
 				</table>
 				
-	  <div class="btn_lmd">
+	  
           <button onclick="submitData('list')"><span>목록</span></button>
        	  <button>수정</button>
        	  <button>삭제</button>
-       	   <a href=".jsp" class="btng">글쓰기</a> <!-- 글쓰기.jsp 페이지로 이동 -->
-       	 	<a href=".jsp" class="btng" style="margin:0px 20px;">내 문의내역</a>
-       	  </div>
+		  <a href="template.jsp" class="btng">글쓰기</a> <!-- 글쓰기.jsp 페이지로 이동 -->
 		 
-		 
-		  	<div class="btn" style="width : 450px;margin:0px auto;">
+		  	<div class="btn" style="margin:0px 550px;">
 		  		<button class="page_btnl">이전</button>
 		  		<button class="page_btn">1</button>
 		  		<button class="page_btn">2</button>
@@ -148,7 +151,7 @@
 		
 	 <div id="searchForm" class ="searchForm" >
         <form>
-            <select name="option" style= "width : 450px; height : 40px; font-size: small; margin: 0 auto;">
+            <select name="option" style= "width : 150px; height : 40px; font-size: small; margin-left:535px;">
          		
                 <option value="0">제목</option>
                 <option value="1">내용</option>
