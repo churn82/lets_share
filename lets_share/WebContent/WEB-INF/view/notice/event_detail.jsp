@@ -90,9 +90,18 @@
 						</div>
 					</div>
 					
+					<!-- 목록버튼 -->
 					<div class="list_btn">
 						<button onclick="goList()">목록</button>
 					</div>
+					
+					<!-- 수정 버튼 -->
+            		<div class="update_btn">
+		           	 <button>수정</button>
+		           	 <button>삭제</button>
+		            </div>
+					
+					
 				
 				</div>
 		
@@ -101,22 +110,23 @@
 </div>
 		
 <!-- </div> -->
-	<!-- Footer -->
-		<div id="footer">
-			<div style="text-align: center;">Copyright © 1998-2021 KH Information Educational Institute All Right Reserved</div>
+
+			<!-- Footer -->
+				<div id="footer">
+					<div style="text-align: center;">Copyright © 1998-2021 KH Information Educational Institute All Right Reserved</div>
+				</div>
+
 		</div>
 
-</div>
-
-<!-- Scripts -->
-	<script src="/resources/js/jquery.min.js"></script>
-	<script src="/resources/js/jquery.dropotron.min.js"></script>
-	<script src="/resources/js/jquery.scrolly.min.js"></script>
-	<script src="/resources/js/jquery.scrollex.min.js"></script>
-	<script src="/resources/js/browser.min.js"></script>
-	<script src="/resources/js/breakpoints.min.js"></script>
-	<script src="/resources/js/util.js"></script>
-	<script src="/resources/js/main.js"></script>
+		<!-- Scripts -->
+			<script src="/resources/js/jquery.min.js"></script>
+			<script src="/resources/js/jquery.dropotron.min.js"></script>
+			<script src="/resources/js/jquery.scrolly.min.js"></script>
+			<script src="/resources/js/jquery.scrollex.min.js"></script>
+			<script src="/resources/js/browser.min.js"></script>
+			<script src="/resources/js/breakpoints.min.js"></script>
+			<script src="/resources/js/util.js"></script>
+			<script src="/resources/js/main.js"></script>
 
 	</body>
 </html>
