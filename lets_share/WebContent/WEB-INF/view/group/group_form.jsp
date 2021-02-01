@@ -5,15 +5,15 @@
 	<title>Let's Share</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="/resources/css/main.css" />
-	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	<link rel="stylesheet" href="/resources/css/main.css" type="text/css"/>
+	<noscript><link rel="stylesheet" href="assets/css/noscript.css" type="text/css"/></noscript>
 	<!-- slick 라이브러리  -->
-	<link rel="stylesheet" href="/resources/slick/slick.css">	
-	<link rel="stylesheet" href="/resources/slick/slick-theme.css">
+	<link rel="stylesheet" href="/resources/slick/slick.css" type="text/css" />	
+	<link rel="stylesheet" href="/resources/slick/slick-theme.css" type="text/css" />
 	<!-- 모달 -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"  type="text/css"/>
 	<!-- groupForm CSS  -->
-	<link rel="stylesheet" href="/resources/css/group/form.css">
+	<link rel="stylesheet" href="/resources/css/group/form.css" type="text/css"/>
 </head>
 	<body class="no-sidebar is-preload">
 		<div id="page-wrapper">
@@ -37,32 +37,31 @@
 				</nav>
 			</div>
 			<!-- Main -->
-			<form action="">
+			<form action="/group/receive" method="POST" id="form_group">	
 				<div class="wrapper style1">
 					<div class="group_reg">
-						
 						<div class="btn_box" id="prev"><i class="fas fa-angle-left prev"></i></div>
 							<div class="slider">
 								<div class="slide">
 									<div class="title"><a>Step1 .공유할 계정의 서비스를 선택 하세요</a></div>
 									<div class="node_box">
-										<div class="node" id="netflix">
-											<div class="service_logo"><img src="../../../resources/images/netflix.png" alt=""></div>
+										<div class="node" id="SR01">
+											<div class="service_logo"><img src="../../../resources/images/group/netflix.png" alt=""></div>
 										</div>
-										<div class="node" id="watcha">
-											<div class="service_logo"><img src="../../../resources/images/watcha.png" alt=""></div>
+										<div class="node" id="SR02">
+											<div class="service_logo"><img src="../../../resources/images/group/watcha.png" alt=""></div>
 										</div>
-										<div class="node" id="coupang">
-											<div class="service_logo"><img src="../../../resources/images/coupang.png" alt=""></div>
+										<div class="node" id="SR03">
+											<div class="service_logo"><img src="../../../resources/images/group/coupang.png" alt=""></div>
 										</div>
 									</div>
 									<br>
 									<div class="node_box">
-										<div class="node" id="wavve">
-											<div class="service_logo"><img src="../../../resources/images/wavve.png" alt=""></div>
+										<div class="node" id="SR04">
+											<div class="service_logo"><img src="../../../resources/images/group/wavve.png" alt=""></div>
 										</div>
-										<div class="node" id="tving">
-											<div class="service_logo"><img src="../../../resources/images/tving.png" alt=""></div>
+										<div class="node" id="SR05">
+											<div class="service_logo"><img src="../../../resources/images/group/tving.png" alt=""></div>
 										</div>
 									</div>
 								</div>
@@ -70,7 +69,8 @@
 									<div class="title"><a>Step2 .계좌 정보 및 결제일을 선택 하세요</a></div>
 									<div class="bank_box">
 										<div class="bank_icon"><a href="#ex1" rel="modal:open" id="bank_btn">은행 선택</a></div>
-										<input type="text" class="bank_account" id="bank_account" placeholder=" '-' 빼고 입력해 주세요" style="width: 70%;">
+										<input type="text" class="bank_account" id="bank_account" name="bank_account" 
+										placeholder=" 예금주명 and 계좌 '-' 빼고 입력해 주세요" style="width: 70%;">
 									</div>
 									<div class="calendar">
 										<div class="line">
@@ -103,6 +103,7 @@
 										</div>
 										<input type="text" id="service" name="service">
 										<input type="text" id="date" name="date">
+										<input type="text" id="bank_real" name="bank_real">
 										<div class="submit_box"><input type="submit" value="확인"></div>
 								</div>
 							</div>
@@ -130,7 +131,8 @@
 						<button id="confirm_btn"><a href="#" rel="modal:close">확인</a></button>
 					</div>
 					<!-- <a href="#" rel="modal:close">Close</a> -->
-				</div>	
+				</div>
+				
 			</form>
 			<!-- Footer -->
 			<div id="footer">
@@ -197,6 +199,7 @@
 			document.querySelectorAll(".bank").forEach((node)=>{
 				node.addEventListener("click", (e)=>{
 					document.querySelector("#bank").value = e.target.id;
+					document.querySelector("#bank_real").value = e.targer.id;
 				})
 			})
 			document.querySelector("#confirm_btn").addEventListener("click",(e)=>{

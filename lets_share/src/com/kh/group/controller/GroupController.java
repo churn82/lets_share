@@ -20,15 +20,10 @@ public class GroupController extends HttpServlet {
 		
 		String[] uriArr = request.getRequestURI().split("/");
 		switch (uriArr[uriArr.length-1]) {
-		case "form":
-			goForm(request, response);
-			break;
-		case "view":
-			goView(request, response);
-			break;
-		case "search":
-			goSearch(request, response);
-			break;
+		case "form": goForm(request, response); break;
+		case "view": goView(request, response); break;
+		case "search": goSearch(request, response); break;
+		case "receive" : receiveGroupInform(request, response); break;
 		default : 
 			response.setStatus(404);
 			break;
@@ -52,6 +47,31 @@ public class GroupController extends HttpServlet {
 	protected void goSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/view/group/group_search.jsp")
 		.forward(request, response);
+	}
+	protected void receiveGroupInform(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// bank_account, service_id,  service_pw, service, date, bank 가 넘어옴
+		
+		String bank = request.getParameter("bank_real");
+		String bank_account = request.getParameter("bank_account");
+		String service = request.getParameter("service");
+		String service_id = request.getParameter("service_id");
+		String service_pw = request.getParameter("service_pw");
+		String date = request.getParameter("date");
+		int groupPayDate = Integer.parseInt(date);
+		
+		Group group = new Group();
+		group.setAccountInfo(bank+" "+bank_account);
+		group.setServiceCode(service);
+		group.setShareId(service_id);
+		group.setSharePw(service_pw);
+		group.setSharePw(service_pw);
+		group.setGroupPayDate(groupPayDate);
+		
+		//groupService.insertGroup(group);
+		
+		ArrayList<Integer> groupIds = groupService.getGroupId("lee5031207");
+		System.out.println(groupIds);
+
 	}
 
 }

@@ -143,6 +143,9 @@
 #date{
     display: none;
 }
+#bank_real{
+	display : none;
+}
 
 
 /* 은행 선택 */
