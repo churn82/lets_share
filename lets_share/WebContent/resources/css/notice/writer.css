@@ -76,31 +76,63 @@ pre{
     padding-top: 20px;
 }
 
+.cate_sel{
+	display: flex;
+    text-align: center;
+	align-items: center;
+}
+
+.cate_sel label{
+	font-weight: 600;	
+}
+
+.cate_sel select{
+	font-size:1vw;
+	text-align: center;
+	text-decoration: none;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border-radius: 0.5em;
+
+}
+
+.wrap_option option{
+	margin-left: 10px;
+    padding: 10px 20px;
+    text-align: center;
+    font-size:1vw;
+}
 
 .submits button{
     text-align: center;
     cursor: pointer;
-    
-    
 }
 
 .save_btn{
+	font-size:1vw;
 	margin-left:10px;
 	padding: 10px 20px;
 }
 
 .write_btn{
+	font-size:1vw;
 	padding: 10px 35px;
+	margin-left: 10px;
 }
 
 .file_sel{
-	padding-top: 20px;
+	display: flex;
+    float: right;
+    position: absolute;
+    transform: translate(50vw, 0);
 }
 
 .list_btn{
+	font-size:1vw;
 	display: flex;
 	text-align: center;
-	justify-content: center;
+    justify-content: left;
+    padding-top: 20px;
 }
 
 

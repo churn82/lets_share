@@ -6,7 +6,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="/resources/css/main.css" />
-		<link rel="stylesheet" href="../../../resources/css/notice/notice_list.css" />
+		<link rel="stylesheet" href="../../../resources/css/notice/notice_list.css"/>
 		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
 </head>
 <body class="no-sidebar is-preload">
@@ -114,9 +114,11 @@
 					
 				<!-- 글쓰기 버튼 -->
 				<div class="write_btn">
-					<button>글쓰기</button>				
+					<button id="write" onclick="writeAdmin()">글쓰기</button>				
 				</div>			
-
+						
+				
+				
 			</div>
 		</div>
 		
@@ -132,7 +134,7 @@
 
 	</div>
 
-<!-- Scripts -->
+	<!-- Scripts -->
 	<script src="/resources/js/jquery.min.js"></script>
 	<script src="/resources/js/jquery.dropotron.min.js"></script>
 	<script src="/resources/js/jquery.scrolly.min.js"></script>
@@ -141,6 +143,24 @@
 	<script src="/resources/js/breakpoints.min.js"></script>
 	<script src="/resources/js/util.js"></script>
 	<script src="/resources/js/main.js"></script>
+	
+	<!-- Javascript  -->
+	
+	<script type="text/javascript">
+		function writeAdmin(){
+			location.href="noticeWriter";
+		}
+	
+	</script>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	</body>
 </html>

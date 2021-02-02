@@ -39,7 +39,7 @@
 <!-- <div class="wrapper style1"> -->
 <div id="main">
 	<div class="section">
-		<h2>이벤트</h2>
+		<h2>게시글 작성</h2>
 		
 	<div class="content_wrap">
 		<div class="content">
@@ -48,30 +48,39 @@
         		<div class="form form_title">
         			<div class="title_wrap">
 						<div class="form_space">제목</div>
+						<!-- 파일선택 -->
+						<div class="form_space file_sel">
+							<input type="file" name="files"/>
+						</div>
 					</div>
-					<input type="text" placeholder="제목을 작성해주세요."/>
+					<input type="text" name="title" required="required" placeholder="제목을 입력하세요."/>
           		</div>
 				<div class="form form_writer">
 		            <div class="form_space">작성자</div>
-		            <input type="text" placeholder="이름을 적어주세요."/>
+		            <input type="text" name="writer" required="required" placeholder="작성자를 입력하세요."/>
 				</div>
 				<div class="form form_content">
 		            <div class="form_space">내용</div>
-		            <textarea name="contents" rows="10"></textarea>
+		            <textarea rows="10" name="contents" required="required"></textarea>
 				</div>
 	    	</form>
-		
+					
+			
 			<!-- submit 버튼 -->
 			<div class="submits">
+				<!-- 카테고리 -->
+				<div class="cate_sel">
+					<label for="cate">카테고리: </label>
+					<select name="cate" class="wrap_option">
+						<option value="notice">공지사항</option>
+						<option value="event">이벤트</option>
+					</select>
+				</div>
+			
 				<button type="submit" class="write_btn">작성</button>
 		        <button type="submit" class="save_btn">임시저장</button>
 			</div>
-			
-			<!-- 파일선택 -->
-			<div class="file_sel">
-				<input type="file" name="files"/>
-			</div>
-			<br>
+
 			<!-- 목록버튼 -->
 			<div class="list_btn">
 				<button>목록</button>
@@ -82,6 +91,7 @@
 	</div>
 </div>
 <!-- </div> -->
+
 			<!-- Footer -->
 				<div id="footer">
 					<div style="text-align: center;">Copyright © 1998-2021 KH Information Educational Institute All Right Reserved</div>
@@ -89,15 +99,51 @@
 
 		</div>
 
-		<!-- Scripts -->
-			<script src="/resources/js/jquery.min.js"></script>
-			<script src="/resources/js/jquery.dropotron.min.js"></script>
-			<script src="/resources/js/jquery.scrolly.min.js"></script>
-			<script src="/resources/js/jquery.scrollex.min.js"></script>
-			<script src="/resources/js/browser.min.js"></script>
-			<script src="/resources/js/breakpoints.min.js"></script>
-			<script src="/resources/js/util.js"></script>
-			<script src="/resources/js/main.js"></script>
+	<!-- Scripts -->
+		<script src="/resources/js/jquery.min.js"></script>
+		<script src="/resources/js/jquery.dropotron.min.js"></script>
+		<script src="/resources/js/jquery.scrolly.min.js"></script>
+		<script src="/resources/js/jquery.scrollex.min.js"></script>
+		<script src="/resources/js/browser.min.js"></script>
+		<script src="/resources/js/breakpoints.min.js"></script>
+		<script src="/resources/js/util.js"></script>
+		<script src="/resources/js/main.js"></script>
+
+	<script type="text/javascript">
+		function boardWriteCheck(){
+			let form = document.boardWriteForm;
+			
+			if(form.title.value == ''){
+				alert('제목을 입력하세요.');
+				
+				form.title.focus();
+				return false;
+			}
+			
+		
+			if(form.writer.value==''){
+				alert('작성자를 입력하세요.');
+				
+				form.title.focus();
+				return false;
+			}
+			
+			//카테고리 선택
+			
+		}
+		
+		//목록을 눌렀을 때
+		function listCheck(){
+			
+		}
+	
+	</script>
+
+
+
+
+
+
 
 	</body>
 </html>

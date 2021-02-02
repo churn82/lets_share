@@ -95,11 +95,7 @@
 							<td class="writer">관리자</td>
 							<td class="date">2021-01-29</td>
 							<td class="hit">32</td>
-						</tr>	
-						
-						
-						
-						
+						</tr>					
 					</tbody>				
 				</table>
 
