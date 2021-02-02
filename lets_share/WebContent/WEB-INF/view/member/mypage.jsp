@@ -5,9 +5,10 @@
 		<title>Let's Share</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="/resources/css/member/leave.css"/>
-		<link rel="stylesheet" href="/resources/css/main.css"/>
+		<link rel="stylesheet" href="/resources/css/member/rank.css" />
+		<link rel="stylesheet" href="/resources/css/main.css" />
 		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
+		<c:set var="context" value="${pageContext.request.contextPath}"/>
 </head>
 	<body class="no-sidebar is-preload">
 		<div id="page-wrapper">
@@ -41,16 +42,32 @@
 						<div><i class="fas fa-trophy"></i>  회원 랭킹</div>
 						<div><i class="fas fa-edit"></i>  회원 정보 수정</div>
 					</div>
-					<h1 class="modify_title">회원 탈퇴</h1>
-					<div class="pw_secure contents">
-						<span>회원탈퇴를 하시면 서비스를 이용하실 수 없습니다.</span>
-						<span>정말 탈퇴하시려면 비밀번호를 입력해주세요.</span>
-						<form class="pw_secure_auth">
-							<span>비밀번호</span>
-							<input type="password">
-							<button>탈퇴</button>
-						</form>
+					<div class="wrap_rank">
+						<h1 class="rank_title">회원 순위</h1>
+						<div class="rank_content">
+							<div class="wrap_myrank">
+								<div class="myrank_name">
+									<span>내 등급</span>
+									<span>내 점수</span>
+									<span>내 순위</span>
+								</div>
+								<div class="myrank_value">
+									<span>[내 등급]아이콘</span>
+									<span>123123(내점수)</span>
+									<span>12312(내순위)</span>
+								</div>
+							</div>
+							<table class="ranking_table">
+							
+								<tr><th>아이디</th><th>닉네임</th><th>전화번호</th><th>회원등급</th><th>가입일자</th></tr>
+								<tr><td>${sessionScope.user.mbId}</td><td>${sessionScope.user.mbNick}</td>
+								<td>${sessionScope.user.mbtel}</td><td>${sessionScope.user.mblevel}</td>
+								<td>${sessionScope.user.mbRegisterDate}</td></tr>
+								
+							</table>
+						</div>
 					</div>
+
 				</div>
 
 			<!-- Footer -->

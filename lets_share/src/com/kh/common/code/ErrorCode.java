@@ -3,6 +3,8 @@ package com.kh.common.code;
 public enum ErrorCode {
 
 	GR01("그룹정보를 입력하는 도중 에러가 발생하였습니다."),
+	MR01("매칭정보를 입력하는 도중 에러가 발생하였습니다. "),
+	SG01("그룹정보를 조회하는 도중 에러가 발생하였습니다."),
 	SM01("회원정보를 조회하는 도중 에러가 발생하였습니다.", "/member/login"),
 	SM02("ID 혹은 PW가 틀렸습니다.", "/member/login"),
 	IM01("회원정보를 입력하는 도중 에러가 발생하였습니다.", "/member/join"),
