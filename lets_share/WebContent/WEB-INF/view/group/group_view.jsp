@@ -115,7 +115,7 @@
 				</div>
 				<!-- 캘린더 호출 -->
 				<div id="calendar"></div>
-				<div id="tip_msg">[색상 상자]는 서비스를 이용 가능한 기간입니다. </div>
+				<div id="tip_msg"><div id="color-box"></div>는 서비스를 이용 가능한 기간입니다. </div>
 				
 				<div class="bottom">
 					<div class="">
