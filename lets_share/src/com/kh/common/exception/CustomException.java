@@ -8,7 +8,7 @@ public class CustomException extends RuntimeException{
 	 * 
 	 */
 	private static final long serialVersionUID = 4827430474153125429L;
-	private ErrorCode error;
+	public ErrorCode error;
 
 	public CustomException(ErrorCode error) {
 		this.error = error;
