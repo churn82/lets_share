@@ -106,6 +106,7 @@ public class NoticeDao {
 				Notice notice = new Notice();
 				notice.setNoticeNo(rs.getInt("notice_no"));
 				notice.setNoticeTitle(rs.getString("notice_title"));
+				notice.setNoticeContent(rs.getString("notice_title"));
 			}
 			
 			
