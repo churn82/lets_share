@@ -6,14 +6,13 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="/resources/css/main.css" />
-		<link rel="stylesheet" href="/resources/css/group/searchgroup.css" />
+		<link rel="stylesheet" href="/resources/css/group/group_search.css" />
 		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
 		<!-- 모달 -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 </head>
 	<body class="no-sidebar is-preload">
 		<div id="page-wrapper">
-
 			<!-- Header -->
 				<div id="header">
 
@@ -41,83 +40,110 @@
 				<div class="wrapper style1">
 					<div class="title"><a href="">그룹 서칭</a></div>
 					<div class="btn_box">
-						<button><a href="#ex1" rel="modal:open">결제 날짜 선택</a></button>
-						<button><a href="#ex2" rel="modal:open">서비스 선택</a></button>
-					</div>
-					<div class="node_box">
-						<div class="node">
-							<div class="img_box"><img src="../../../resources/images/3.png" alt=""></div>
-							<div class="content_box">
-								<div class="line1">
-									<div class="logo_box"><img src="../../../resources/images/netflix.jpg" alt=""></div>
-									<div class="service_name"><a href="">넷플릭스</a></div>
+						<form action="" method="GET">
+							<input type="text" id="date" name="date"/>
+							<input type="text" id="service" name="service">
+							<button><a href="#ex1" rel="modal:open">결제 날짜 선택</a></button>
+							<button><a href="#ex2" rel="modal:open">서비스 선택</a></button>
+							<input type="submit" class=".btn" value="검색">
+						</form>
+						<!-- ex1 : 결제 날짜 선택 모달  -->
+						<div id="ex1" class="modal">
+							<h1>원하는 결제 날짜를 선택하세요</h1>
+							<div class="calendar">
+								<div class="line">
+									<div class="date" id="1">1</div><div class="date" id="2">2</div><div class="date" id="3">3</div><div class="date" id="4">4</div>
+									<div class="date" id="5">5</div><div class="date" id="6">6</div><div class="date" id="7">7</div>
 								</div>
-								<div class="line2">
-									<div class="member_count">현재 참여 인원 : 3 / 4 명</div>
+								<div class="line">
+									<div class="date" id="8">8</div><div class="date" id="9">9</div><div class="date" id="10">10</div><div class="date" id="11">11</div>
+									<div class="date" id="12">12</div><div class="date" id="13">13</div><div class="date" id="14">14</div>
 								</div>
-								<div class="line2">
-									<div>결제일 : 매 월 30일</div>
+								<div class="line">
+									<div class="date" id="15">15</div><div class="date" id="16">16</div><div class="date" id="17">17</div><div class="date" id="18">18</div>
+									<div class="date" id="19">19</div><div class="date" id="20">20</div><div class="date" id="21">21</div>
 								</div>
-							</div>
-						</div>
-						<div class="node">
-							<div class="img_box"><img src="../../../resources/images/3.png" alt=""></div>
-							<div class="content_box">
-								<div class="line1">
-									<div class="logo_box"><img src="../../../resources/images/netflix.jpg" alt=""></div>
-									<div class="service_name"><a href="">넷플릭스</a></div>
+								<div class="line">
+									<div class="date" id="22">22</div><div class="date" id="23">23</div><div class="date" id="24">24</div><div class="date" id="25">25</div>
+									<div class="date" id="26">26</div><div class="date" id="27">27</div><div class="date" id="28">28</div>
 								</div>
-								<div class="line2">
-									<div class="member_count">현재 참여 인원 : 3 / 4 명</div>
-								</div>
-								<div class="line2">
-									<div>결제일 : 매 월 30일</div>
+								<div class="line">
+									<div class="date" id="29">29</div><div class="date" id="30">30</div><div class="date" id="31">31</div>
 								</div>
 							</div>
+							
+							<!-- <input type="submit" value="확인" class="btn"> -->
+							
+							
+							<!-- <a href="#" rel="modal:close">Close</a> -->
+						</div>	
+						<div id="ex2" class="modal">
+							<h1>원하는 서비스를 선택하세요</h1>
+							
+							<div class="modal2Box">
+								<div><img src="../../../resources/images/group/SR01.PNG" alt="" id="SR01" class="serviceSelect"></div>
+								<div><img src="../../../resources/images/group/SR02.PNG" alt="" id="SR02" class="serviceSelect"></div>
+								<div><img src="../../../resources/images/group/SR03.PNG" alt="" id="SR03" class="serviceSelect"></div>
+								<div><img src="../../../resources/images/group/SR04.PNG" alt="" id="SR04" class="serviceSelect"></div>
+								<div><img src="../../../resources/images/group/SR05.PNG" alt="" id="SR05" class="serviceSelect"></div>
+							</div>
+							
+							<!-- <input type="submit" value="확인" class="btn"> -->
+							<!-- <button><a href="#" onclick="submit()">확인</a></button> -->
 						</div>
+						
+						
 					</div>
-					<div class="node_box">
-						<div class="node"></div>
-						<div class="node"></div>
-					</div>
+					<div class="nodeBox">
+						<c:forEach var="group" items="${groupList}">
+	                        <div class="node">
+	                            <div class="leftBox">
+	                                <div class="imgBox">
+	                                    <img src="../../../resources/images/group/${group.getMemberCnt()}.PNG" alt="">
+	                                </div>
+	                            </div>
+	                            <div class="rightBox">
+	                                <div class="line1">
+	                                    <div class="logoBox">
+	                                        <img src="../../../resources/images/group/${group.getServiceCode()}.PNG" alt="">
+	                                    </div>
+	                                    <div class="nameBox">
+	                                        <h1>
+												<c:choose>
+												<c:when test="${group.getServiceCode() eq 'SR01'}">
+													넷플릭스
+												</c:when>
+												<c:when test="${group.getServiceCode() eq 'SR02'}">
+													왓챠
+												</c:when>
+												<c:when test="${group.getServiceCode() eq 'SR03'}">
+													쿠팡 플레이
+												</c:when>
+												<c:when test="${group.getServiceCode() eq 'SR04'}">
+													웨이브
+												</c:when>
+												<c:when test="${group.getServiceCode() eq 'SR05'}">
+													티빙
+												</c:when> 
+												</c:choose>
+											</h1>
+	                                    </div>
+	                                </div>
+	                                <div class="line2">
+	                                    <h1>현재 인원 : ${group.getMemberCnt()}/4</h1>
+	                                </div>
+	                                <div class="line3">
+	                                    <h1>결제 예정일 : ${group.getGroupPayDate()} 일</h1>
+	                                </div>
+	                            </div>
+	                        </div>
+                        </c:forEach>                       
+                    </div>
 				</div>
-
-				<!-- ex1 : 결제 날짜 선택 모달  -->
-				<div id="ex1" class="modal">
-					<h1>원하는 결제 날짜를 선택하세요</h1>
-					<div class="calendar">
-						<div class="line">
-							<div class="date" id="1">1</div><div class="date" id="2">2</div><div class="date" id="3">3</div><div class="date" id="4">4</div>
-							<div class="date" id="5">5</div><div class="date" id="6">6</div><div class="date" id="7">7</div>
-						</div>
-						<div class="line">
-							<div class="date" id="8">8</div><div class="date" id="9">9</div><div class="date" id="10">10</div><div class="date" id="11">11</div>
-							<div class="date" id="12">12</div><div class="date" id="13">13</div><div class="date" id="14">14</div>
-						</div>
-						<div class="line">
-							<div class="date" id="15">15</div><div class="date" id="16">16</div><div class="date" id="17">17</div><div class="date" id="18">18</div>
-							<div class="date" id="19">19</div><div class="date" id="20">20</div><div class="date" id="21">21</div>
-						</div>
-						<div class="line">
-							<div class="date" id="22">22</div><div class="date" id="23">23</div><div class="date" id="24">24</div><div class="date" id="25">25</div>
-							<div class="date" id="26">26</div><div class="date" id="27">27</div><div class="date" id="28">28</div>
-						</div>
-						<div class="line">
-							<div class="date" id="29">29</div><div class="date" id="30">30</div><div class="date" id="31">31</div>
-						</div>
-					</div>
-					<button><a href="#" rel="modal:close">확인</a></button>
-					<!-- <a href="#" rel="modal:close">Close</a> -->
-				</div>	
-				<div id="ex2" class="modal">
-					<h1>원하는 서비스를 선택하세요</h1>
-				</div>
-
 			<!-- Footer -->
 				<div id="footer">
 					<div style="text-align: center;">Copyright © 1998-2021 KH Information Educational Institute All Right Reserved</div>
 				</div>
-
 		</div>
 
 		<!-- Scripts -->
@@ -135,13 +161,26 @@
 			<script>
 				document.querySelectorAll(".date").forEach((node=>{
 					node.addEventListener("click", (e)=>{
-						// document.querySelectorAll(".date").forEach(all=>{
-						// 	all.style = "background-color : white;"
-						// })
-						e.target.style = "background-color : #ef8376;"
-						//document.querySelector("#date").value = e.target.id;
+						document.querySelectorAll(".date").forEach(all=>{
+							all.style = "background-color : white;"
+						})
+						e.target.style = "background-color : #ef8376;";
+						document.querySelector("#date").value = e.target.id;
 					})
 				}))
+
+
+				document.querySelectorAll(".serviceSelect").forEach((node)=>{
+					node.addEventListener("click", (e)=>{
+						document.querySelectorAll(".serviceSelect").forEach(all=>{
+							all.style = " ";
+						})
+						e.target.style = "border : 2px solid #ef8376";
+						document.querySelector("#service").value = e.target.id;
+					})
+				})
+
+
 			</script>
 	</body>
 </html>

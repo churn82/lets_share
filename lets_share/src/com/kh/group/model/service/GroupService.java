@@ -48,26 +48,63 @@ public class GroupService {
 		return res;
 	}
 	
-	public int insertMatch(String mbId) {
+	public ArrayList<Group> getGroupList(){
+		ArrayList<Group> groupList = null;
 		Connection conn = jdt.getConnection();
-		int res = 0;
-		return res;
-	}
-	
-	// GROUP_ID를 가져오는 함수
-	public ArrayList<Integer> getGroupId(String mbId){
-		Connection conn = jdt.getConnection();
-		ArrayList<Integer> groupIds = null;
 		try {
-			groupIds = groupDao.getGroupId(conn, mbId);
+			groupList = groupDao.getGroupList(conn);
 			jdt.commit(conn);
-		}catch(DataAccessException e) {
+		} catch(DataAccessException e) {
 			jdt.rollback(conn);
 			throw new ToAlertException(e.error);
 		}finally {
 			jdt.close(conn);
 		}
-		return groupIds;
+		return groupList;
 	}
 	
+	public ArrayList<Group> getGroupList(int date){
+		ArrayList<Group> groupList = null;
+		Connection conn = jdt.getConnection();
+		try {
+			groupList = groupDao.getGroupList(conn, date);
+			jdt.commit(conn);
+		} catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return groupList;
+	}
+	
+	public ArrayList<Group> getGroupList(String service){
+		ArrayList<Group> groupList = null;
+		Connection conn = jdt.getConnection();
+		try {
+			groupList = groupDao.getGroupList(conn, service);
+			jdt.commit(conn);
+		} catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return groupList;
+	}
+	
+	public ArrayList<Group> getGroupList(int date, String service){
+		ArrayList<Group> groupList = null;
+		Connection conn = jdt.getConnection();
+		try {
+			groupList = groupDao.getGroupList(conn, date, service);
+			jdt.commit(conn);
+		} catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return groupList;
+	}
 }

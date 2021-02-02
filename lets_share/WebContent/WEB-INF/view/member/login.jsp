@@ -45,6 +45,7 @@
 						<form action="/member/loginimpl" method="post" class="loginform">
 							<input type="text" name="id" id="id" placeholder="아이디">
 							<input type="password" name="pw" id="pw" placeholder="비밀번호">
+							<span class="valid_info"></span>
 							<button onclick="login()">로그인</button>
 						</form>
 						<div class="optionbox">

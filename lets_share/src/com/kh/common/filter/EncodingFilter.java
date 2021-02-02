@@ -8,13 +8,8 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet Filter implementation class EncodingFilter
- */
-@WebFilter("/EncodingFilter")
 public class EncodingFilter implements Filter {
 
     /**
@@ -35,15 +30,23 @@ public class EncodingFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		request.setCharacterEncoding("UTF-8");
-		HttpServletResponse res = (HttpServletResponse) response;
+		// TODO Auto-generated method stub
+
+		request.setCharacterEncoding("utf-8");
+		HttpServletResponse res = (HttpServletResponse)response;
 		
+<<<<<<< HEAD
 		//모든 요청에 대한 응답헤더가 적용이되기 때문에 정적 리소스인 html이나 css, JS도
 		//text/html로 컨텐츠 타입을 가지게 된다. css를 브라우저가 html파일로 인식하기 때문에 css 코드가 정상적으로 동작하지 않게 된다.
 		//res.setHeader("content-type", "text/html; charset=UTF-8");
+=======
+
+		//모든 요청에 대한 응답헤더가 적용이 되기 때문에 정적 리소스인 html이나 css, js도
+		//text/html로 컨텐츠타입을 가진다. css를 브라우저에서 html로 인식하기 때문에
+		//css가 정상적으로 동작하지 않게 된다.
+>>>>>>> be99852cfc6d2f77d4e0d0f94101a745bd312278
 		
-		// pass the request along the filter chain
-		// 다음 filter chain에게 request, response 객체를 전달
+		//res.setHeader("content-type", "text/html; charset=UTF-8");
 		chain.doFilter(request, response);
 	}
 
@@ -55,3 +58,4 @@ public class EncodingFilter implements Filter {
 	}
 
 }
+
