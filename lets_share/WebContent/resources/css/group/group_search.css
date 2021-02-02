@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 *{
     font-family: 'Noto Sans KR', sans-serif;
@@ -19,90 +20,87 @@
 .btn_box  button{
     margin: 10px;
 }
-
-.node_box{
-    /* border : 1px solid black; */
-    width : 63%;
-    margin-top: 4vh;
-    margin-left: auto;
-    margin-right: auto;
+/*  */
+.nodeBox{
+    width: 63%;
+    margin: auto;
+    margin-top: 20px;
     display: flex;
+    flex-wrap : wrap;
     justify-content : space-around;
 }
 .node{
-    width: 40%;
-    height : 30vh;
-    border : 2px solid black;
+    border : 1px solid black;
+    width : 40%;
+    height: 20vh;
+    margin-top: 30px;
+    display: flex;
     cursor: pointer;
+}
+.leftBox{
+    width: 40%;
+    display: flex;
+    border: 1px solid black;
+}
+.imgBox{
+    margin: auto;
+    width: 70%;
+    height: 70%;
+}
+.imgBox>img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+.rightBox{
+    width: 60%;
+    display: flex;
+    flex-wrap : wrap;
+    align-content:center;
+    border: 1px solid black;
+}
+.line1{
+    width: 100%;
+    height: 30%;
     display: flex;
     justify-content : center;
 }
-
-.img_box{
-    width: 40%;
-    /* border : 1px solid red; */
+.logoBox{
+    width: 20%;
     height: 100%;
 }
-
-.img_box img{
+.logoBox>img{
     object-fit: cover;
     width: 100%;
     height: 100%;
 }
-
-
-.content_box{
-    width: 55%;
-    /* border : 1px solid red; */
+.nameBox{
+    width : 50%;
     height: 100%;
     display: flex;
-    flex-wrap:wrap;
 }
 
-.line1{
-    margin-top: 3vh;
-    display: flex;
+.node h1{
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: auto;
+    font-size: 1em;
+}
+.nameBox>h1{
+    font-size: 1.4em;
+}
+.line2{
     width: 100%;
     height: 25%;
-    /* border: 1px solid red; */
     display: flex;
-    justify-content: center;
 }
-
-.logo_box{
-    width: 30%;
-    height: 90%;
-    /* border : 1px solid red; */
-}
-
-.logo_box img{
-    object-fit: cover;
+.line3{
     width: 100%;
-    height: 100%;
-}
-
-.service_name{
-    font-family: 'Noto Sans KR', sans-serif;
-    width: 40%;
-    height: 100%;
-    font-size: 1em;
-    /* border: 1px solid blue; */
-    /* text-align: center; */
-}
-
-.line2{
+    height: 25%;
     display: flex;
-    width: 100%;
-    font-family: 'Noto Sans KR', sans-serif;
-    height: 20%;
-    display: flex;
-    justify-content: center;
-    /* border: 1px solid orange; */
-}
-.member_count{
-    text-align: center;
 }
 
+
+/*  */
 #ex1{
     font-family: 'Noto Sans KR', sans-serif;
 }
@@ -128,3 +126,35 @@
     margin-top: 10px;
     margin: auto;
 }
+
+#date, #service{
+    display: none;
+}
+#ex2{
+    font-family: 'Noto Sans KR', sans-serif;
+}
+.modal2Box{
+    width: 100%;
+    height: 8vh;
+    margin: auto;
+    margin-top: 20px;
+    display: flex;
+    justify-content : space-between;
+}
+.modal2Box > div{
+    cursor: pointer;
+    width: 16%;
+    height: 100%;
+    
+}
+.modal2Box > div > img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.btn{
+    height: 5vh;
+    font-size: 0.8em;
+}
+
