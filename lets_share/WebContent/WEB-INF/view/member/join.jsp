@@ -14,7 +14,7 @@
 		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
 </head>
 	<body class="no-sidebar is-preload">
-	
+
 		<div id="page-wrapper">
 
 			<!-- Header -->
@@ -62,11 +62,13 @@
 							<div class="wrap_line3">
 								<span>아이디</span>
 								<input type="text" name="id" id="id"placeholder="아이디를 입력하세요">
-								<button>중복확인</button>
+								<button type="button" onclick="idCheck()">중복확인</button>
+								
 							</div>
 							<div class="wrap_line2">
 								<span></span>
-								<span class="confirm_msg" id="confirm_id">중복된 아이디입니다.</span>
+								<span class="confirm_msg" id="confirm_id"></span>
+								
 							</div>
 							<div class="wrap_line2">
 								<span>비밀번호</span> 
@@ -104,6 +106,35 @@
 						</form>
 					</div>
 				</div>
+
+	<script>
+	let idCheckFlg = false;
+	let idCheck = () => {
+	
+		let mbId = id.value;
+		
+		if(mbId){
+			fetch("/member/idcheck?mbId=" + mbId,{
+				method:"GET"
+			}).then(response =>response.text())
+			.then(text =>{
+				if(text == 'success'){
+					   idCheckFlg = true;
+					   confirm_id.innerHTML = '사용 가능한 아이디 입니다.';
+				   }else{
+					   idCheckFlg = false;
+					   confirm_id.innerHTML = '사용 불가능한 아이디 입니다.';
+					   id.value="";
+				   }
+			   })
+			   
+		   }else{
+			   alert("아이디를 입력하지 않으셨습니다.");
+		   }
+	   }
+	  
+	
+	</script>
 
 			<!-- Footer -->
 				<div id="footer">
