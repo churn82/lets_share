@@ -14,6 +14,7 @@ public class Group {
 	private Date date;
 	private char autoYN;
 	private String serviceCode;
+	private int memberCntWish;
 	
 	public Group() {
 		
@@ -99,11 +100,21 @@ public class Group {
 		this.serviceCode = serviceCode;
 	}
 
+	public int getMemberCntWish() {
+		return memberCntWish;
+	}
+
+	public void setMemberCntWish(int memberCntWish) {
+		this.memberCntWish = memberCntWish;
+	}
+
 	@Override
 	public String toString() {
 		return "Group [groupId=" + groupId + ", memberId=" + memberId + ", memberCnt=" + memberCnt + ", groupPayDate="
 				+ groupPayDate + ", accountInfo=" + accountInfo + ", shareId=" + shareId + ", sharePw=" + sharePw
-				+ ", date=" + date + ", autoYN=" + autoYN + ", serviceCode=" + serviceCode + "]";
+				+ ", date=" + date + ", autoYN=" + autoYN + ", serviceCode=" + serviceCode + ", memberCntWish="
+				+ memberCntWish + "]";
 	}
+
 	
 }

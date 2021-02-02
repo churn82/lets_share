@@ -22,8 +22,17 @@
 								<p>and pay less</p>
 							</header>
 							<footer>
+								<c:choose>
+									<c:when test="${empty sessionScope.user}">
 									<a href="#register" class="button circled scrolly"><span>Register</span></a>
-									<a href="#login" class="button circled scrolly"><span>login</span></a>
+									<a href="/member/login" class="button circled scrolly"><span>login</span></a>
+									</c:when>
+									<c:otherwise>
+									<a href="/member/mypage" class="button circled scrolly"><span>mypage</span></a>
+									<a href="/member/logout" class="button circled scrolly"><span>logout</span></a>
+									</c:otherwise>
+								</c:choose>
+								
 							</footer>
 						</div>
 

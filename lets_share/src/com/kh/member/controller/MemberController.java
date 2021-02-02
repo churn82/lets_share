@@ -7,13 +7,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.member.model.service.MemberService;
+import com.kh.member.model.vo.Member;
+
 /**
  * Servlet implementation class MemberController
  */
 @WebServlet("/member/*")
 public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	MemberService memberService = new MemberService();
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -36,6 +39,10 @@ public class MemberController extends HttpServlet {
 			case "rank" : rank(request,response); break;
 			case "mypage" : mypage(request,response); break;//김승현 mypage
 			case "joinimpl" : joinImpl(request,response); break;
+			case "loginimpl" : loginImpl(request,response); break;
+			case "idcheck" : confirmId(request,response); break;
+			case "logout" : logout(request,response); break;
+			
 			default : System.out.println("오류");
 		}
 	}
@@ -77,6 +84,70 @@ public class MemberController extends HttpServlet {
 		.forward(request, response);
 	}
 	private void joinImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String mbId = request.getParameter("id");
+		String mbpassword = request.getParameter("pw");
+		String mbnick = request.getParameter("nick");
+		String mbtel = request.getParameter("tel");
+		String mbemail = request.getParameter("email");
 		
+		Member member = new Member();
+		member.setMbId(mbId);
+		member.setMbPassword(mbpassword);
+		member.setMbNick(mbnick);
+		member.setMbtel(mbtel);
+		member.setMbemail(mbemail);
+		
+		int res = memberService.insertMember(member);
+		
+		if(res>0) {
+			request.getRequestDispatcher("/WEB-INF/view/member/join_complate.jsp")
+			.forward(request, response);
+		}else {
+			request.getRequestDispatcher("/WEB-INF/view/member/join_fail.jsp")
+			.forward(request, response);
+		}
+		
+		System.out.println("mbId : " + mbId);
+	}
+	private void confirmId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String mbId = request.getParameter("mbId");
+		
+		Member member =	memberService.selectMemberById(mbId);
+
+
+		if(member != null) {
+			response.getWriter().print("fail");
+		}else {
+			
+			response.getWriter().print("success");
+			
+		}
+	}
+	private void loginImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String mbId = request.getParameter("id");
+		String mbpassword = request.getParameter("pw");
+		
+		Member member = memberService.memberAuthenticate(mbId, mbpassword);
+		if(member != null) {
+			//세션에 회원 정보 저장
+			request.getSession().setAttribute("user", member);
+			response.sendRedirect("/index");
+			System.out.println("물음표가 왜 생긴걸까");
+		}else {
+			request.getRequestDispatcher("/WEB-INF/view/member/login_fail.jsp")
+			.forward(request, response);
+			
+		}
+		
+		
+		request.getSession().setAttribute("user", member);
+		
+		
+	}
+	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getSession().removeAttribute("user");
+		response.sendRedirect("/index");
 	}
 }
