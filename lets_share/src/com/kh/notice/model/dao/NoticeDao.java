@@ -19,7 +19,6 @@ public class NoticeDao {
 
 	JDBCTemplate jdt = JDBCTemplate.getInstance();
 	
-	
 	//공지테이블에 공지게시글 등록
 	public int insertNoticeBoard(Connection conn, Notice notice) {
 		
@@ -39,7 +38,6 @@ public class NoticeDao {
 			pstm.setInt(4, notice.getNoticeView());
 			pstm.setString(5, notice.getNoticeType());
 			pstm.setString(6, notice.getMbId());
-			
 			res = pstm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.IB01, e);
@@ -51,17 +49,37 @@ public class NoticeDao {
 		
 	}
 	
+	//게시글을 수정하면 조회수가 0이 되는지 거기서 +1인지 	이어서 아닐까,,,
+	//기본키 기준으로
 	//수정게시판
 	public int updateNoticeBoard(Connection conn, Notice notice) {
 		
-		int res = 0;
+		int rs = 0;
 		PreparedStatement pstm = null;
-		
-		String query = "";
-		
-		
+	
+		try {
+			String query = "update sh_notice set "
+					+"notice_title=?, "
+					+"notice_content=?, "
+					+"notice_date=?, "
+					+"notice_view=? "
+					+"mb_id=? "
+					+"where notice_no = ? ";
 			
-		return res;
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, notice.getNoticeTitle());
+			pstm.setString(2, notice.getNoticeContent());
+			pstm.setDate(3, notice.getNoticeDate());
+			pstm.setInt(4, notice.getNoticeView());
+			pstm.setString(5, notice.getNoticeType());
+			pstm.setString(6, notice.getMbId());
+			rs = pstm.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.UB01, e);
+		}
+
+		return rs;
 		
 	}
 	
@@ -77,48 +95,48 @@ public class NoticeDao {
 			String sql = "delete form sh_notice where notice_no = ? ";
 			pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, noticeNo);
+			
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.DB01, e);
 		}finally {
 			jdt.close(pstm);
 		}
-		
-		
-		
+
 		return res;
 		
 	}
 	
 
 	//공지 테이블 상세페이지 조회 만드는 중
-	public ArrayList<Notice> selectNoticeDetail(Connection conn){
+	public ArrayList<Notice> selectNoticeDetail(Connection conn, int noticeNo){
 		ArrayList<Notice> noticeList = new ArrayList<>();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		
+		String sql = "select * from sh_notice where notice_no = ? ";
 		
 		try {
-			String sql = "select * from sh_notice";
 			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, noticeNo);
 			rs = pstm.executeQuery();
 			
-			while(rs.next()) {
+			if(rs.next()) {
 				Notice notice = new Notice();
-				notice.setNoticeNo(rs.getInt("notice_no"));
-				notice.setNoticeTitle(rs.getString("notice_title"));
-				notice.setNoticeContent(rs.getString("notice_title"));
-			}
-			
-			
+				notice.setNoticeNo(rs.getInt(1));
+				notice.setNoticeTitle(rs.getString(2));
+				notice.setNoticeContent(rs.getString(3));
+				notice.setNoticeDate(rs.getDate(4));
+				notice.setNoticeView(rs.getInt(5));
+				notice.setNoticeType(rs.getString(6));
+				notice.setMbId(rs.getString(7));
+				noticeList.add(notice);
+			}			
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DataAccessException(ErrorCode.SB01, e);
+		}finally {
+			jdt.close(rs,pstm);
 		}
-		
-		
-		
-		
+
 		return noticeList;
 		
 	}
@@ -128,16 +146,15 @@ public class NoticeDao {
 	public List<Notice> selectNoticeList(Connection conn, String noticeNo) {
 		
 		List<Notice> noticeList = new ArrayList<>();
-		Statement stmt = null;
+		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		
-		
 		try {
-			String sql = "select * notice_no,notice_title,mb_id,notice_date,notice_view ";
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
+			String sql = "select * from sh_notice";
+			pstm = conn.prepareStatement(sql);
+			rs = pstm.executeQuery();
 			
-			if(rs.next()) {
+			while(rs.next()) {
 				Notice notice = new Notice();
 				notice.setNoticeNo(rs.getInt("notice_no"));
 				notice.setNoticeTitle(rs.getString("notice_title"));
@@ -150,14 +167,17 @@ public class NoticeDao {
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.SB01, e);
 		}finally {
-			jdt.close(rs,stmt);
+			jdt.close(rs,pstm);
 		}
 	
 		return noticeList;
 	}
 	
 	
+	//페이지 개수 제한
 	
+	
+
 	
 	
 	
