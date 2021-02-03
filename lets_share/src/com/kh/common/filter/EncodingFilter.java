@@ -35,6 +35,7 @@ public class EncodingFilter implements Filter {
 		request.setCharacterEncoding("utf-8");
 		HttpServletResponse res = (HttpServletResponse)response;
 		
+		//<<<<<<< HEAD
 		//모든 요청에 대한 응답헤더가 적용이되기 때문에 정적 리소스인 html이나 css, JS도
 		//text/html로 컨텐츠 타입을 가지게 된다. css를 브라우저가 html파일로 인식하기 때문에 css 코드가 정상적으로 동작하지 않게 된다.
 		//res.setHeader("content-type", "text/html; charset=UTF-8");
@@ -42,6 +43,12 @@ public class EncodingFilter implements Filter {
 		//모든 요청에 대한 응답헤더가 적용이 되기 때문에 정적 리소스인 html이나 css, js도
 		//text/html로 컨텐츠타입을 가진다. css를 브라우저에서 html로 인식하기 때문에
 		//css가 정상적으로 동작하지 않게 된다.
+
+
+
+		//모든 요청에 대한 응답헤더가 적용이되기 때문에 정적 리소스인 html이나 css, JS도
+		//text/html로 컨텐츠 타입을 가지게 된다. css를 브라우저가 html파일로 인식하기 때문에 css 코드가 정상적으로 동작하지 않게 된다.
+		//res.setHeader("content-type", "text/html; charset=UTF-8");
 
 		
 		//res.setHeader("content-type", "text/html; charset=UTF-8");

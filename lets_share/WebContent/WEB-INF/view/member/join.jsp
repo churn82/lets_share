@@ -58,7 +58,7 @@
 					</div>
 					<div class="member_info">
 						<h1 class="member_info_title">회원 정보 입력</h1>
-						<form action="${context}/member/joinimpl" method="post" id="frm_join" class="member_info_form">
+						<form action="${context}/member/joinimpl" method="post" id="form_join" class="member_info_form">
 							<div class="wrap_line3">
 								<span>아이디</span>
 								<input type="text" name="id" id="id"placeholder="아이디를 입력하세요">
@@ -80,16 +80,17 @@
 							</div>
 							<div class="wrap_line2">
 								<span></span>
-								<span class="confirm_msg" id="confirm_pw">같은 비밀번호를 입력해주세요.</span>
+								<span class="confirm_msg" id="confirm_pw"></span>
 							</div>
 							<div class="wrap_line3">
 								<span>닉네임</span>
-								<input type="text" name="nick" placeholder="닉네임을 입력하세요">
-								<button>중복확인</button>
+								<input type="text"  id="nick" name="nick" placeholder="닉네임을 입력하세요">
+								<button type="button" onclick="nickCheck()">중복확인</button><br>
+								<span class="vaild_info" id="nickCheck"></span>
 							</div>
 							<div class="wrap_line2">
 								<span></span>
-								<span class="confirm_msg" id="confirm_nick">중복된 닉네임입니다.</span>
+								<span class="confirm_msg" id="confirm_nick"></span>
 							</div>
 							<div class="wrap_line2">
 								<span>이메일</span>
@@ -132,7 +133,48 @@
 			   alert("아이디를 입력하지 않으셨습니다.");
 		   }
 	   }
+	  document.querySelector('#form_join').addEventListener('submit',(e)=>{
+		   let password = pw.value;
+		   let regExp = /^(?!.*[ㄱ-힣])(?=.*\W)(?=.*\d)(?=.*[a-zA-Z])(?=.{8,})/;
+		   
+		   if(!idCheckFlg){
+			   e.preventDefault();
+			   alert("아이디 중복검사를 하지 않으셨습니다.");
+			   id.focus()
+		   }
+		   
+		   if(!(regExp.test(password))){
+			   //form의 데이터 전송을 막음
+			   e.preventDefault();
+			   confirm_pw.innerHTML = '비밀번호는 숫자,영문자,특수문자 조합의 8글자 이상인 문자열입니다.';
+			   pw.value='';
+		   }
+	   });
 	  
+	  let nickCheckFlg = false;
+		let nickCheck = () => {
+		
+			let mbnick = nick.value;
+			
+			if(mbnick){
+				fetch("/member/nickcheck?mbnick=" + mbnick,{
+					method:"GET"
+				}).then(response =>response.text())
+				.then(text =>{
+					if(text == 'success'){
+						nickCheckFlg = true;
+						   confirm_nick.innerHTML = '사용 가능한 닉네임 입니다.';
+					   }else{
+						   nickCheckFlg = false;
+						   confirm_nick.innerHTML = '사용 불가능한 닉네임 입니다.';
+						   nick.value="";
+					   }
+				   })
+				   
+			   }else{
+				   alert("닉네임을 입력하지 않으셨습니다.");
+			   }
+		}
 	
 	</script>
 

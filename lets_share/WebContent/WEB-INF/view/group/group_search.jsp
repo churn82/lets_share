@@ -41,41 +41,17 @@
 					<div class="title"><a href="">그룹 서칭</a></div>
 					<div class="btn_box">
 						<form action="" method="GET">
-							<input type="text" id="date" name="date"/>
+							<input type="text" id="groupId" name="groupId"/>
 							<input type="text" id="service" name="service">
-							<button><a href="#ex1" rel="modal:open">결제 날짜 선택</a></button>
+							<button><a href="#ex1" rel="modal:open">그룹 번호 입력</a></button>
 							<button><a href="#ex2" rel="modal:open">서비스 선택</a></button>
 							<input type="submit" class=".btn" value="검색">
 						</form>
 						<!-- ex1 : 결제 날짜 선택 모달  -->
 						<div id="ex1" class="modal">
-							<h1>원하는 결제 날짜를 선택하세요</h1>
-							<div class="calendar">
-								<div class="line">
-									<div class="date" id="1">1</div><div class="date" id="2">2</div><div class="date" id="3">3</div><div class="date" id="4">4</div>
-									<div class="date" id="5">5</div><div class="date" id="6">6</div><div class="date" id="7">7</div>
-								</div>
-								<div class="line">
-									<div class="date" id="8">8</div><div class="date" id="9">9</div><div class="date" id="10">10</div><div class="date" id="11">11</div>
-									<div class="date" id="12">12</div><div class="date" id="13">13</div><div class="date" id="14">14</div>
-								</div>
-								<div class="line">
-									<div class="date" id="15">15</div><div class="date" id="16">16</div><div class="date" id="17">17</div><div class="date" id="18">18</div>
-									<div class="date" id="19">19</div><div class="date" id="20">20</div><div class="date" id="21">21</div>
-								</div>
-								<div class="line">
-									<div class="date" id="22">22</div><div class="date" id="23">23</div><div class="date" id="24">24</div><div class="date" id="25">25</div>
-									<div class="date" id="26">26</div><div class="date" id="27">27</div><div class="date" id="28">28</div>
-								</div>
-								<div class="line">
-									<div class="date" id="29">29</div><div class="date" id="30">30</div><div class="date" id="31">31</div>
-								</div>
-							</div>
-							
-							<!-- <input type="submit" value="확인" class="btn"> -->
-							
-							
-							<!-- <a href="#" rel="modal:close">Close</a> -->
+							<h1>찾으시는 그룹 번호를 입력하세요</h1>
+							<input type="text" id="group_id">
+							<a href="#" rel="modal:close" id="btn_confirm">확인</a>
 						</div>	
 						<div id="ex2" class="modal">
 							<h1>원하는 서비스를 선택하세요</h1>
@@ -108,32 +84,32 @@
 	                                        <img src="../../../resources/images/group/${group.getServiceCode()}.PNG" alt="">
 	                                    </div>
 	                                    <div class="nameBox">
-	                                        <h1>
+	                                        <h5>
 												<c:choose>
 												<c:when test="${group.getServiceCode() eq 'SR01'}">
-													넷플릭스
+													넷플릭스 No.${group.getGroupId()}
 												</c:when>
 												<c:when test="${group.getServiceCode() eq 'SR02'}">
-													왓챠
+													왓챠No.${group.getGroupId()}
 												</c:when>
 												<c:when test="${group.getServiceCode() eq 'SR03'}">
-													쿠팡 플레이
+													쿠팡플레이 No.${group.getGroupId()}
 												</c:when>
 												<c:when test="${group.getServiceCode() eq 'SR04'}">
-													웨이브
+													웨이브 No.${group.getGroupId()}
 												</c:when>
 												<c:when test="${group.getServiceCode() eq 'SR05'}">
-													티빙
+													티빙 No.${group.getGroupId()}
 												</c:when> 
 												</c:choose>
-											</h1>
+											</h5>
 	                                    </div>
 	                                </div>
 	                                <div class="line2">
-	                                    <h1>현재 인원 : ${group.getMemberCnt()}/4</h1>
+	                                    <h1>현재 인원 : ${group.getMemberCnt()}/4 </h1>
 	                                </div>
 	                                <div class="line3">
-	                                    <h1>결제 예정일 : ${group.getGroupPayDate()} 일</h1>
+	                                    <button onclick="register(${group.getGroupId()})">가입</button>
 	                                </div>
 	                            </div>
 	                        </div>
@@ -159,17 +135,10 @@
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 	
 			<script>
-				document.querySelectorAll(".date").forEach((node=>{
-					node.addEventListener("click", (e)=>{
-						document.querySelectorAll(".date").forEach(all=>{
-							all.style = "background-color : white;"
-						})
-						e.target.style = "background-color : #ef8376;";
-						document.querySelector("#date").value = e.target.id;
-					})
-				}))
-
-
+				document.querySelector("#btn_confirm").addEventListener("click",(e)=>{
+					document.querySelector("#groupId").value = 
+						document.querySelector("#group_id").value;
+				})
 				document.querySelectorAll(".serviceSelect").forEach((node)=>{
 					node.addEventListener("click", (e)=>{
 						document.querySelectorAll(".serviceSelect").forEach(all=>{
@@ -179,6 +148,15 @@
 						document.querySelector("#service").value = e.target.id;
 					})
 				})
+				
+				let register = (groupId) => {
+					if(sessionStorage.getItem("userId")==null){
+						alert("로그인을 하고 가입해주세요");
+					}
+					sessionStorage.setItem("userId","test49");
+					let userId = sessionStorage.getItem("userId");
+					location.href="/group/register?userId="+userId+"&groupId="+groupId;
+				}
 
 
 			</script>

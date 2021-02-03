@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.kh.group.model.service.GroupService;
 import com.kh.group.model.vo.Group;
@@ -29,6 +30,7 @@ public class GroupController extends HttpServlet {
 		case "view": goView(request, response); break;
 		case "search": goSearch(request, response); break;
 		case "receive" : receiveGroupInform(request, response); break;
+		case "register" : registerGroup(request, response); break;
 		default : 
 			response.setStatus(404);
 			break;
@@ -45,6 +47,23 @@ public class GroupController extends HttpServlet {
 	}
 	
 	protected void goView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//1.[임시]세션에서 userId를 가져온다
+		HttpSession session = request.getSession();
+		session.setAttribute("userId", "test14");
+		String userId = (String) session.getAttribute("userId");
+		
+		//2. userId가 속한 그룹의 grouoId를 가져온다
+		int groupId = 0;
+		groupId = groupService.getGroupId(userId);
+		
+		if(groupId == 0) {
+			System.out.println("속한 그룹이 없습니다");
+		}else {
+			Group group = groupService.getGroup(groupId);
+			request.setAttribute("group", group);
+		}
+		
 		request.getRequestDispatcher("/WEB-INF/view/group/group_view.jsp")
 		.forward(request, response);
 	}
@@ -52,25 +71,21 @@ public class GroupController extends HttpServlet {
 	protected void goSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ArrayList<Group> groupList = null;
-		String date = request.getParameter("date");
+		String groupId = request.getParameter("groupId");
 		String service = request.getParameter("service");
-		System.out.println("date : "+date);
-		System.out.println("service : "+service);
 		
-		
-//		if(request.getParameter("date")==null && request.getParameter("service")==null){
-//			groupList = groupService.getGroupList();
-//		}else if(request.getParameter("date")!=null ) {
-//			int payDate = Integer.parseInt(date);
-//			groupList = groupService.getGroupList(payDate,service);
-//		}else if(!date.equals("") && service.equals("")){
-//			int payDate = Integer.parseInt(date);
-//			groupList = groupService.getGroupList(payDate);
-//		}else if(date.equals("") && !service.equals("")) {
-//			groupList = groupService.getGroupList(service);
-//		}
-		groupList = groupService.getGroupList();
-		
+		if((groupId==null && service==null) || (groupId.equals("") && service.equals(""))) {
+			groupList = groupService.getGroupList();
+		}else if(groupId.equals("")&&service!=null) {
+			//서비스만 검색
+			groupList = groupService.getGroupListService(service);
+		}else if(groupId!=null&&service.equals("")) {
+			//그룹 아이디만 검색
+			groupList = groupService.getGroupListId(groupId);
+		}else if(groupId!=null&&service!=null) {
+			groupList = groupService.getGroupList(groupId, service);
+		}
+
 		request.setAttribute("groupList", groupList);
 		request.getRequestDispatcher("/WEB-INF/view/group/group_search.jsp")
 		.forward(request, response);
@@ -101,6 +116,20 @@ public class GroupController extends HttpServlet {
 		
 		request.setAttribute("msg", "모임을 정상적으로 등록하였습니다.");
 		request.setAttribute("url", "/group/search");
+		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+		.forward(request, response);
+	}
+	
+	//그룹 가입 버튼을 누름
+	protected void registerGroup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String groupSId = request.getParameter("groupId");
+		String userId = request.getParameter("userId");
+		int groupId = Integer.parseInt(groupSId);
+		int res = groupService.insertStandBy(groupId, userId);
+		System.out.println(res);
+		
+		request.setAttribute("msg", "가입 신청을 정상적으로 완료하였습니다.");
+		request.setAttribute("url", "/index");
 		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
 		.forward(request, response);
 	}
