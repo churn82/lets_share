@@ -12,7 +12,7 @@ import com.kh.common.code.ErrorCode;
 import com.kh.common.exception.DataAccessException;
 import com.kh.common.template.JDBCTemplate;
 import com.kh.notice.model.vo.Notice;
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
+
 
 
 public class NoticeDao {
