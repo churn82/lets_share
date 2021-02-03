@@ -13,7 +13,7 @@
 	<!-- fullCalendar 사용 -->
 	<link href='../../../resources/css/cal_lib/main.css' rel='stylesheet' />
     <script src='../../../resources/css/cal_lib/main.js'></script>
-     <script>
+    <script>
     	document.addEventListener('DOMContentLoaded', function() {
     		/* 날짜 지정  */
     		var today = new Date(); 
@@ -63,7 +63,6 @@
         calendar.setOption('locale','kr');
         calendar.render();
       });
-
     </script>
 </head>
 	<body class="no-sidebar is-preload">
@@ -90,33 +89,39 @@
 			<!-- Main -->
 			<div class="wrapper style1">
 				<div class="top">
-					<div class="logo_box"><img src="../../../resources/images/netflix.jpg" alt=""></div>
+					<div class="logo_box"><img src="../../../resources/images/group/${group.getServiceCode()}.PNG" alt=""></div>
 					<div class="title_box">
-						<a href="">Netflix 서비스 (No.14422)</a>
-					</div>
-				</div>
-				<div class="content">
-					<div class="left_box">
-						<div class="pay"><div>결제일 17일</div></div>
-						<div class="text"><div>3일전 14일 PM23:00시 까지 3,250원 입금</div></div>
-						<div class="accountORbtn">
-							<div>신한 11051923231</div>
-							<button>가입 하기</button>
-						</div>
-					</div>
-					<div class="right_box">
-						<div class="btn_box">
-							<button>알림 톡 보내기</button>
-						</div>
-						<div class="img_box">
-							<img src="../../../resources/images/3.png" alt="">
-						</div>
+						<a href="">
+							<c:choose>
+								<c:when test="${group.getServiceCode() eq 'SR01'}">
+									넷플릭스 서비스 (No.${group.getGroupId()}) 
+								</c:when>
+								<c:when test="${group.getServiceCode() eq 'SR02'}">
+									왓챠 서비스 (No.${group.getGroupId()})
+								</c:when>
+								<c:when test="${group.getServiceCode() eq 'SR03'}">
+									쿠팡플레이 서비스 (No.${group.getGroupId()})
+								</c:when>
+								<c:when test="${group.getServiceCode() eq 'SR04'}">
+									웨이브 서비스 (No.${group.getGroupId()})
+								</c:when>
+								<c:when test="${group.getServiceCode() eq 'SR05'}">
+									티빙 서비스 (No.${group.getGroupId()})
+								</c:when> 
+							</c:choose>
+						</a>
 					</div>
 				</div>
 				<!-- 캘린더 호출 -->
-				<div id="calendar"></div>
-				<div id="tip_msg"><div id="color-box"></div>는 서비스를 이용 가능한 기간입니다. </div>
-				
+				<div class="calendar_box">
+					<div id="calendar"></div>
+				</div>
+				<div class="calendar_box">
+					<div id="tip_msg"><div id="color-box"></div>는 서비스를 이용 가능한 기간입니다. </div>	
+				</div>
+				<c:if test="${group.getMemberId()==sessionScope.userId}">
+					<!-- 그룹장으로판명 그룹 대기 리스트 그려주자 -->
+				</c:if>
 				<div class="bottom">
 					<div class="">
 						<button>ID/PW 확인</button>
