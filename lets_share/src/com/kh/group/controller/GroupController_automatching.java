@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.kh.group.model.service.GroupService;
 import com.kh.group.model.vo.Group;
 
-@WebServlet("/group/*")
+//!!GroupController와 url이 겹쳐 서버실행이 불가하여 임시 수정하였습니다.
+@WebServlet("/group_auto/*")
 public class GroupController_automatching extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private GroupService groupService = new GroupService();
