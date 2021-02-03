@@ -49,6 +49,7 @@ public class MemberDao {
 				member.setMbNick(rset.getString("mb_nick"));
 				member.setMbtel(rset.getString("mb_tel"));
 				member.setMbemail(rset.getString("mb_email"));
+				member.setMblevel(rset.getString("mb_level"));
 				member.setMbRegisterDate(rset.getDate("mb_register_Date"));
 				
 			}
@@ -68,6 +69,34 @@ public class MemberDao {
 		String query = "select * from sh_member where mb_id = ?";
 		pstm = conn.prepareStatement(query);
 		pstm.setString(1, mbId);
+		
+		rset = pstm.executeQuery();
+		
+		if(rset.next()) {
+			member = new Member();
+			member.setMbId(rset.getString("mb_id"));
+			member.setMbPassword(rset.getString("mb_password"));
+			member.setMbNick(rset.getString("mb_nick"));
+			member.setMbtel(rset.getString("mb_tel"));
+			member.setMbemail(rset.getString("mb_email"));
+			member.setMbRegisterDate(rset.getDate("mb_registerDate"));
+		}
+	} catch (SQLException e) {
+		throw new DataAccessException(ErrorCode.SM01,e);	
+	} finally {
+		jdt.close(rset,pstm);
+	}
+	
+	return member;
+}
+	public Member selectMemberBynick(Connection conn, String mbnick) {
+		Member member = null;
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+	try {
+		String query = "select * from sh_member where mb_nick = ?";
+		pstm = conn.prepareStatement(query);
+		pstm.setString(1, mbnick);
 		
 		rset = pstm.executeQuery();
 		
@@ -130,7 +159,7 @@ public int insertMember(Connection conn, Member member){
 	
 	try {
 		String query = "INSERT INTO SH_MEMBER(MB_ID, MB_PASSWORD,MB_NICK, MB_EMAIL, MB_TEL) "
-				+"values(?,?,?,?)";
+				+"values(?,?,?,?,?)";
 		pstm = conn.prepareStatement(query);
 		pstm.setString(1, member.getMbId());
 		pstm.setString(2,member.getMbPassword());

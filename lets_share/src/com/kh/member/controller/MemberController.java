@@ -41,6 +41,7 @@ public class MemberController extends HttpServlet {
 			case "joinimpl" : joinImpl(request,response); break;
 			case "loginimpl" : loginImpl(request,response); break;
 			case "idcheck" : confirmId(request,response); break;
+			case "nickcheck" : confirmnick(request,response); break;
 			case "logout" : logout(request,response); break;
 			
 			default : System.out.println("오류");
@@ -80,6 +81,22 @@ public class MemberController extends HttpServlet {
 		.forward(request, response);
 	}
 	private void mypage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String mbId = request.getParameter("id");
+		String mbpassword = request.getParameter("pw");
+		String mbnick = request.getParameter("nick");
+		String mbtel = request.getParameter("tel");
+		String mblevel = request.getParameter("level");
+		String mbemail = request.getParameter("email");
+		
+		Member member = new Member();
+		member.setMbId(mbId);
+		member.setMbPassword(mbpassword);
+		member.setMbNick(mbnick);
+		member.setMbtel(mbtel);
+		member.setMbemail(mbemail);
+		
+		
 		request.getRequestDispatcher("/WEB-INF/view/member/mypage.jsp")
 		.forward(request, response);
 	}
@@ -99,13 +116,6 @@ public class MemberController extends HttpServlet {
 		
 		int res = memberService.insertMember(member);
 		
-		if(res>0) {
-			request.getRequestDispatcher("/WEB-INF/view/member/join_complate.jsp")
-			.forward(request, response);
-		}else {
-			request.getRequestDispatcher("/WEB-INF/view/member/join_fail.jsp")
-			.forward(request, response);
-		}
 		
 		System.out.println("mbId : " + mbId);
 	}
@@ -114,6 +124,21 @@ public class MemberController extends HttpServlet {
 		String mbId = request.getParameter("mbId");
 		
 		Member member =	memberService.selectMemberById(mbId);
+
+
+		if(member != null) {
+			response.getWriter().print("fail");
+		}else {
+			
+			response.getWriter().print("success");
+			
+		}
+	}
+	private void confirmnick(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String mbnick = request.getParameter("mbnick");
+		
+		Member member =	memberService.selectMemberBynick(mbnick);
 
 
 		if(member != null) {
@@ -134,7 +159,7 @@ public class MemberController extends HttpServlet {
 			//세션에 회원 정보 저장
 			request.getSession().setAttribute("user", member);
 			response.sendRedirect("/index");
-			System.out.println("물음표가 왜 생긴걸까");
+			
 		}else {
 			request.getRequestDispatcher("/WEB-INF/view/member/login_fail.jsp")
 			.forward(request, response);

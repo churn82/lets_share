@@ -75,7 +75,7 @@
     height: 100%;
 }
 .nameBox{
-    width : 50%;
+    width : 70%;
     height: 100%;
     display: flex;
 }
@@ -85,8 +85,10 @@
     margin: auto;
     font-size: 1em;
 }
-.nameBox>h1{
-    font-size: 1.4em;
+.nameBox>h5{
+	font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1.1em;
+    margin: auto;
 }
 .line2{
     width: 100%;
@@ -127,7 +129,7 @@
     margin: auto;
 }
 
-#date, #service{
+#groupId, #service{
     display: none;
 }
 #ex2{
@@ -152,9 +154,14 @@
     width: 100%;
     height: 100%;
 }
+.line3 > button{
+	margin : auto;
+	background-image: url(../../images/pic15.jpg);
+}
 
 .btn{
     height: 5vh;
     font-size: 0.8em;
 }
+
 

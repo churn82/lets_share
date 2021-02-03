@@ -40,6 +40,16 @@ public class MemberService {
 	      }     
 	      return member;
 	   }
+	public Member selectMemberBynick(String mbnick){	
+		Connection conn = jdt.getConnection();
+	      Member member = null;
+	      try {
+	         member = memberDao.selectMemberBynick(conn, mbnick);
+	      } finally {
+	         jdt.close(conn);
+	      }     
+	      return member;
+	   }
 	public List<Member> selectMemberByRegdate(Date begin, Date end){
 		  Connection conn = jdt.getConnection();
 	      List<Member> memberList = null;

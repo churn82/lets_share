@@ -45,9 +45,7 @@ public class NoticeController extends HttpServlet {
 		default : response.setStatus(404); break;
 		}
 		
-		
-		
-		
+
 	}
 
 	/**

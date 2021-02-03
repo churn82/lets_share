@@ -16,7 +16,7 @@ public class GroupDao {
 	
 	JDBCTemplate jdt = JDBCTemplate.getInstance();
 	
-	// 프로시저 PL_UPDATE_MEMBER_CNT 실행하는 함수
+	// =========================프로시저 PL_UPDATE_MEMBER_CNT 실행하는 함수========================= 
 	public int procedureMemberCnt(Connection conn, int groupIdx) {
 		int res = 0;
 		CallableStatement cstm = null;
@@ -35,7 +35,7 @@ public class GroupDao {
 	}
 	
 	
-	// 그룹을 만드는 함수 
+	// =========================그룹을 생성하는 함수=========================  
 	public int insertGroup(Connection conn, Group group) {
 		int res = 0;
 		int res2 = 0;
@@ -82,6 +82,8 @@ public class GroupDao {
 		}
 		return res;
 	}
+	
+	// =========================그룹 정보를 Arraylist에 담아 가져오는 함수=========================
 	public ArrayList<Group> getGroupList(Connection conn){
 		ArrayList<Group> groupList = new ArrayList<Group>();
 		String query = "SELECT * FROM SH_GROUP WHERE GROUP_PPL_NUMBER < 4";
@@ -112,15 +114,14 @@ public class GroupDao {
 		}
 		return groupList;		
 	}
-	
-	public ArrayList<Group> getGroupList(Connection conn, int date){
+	public ArrayList<Group> getGroupListId(Connection conn, String groupId){
 		ArrayList<Group> groupList = new ArrayList<Group>();
-		String query = "SELECT * FROM SH_GROUP WHERE GROUP_PPL_NUMBER < 4 AND GROUP_PAYDATE = ?";
+		String query = "SELECT * FROM SH_GROUP WHERE GROUP_PPL_NUMBER < 4 AND GROUP_ID = ?";
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
 		try {
 			pstm = conn.prepareStatement(query);
-			pstm.setInt(1, date);
+			pstm.setString(1, groupId);
 			rset = pstm.executeQuery();
 			while(rset.next()) {
 				Group group = new Group();
@@ -144,8 +145,7 @@ public class GroupDao {
 		}
 		return groupList;		
 	}
-	
-	public ArrayList<Group> getGroupList(Connection conn, String service){
+	public ArrayList<Group> getGroupListService(Connection conn, String service){
 		ArrayList<Group> groupList = new ArrayList<Group>();
 		String query = "SELECT * FROM SH_GROUP WHERE GROUP_PPL_NUMBER < 4 AND SER_CODE = ?";
 		PreparedStatement pstm = null;
@@ -176,15 +176,14 @@ public class GroupDao {
 		}
 		return groupList;		
 	}
-	
-	public ArrayList<Group> getGroupList(Connection conn, int date, String service){
+	public ArrayList<Group> getGroupList(Connection conn, String groupId, String service){
 		ArrayList<Group> groupList = new ArrayList<Group>();
-		String query = "SELECT * FROM SH_GROUP WHERE GROUP_PPL_NUMBER < 4 AND GROUP_PAYDATE = ? AND SER_CODE = ?";
+		String query = "SELECT * FROM SH_GROUP WHERE GROUP_PPL_NUMBER < 4 AND GROUP_ID = ? AND SER_CODE = ?";
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
 		try {
 			pstm = conn.prepareStatement(query);
-			pstm.setInt(1, date);
+			pstm.setString(1, groupId);
 			pstm.setString(2, service);
 			rset = pstm.executeQuery();
 			while(rset.next()) {
@@ -209,7 +208,82 @@ public class GroupDao {
 		}
 		return groupList;		
 	}
-
 	
+	//=========================그룹 대기 테이블에 유저 입력 함수=========================
+	public int insertStandBy(Connection conn, int groupId, String userId) {
+		int res = 0;
+		PreparedStatement pstm = null;
+		String query = "INSERT INTO SH_STAND_BY (GROUP_ID, MB_ID) VALUES (?,?)";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setInt(1, groupId);
+			pstm.setString(2, userId);
+			res = pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DataAccessException(ErrorCode.GR02, e);
+		}finally {
+			jdt.close(pstm);
+		}
+		return res;
+	}
+	
+	
+	
+	
+	//=========================매칭테이블의 group_id를 가져오는 함수=========================
+	public int getGroupId(Connection conn, String userId) {
+		int groupId = 0;
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = "SELECT GROUP_ID FROM SH_MATCHING WHERE MB_ID = ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, userId);
+			rset = pstm.executeQuery();
+			if(rset.next()) {
+				groupId = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.SG01, e);
+		} finally {
+			jdt.close(rset,pstm);
+		}
+		return groupId;
+	}
+	
+	
+	
+	
+	//=========================그룹 정보를 group에 담아 가져오는 함수=========================
+	public Group getGroup(Connection conn, int groupId) {
+		Group group = new Group();
+		ResultSet rset = null;
+		PreparedStatement pstm = null;
+		String query = "SELECT * FROM SH_GROUP WHERE GROUP_ID = ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setInt(1, groupId);
+			rset = pstm.executeQuery();
+			if(rset.next()) {
+				group.setGroupId(rset.getInt(1));
+				group.setMemberId(rset.getString(2));
+				group.setMemberCnt(rset.getInt(3));
+				group.setGroupPayDate(rset.getInt(4));
+				group.setAccountInfo(rset.getString(5));
+				group.setShareId(rset.getString(6));
+				group.setSharePw(rset.getString(7));
+				group.setDate(rset.getDate(8));
+				group.setAutoYN(rset.getString(9).charAt(0));
+				group.setServiceCode(rset.getString(10));
+				group.setMemberCntWish(rset.getInt(11));
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.SG01, e);
+		} finally {
+			jdt.close(rset,pstm);
+		}
+		return group;
+	}
 	
 }
