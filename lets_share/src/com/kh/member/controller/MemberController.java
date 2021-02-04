@@ -43,7 +43,7 @@ public class MemberController extends HttpServlet {
 			case "idcheck" : confirmId(request,response); break;
 			case "nickcheck" : confirmnick(request,response); break;
 			case "logout" : logout(request,response); break;
-			
+			case "mailauth" : Email(request,response); break;
 			default : System.out.println("오류");
 		}
 	}
@@ -174,5 +174,21 @@ public class MemberController extends HttpServlet {
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getSession().removeAttribute("user");
 		response.sendRedirect("/index");
+	}
+	private void Email(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String mbId = request.getParameter("id");
+		String mbpassword = request.getParameter("pw");
+		String mbnick = request.getParameter("nick");
+		String mbtel = request.getParameter("tel");
+		String mbemail = request.getParameter("email");
+		
+		Member member = new Member();
+		member.setMbId(mbId);
+		member.setMbPassword(mbpassword);
+		member.setMbNick(mbnick);
+		member.setMbtel(mbtel);
+		member.setMbemail(mbemail);
+		
 	}
 }

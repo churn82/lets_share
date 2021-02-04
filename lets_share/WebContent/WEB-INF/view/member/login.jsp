@@ -47,6 +47,50 @@
 							<input type="password" name="pw" id="pw" placeholder="비밀번호">
 							<span class="valid_info"></span>
 							<button onclick="login()">로그인</button>
+							<a  href="javascript:kakaoLogin();">
+							<img src="../resources/images/member/kakao_login_medium_narrow.png"/>
+							</a>
+							<script src="https://developers.kakao.com/sdk/js/kakao.js" type="text/javascript"></script>
+							<script type="text/javascript">
+
+// 02-04 카카오 로그인 정보 미완성							
+Kakao.init("c00b90880a6e893af3a5479df4ddfbad");
+
+
+
+function kakaoLogin() {
+	Kakao.Auth.login({
+		scope:'profile , account_email',
+		success: function(authObj) {
+			console.log(authObj);
+			Kakao.API.request({
+				url:'/v2/user/me',
+				success: function(res){
+					console.log(res);
+					
+					var userID = res.id;
+					var userEmail = res.kakao_account.email;
+					var userNickName = res.properties.nickname;
+					
+					console.log(userID);
+					console.log(userEmail);
+					console.log(userNickName);
+					
+					
+					
+					
+					
+				},
+				fail: (err) => {
+					console.error(err)	
+				}
+			});
+		}
+	
+	});
+
+}
+</script>
 						</form>
 						<div class="optionbox">
 							<label><span>아이디 저장</span><input type="checkbox"></label>

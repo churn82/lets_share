@@ -61,16 +61,9 @@ public class MemberService {
 	      }
 	      return memberList;
 	   }
-	public ArrayList<Member> selectMemberList(){
-		  Connection conn = jdt.getConnection();
-	      ArrayList<Member> memberList = null;
-	      
-	      try {
-	         memberList = memberDao.selectMemberList(conn);
-	      }finally {
-	         jdt.close(conn);
-	      }
-	      return memberList;
+	
+	 public void Emailsend(Member member) {
+	 
 	   }
 //authenticateEmail
 	

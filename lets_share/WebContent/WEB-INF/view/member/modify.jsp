@@ -54,7 +54,7 @@
 						<form class="wrap_info">
 							<div class="id infobox">
 								<span class="name">아이디</span>
-								<span class="value">접속한 유저 아이디(수정 불가)</span>
+								<span class="value">${sessionScope.user.mbId}</span>
 							</div>
 							<div class="password infobox">
 								<span class="name">비밀번호 변경</span>
@@ -66,17 +66,17 @@
 							</div>
 							<div class="nickname infobox">
 								<span class="name">닉네임</span>
-								<input type="text" placeholder="현재 사용중인 닉네임" class="value">
-								<button>중복확인</button>
-							</div>
+								<input type="text" id="nick" name="nick" placeholder="${sessionScope.user.mbNick}" class="value">
+								<button type="button" onclick="nickCheck()">중복확인</button>
+								<span class="vaild_info" id="nickCheck"></span>							</div>
 							<div class="confirm_msg">
-							<span class="name"></span>
+							<span class="name" id="confirm_nick"></span>
 							<!-- 중복확인 클릭시에만 텍스트 표시(페이지로드시에는 내용x) -->
-							<span class="value">중복된 아이디입니다.</span>
+							<span class="value"></span>
 							</div>
 							<div class="email infobox">
 								<span class="name">이메일</span>
-								<span class="value">아이디를 인증한 이메일(수정 불가)</span>
+								<span class="value">${sessionScope.user.mbemail}</span>
 							</div>
 							<div class="wrap_btn">
 								<button id="leave_btn">회원 탈퇴하기</button>
@@ -86,14 +86,40 @@
 						</form>
 					</div>
 				</div>
-
+				
+			<script type="text/javascript">	
+				let nickCheckFlg = false;
+		let nickCheck = () => {
+		
+			let mbnick = nick.value;
+			
+			if(mbnick){
+				fetch("/member/nickcheck?mbnick=" + mbnick,{
+					method:"GET"
+				}).then(response =>response.text())
+				.then(text =>{
+					if(text == 'success'){
+						nickCheckFlg = true;
+						   confirm_nick.innerHTML = '사용 가능한 닉네임 입니다.';
+					   }else{
+						   nickCheckFlg = false;
+						   confirm_nick.innerHTML = '사용 불가능한 닉네임 입니다.';
+						   nick.value="";
+					   }
+				   })
+				   
+			   }else{
+				   alert("닉네임을 입력하지 않으셨습니다.");
+			   }
+		}
+		</script>
 			<!-- Footer -->
 				<div id="footer">
 					<div style="text-align: center;">Copyright © 1998-2021 KH Information Educational Institute All Right Reserved</div>
 				</div>
 
 		</div>
-
+		
 		<!-- Scripts -->
 			<script src="/resources/js/jquery.min.js"></script>
 			<script src="/resources/js/jquery.dropotron.min.js"></script>

@@ -39,30 +39,22 @@
 			<!-- Main -->
 				<div class="wrapper style1">
 					<div class="left_menu">
-						<div><i class="fas fa-trophy"></i>  회원 랭킹</div>
-						<div><i class="fas fa-edit"></i>  회원 정보 수정</div>
+						<div><a href="rank"><i class="fas fa-trophy"></i>회원 랭킹</a></div>
+						<div><a href="modify"><i class="fas fa-edit"></i>  회원 정보 수정</a></div>
 					</div>
 					<div class="wrap_rank">
-						<h1 class="rank_title">회원 순위</h1>
+						<h1 class="rank_title">내 정보</h1>
 						<div class="rank_content">
 							<div class="wrap_myrank">
-								<div class="myrank_name">
-									<span>내 등급</span>
-									<span>내 점수</span>
-									<span>내 순위</span>
-								</div>
-								<div class="myrank_value">
-									<span>[내 등급]아이콘</span>
-									<span>123123(내점수)</span>
-									<span>12312(내순위)</span>
-								</div>
+							
+								
 							</div>
 							<table class="ranking_table">
 							
-								<tr><th>아이디</th><th>닉네임</th><th>전화번호</th><th>회원등급</th><th>가입일자</th></tr>
+								<tr><th>아이디</th><th>닉네임</th><th>전화번호</th><th>회원등급</th><th>가입일자</th><th>이메일</th></tr>
 								<tr><td>${sessionScope.user.mbId}</td><td>${sessionScope.user.mbNick}</td>
 								<td>${sessionScope.user.mbtel}</td><td>${sessionScope.user.mblevel}</td>
-								<td>${sessionScope.user.mbRegisterDate}</td></tr>
+								<td>${sessionScope.user.mbRegisterDate}</td><td>${sessionScope.user.mbemail}</td></tr>
 								
 							</table>
 						</div>
