@@ -135,12 +135,6 @@
     height: 100%;
 }
 /* 캘린더 시작 */
-
-.wrap_calendar{
-	display:flex;
-	flex-direction:column;
-	align-items: center;
-}
 .calendar_box{
     display: flex;
 }
@@ -152,22 +146,7 @@
     margin: auto;
     text-align:center;
 }
-#tip_msg{
-	font-family: 'Noto Sans KR', sans-serif;
-	text-align:center;
-	color:lightgray;
-	display:flex;
-    align-items:center;
-    margin: auto;
-}
 
-#color-box{
-	display:inline-block;
-	background-color:rgb(179,255,251);
-	width:1.5vw;
-	height:1.5vw;
-	border-radius: 25%;
-}
 /* 캘린더 끝 */
 
 .bottom{

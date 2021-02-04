@@ -15,47 +15,63 @@
     <script src='../../../resources/css/cal_lib/main.js'></script>
     <script>
     	document.addEventListener('DOMContentLoaded', function() {
+    		var today = new Date();
     		/* 날짜 지정  */
-    		var today = new Date(); 
-    		today.setDate(1); //달력은 이번달 초부터 다음달 말까지 표시해준다.
+    		var firstDay = new Date(); 
+    		firstDay.setDate(1); //달력은 이번달 초부터 다음달 말까지 표시해준다.
     		var endday = new Date(today.getFullYear(),today.getMonth()+2,0);
     		endday.setDate(endday.getDate()+1);
-    		/* 결제일, 입금일 지정 !!(el사용하여 입력) */
+    		/* 로그인한 사용자의 입금일(서비스 이용 종료일) 입력 */
     		var payDay = '2021-02-17';
-    		var prepayDay = '2021-02-14';
-    		/* 사용 가능한 날짜 지정 !!(el사용하여 입력) */
-    		var accessableDay = '2021-03-14';
+    		/* 그룹원(본인,그룹장 제외)이 서비스 사용이 끝나는 날짜 표시 */
+    		var member1Day = '2021-03-10';
+    		var member2Day = '2021-03-07';
+    		/* 그룹장이 서비스 사용을 그만둘 날짜 표시 */
+    		var theLastDay = '2021-03-30';
     		/* 캘린더 생성 */
     		var calendarEl = document.getElementById('calendar');
     		var calendar = new FullCalendar.Calendar(calendarEl, {
     			initialView: 'dayGridMonth',
     			validRange: {
-       	        	start: today,
+       	        	start: firstDay,
        	        	end: endday
        	    	},
        	    	events: [
        	    		{
        	    			id: 'payDate',
-       	    			title: '결제일',
+       	    			title: '내 갱신일',
        	    			start: payDay,
        	    			color:'red'
        	    		},
        	    		{
-       	    			id: 'prepayDay',
-       	    			title: '입금일',
-       	    			start: prepayDay,
-       	    			color: 'red'
+       	    			id: 'lastDate',
+       	    			title: '그룹 종료',
+       	    			start: theLastDay,
+       	    			color:'red'
        	    		},
        	    		{
-       	    			id: 'accessableDay',
-       	    			start: prepayDay,
-       	    			end: accessableDay,
+       	    			id: 'member1',
+       	    			title: '멤버1 종료',
+       	    			start: member1Day,
+       	    			color:'purple'
+       	    		},
+       	    		{
+       	    			id: 'member2',
+       	    			title: '멤버2 종료',
+       	    			start: member2Day,
+       	    			color:'purple'
+       	    		},
+       	    		{
+       	    			title:'서비스 이용 가능',
+       	    			start:today,
+       	    			end: payDay,
+       	    			textColor:'green',
        	    			backgroundColor:'#00fff2',
-       	    			overlap:false,
-       	    			display:'background'
+       	    			borderColor:'lightgray'
        	    		}
        	    	],
-    			
+       	    	displayEventTime:false,
+       	    	showNonCurrentDates:false
 			});
     	/* 캘린더 크기 지정 */
     	calendar.setOption('contentHeight','auto');
@@ -63,6 +79,7 @@
         calendar.setOption('locale','kr');
         calendar.render();
       });
+
     </script>
 </head>
 	<body class="no-sidebar is-preload">
@@ -115,9 +132,6 @@
 				<!-- 캘린더 호출 -->
 				<div class="calendar_box">
 					<div id="calendar"></div>
-				</div>
-				<div class="calendar_box">
-					<div id="tip_msg"><div id="color-box"></div>는 서비스를 이용 가능한 기간입니다. </div>	
 				</div>
 				<c:if test="${group.getMemberId()==sessionScope.userId}">
 					<!-- 그룹장으로판명 그룹 대기 리스트 그려주자 -->
