@@ -10,15 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.kh.common.sms.SMS;
 import com.kh.group.model.service.GroupService;
 import com.kh.group.model.vo.Group;
 import com.kh.group.model.vo.GroupMatching;
 import com.kh.group.model.vo.GroupStandBy;
+import com.kh.member.model.service.MemberService;
+import com.kh.member.model.vo.Member;
 
 @WebServlet("/group/*")
 public class GroupController extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
     private GroupService groupService = new GroupService();
+    private MemberService memberService = new MemberService();
+    
     public GroupController() {
         super();
         // TODO Auto-generated constructor stub
@@ -57,7 +63,7 @@ public class GroupController extends HttpServlet {
 		
 		//1.[임시]세션에서 userId를 가져온다
 		HttpSession session = request.getSession();
-		session.setAttribute("userId", "test1");
+		session.setAttribute("userId", "test49");
 		String userId = (String) session.getAttribute("userId");
 		
 		//2. userId가 속한 그룹의 grouoId를 가져온다
@@ -89,8 +95,8 @@ public class GroupController extends HttpServlet {
 		.forward(request, response);
 	}
 	
+	// group_search.jsp 페이지 로드
 	protected void goSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		ArrayList<Group> groupList = null;
 		String groupId = request.getParameter("groupId");
 		String service = request.getParameter("service");
@@ -112,6 +118,7 @@ public class GroupController extends HttpServlet {
 		.forward(request, response);
 	}
 	
+	//그룹 만들기 
 	protected void receiveGroupInform(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// bank_account, service_id,  service_pw, service, date, bank 가 넘어옴
 		String bank = request.getParameter("bank_real");
@@ -123,7 +130,7 @@ public class GroupController extends HttpServlet {
 		int groupPayDate = Integer.parseInt(date);
 		
 		Group group = new Group();
-		group.setMemberId("lee5031207"); //[임시] 원래 세션에서 로그인한 회원의 값을 찾아 넣어준다
+		group.setMemberId("test49"); //[임시] 원래 세션에서 로그인한 회원의 값을 찾아 넣어준다
 		group.setAccountInfo(bank+" "+bank_account);
 		group.setServiceCode(service);
 		group.setShareId(service_id);
@@ -195,7 +202,7 @@ public class GroupController extends HttpServlet {
 		}
 	}
 
-	//입금 신청(sms 해야댐)
+	//입금 신청
 	protected void payMoney(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String payDateS = request.getParameter("payDate");
 		String servicePerDayS = request.getParameter("servicePerDay");
@@ -210,8 +217,17 @@ public class GroupController extends HttpServlet {
 		int res = groupService.updatePayDate(memberId, groupId, payDate);
 		
 		if(res==1) {
-			//2. 계좌 번호 등등을 문자로 보낸다.
+			//2. member에서 전화번호 가져온 후 (servicePerDay * payDate)원 계좌정보 입금 요망 sms 
+			int sum = payDate * servicePerDay;
+			Member member = memberService.selectMemberById(memberId);
+			Group group = groupService.getGroup(groupId);
+			String accountInfo = group.getAccountInfo();
 			
+			String to = member.getMbtel(); // 저나번호 가져와야함
+			String content = "Let's Share 입니다. \n["+accountInfo+"] \n결제금액 : "+sum+"원";
+			
+			SMS sms = new SMS();
+			sms.sendSMS(to, content);
 		}
 		request.setAttribute("msg", "정상적으로 입금신청 되었습니다.");
 		request.setAttribute("url", "/group/view");
@@ -219,18 +235,36 @@ public class GroupController extends HttpServlet {
 		.forward(request, response);
 	}
 
-	//입금 확인
+	//입금 확인(sms 해야댐)
 	protected void payConfirm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String memberId = request.getParameter("userId");
 		String groupSId = request.getParameter("groupId");
 		int groupId = Integer.parseInt(groupSId);
 		
 		//1. SH_MATCHING의 ST_DATE가 null이라면 sysdate로 바꿔준다.
+		GroupMatching groupMatching = groupService.getMatching(groupId, memberId);
+		if(groupMatching.getStDate() == null) {
+			groupService.updateStDate(groupId, memberId); //ST_DATE를 sysdate로 바꿈	
+		}
 		
+		//2. 만기일이 존재한다면 PL_SET_EXDATE_FROM_EXDATE || 존재하지 않는다면 PL_SET_EXDATE_FROM_STDATE
+		if(groupMatching.getExDate()==null) {
+			groupService.execProcedureSEFS(groupId, memberId);
+		}else {
+			groupService.execProcedureSEFE(groupId, memberId);
+		}
 		
-		//3. SH_MATCHING의 PAY_DATE를 0으로 바꿔준다
-		//groupService.updatePayDate(memberId, groupId, 0);
+		//3. 마지막으로 PAY_DATE를 0으로 바꿔주자
+		groupService.updatePayDate(memberId, groupId, 0);
 		
-		
+		//4. ID,PW 보내주자(sms)
+		Member member = memberService.selectMemberById(memberId);
+		Group group = groupService.getGroup(groupId);
+		String shareID = group.getShareId();
+		String sharePW = group.getSharePw();
+		String to = member.getMbtel(); // 전송할 전화번호
+		String content = "Let's Share 입니다.\n입금이 확인되어 ID,PW 안내드립니다.\n아이디 : "+shareID+"\n비밀번호 :"+sharePW; 
+		SMS sms = new SMS();
+		sms.sendSMS(to, content);
 	}
 }

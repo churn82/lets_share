@@ -145,7 +145,7 @@
 										<td>${groupMember.getExDate()}</td>
 										<td>
 											<c:if test="${group.getMemberId()==sessionScope.userId}">
-												<button onclick="payConfirm(${group.getMemberId()}, ${group.getGroupId()})">입금 확인</button>
+												<button onclick="payConfirm('${groupMember.getMemberId()}', ${groupMember.getGroupId()})">입금 확인</button>
 											</c:if>
 											<c:if test="${group.getMemberId()!=sessionScope.userId}">
 												<i class="fas fa-user-slash"></i>

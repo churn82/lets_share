@@ -259,7 +259,6 @@ public class GroupDao {
 		return groupId;
 	}
 	
-	
 	//=========================그룹 정보를 group에 담아 가져오는 함수=========================
 	public Group getGroup(Connection conn, int groupId) {
 		Group group = new Group();
@@ -366,16 +365,16 @@ public class GroupDao {
 			pstm.setInt(1, groupId);
 			rset = pstm.executeQuery();
 			while(rset.next()) {
-				GroupMatching groMatching = new GroupMatching();
-				groMatching.setMemberId(rset.getString(1));
-				groMatching.setGroupId(rset.getInt(2));
-				groMatching.setPaymentYN(rset.getString(3).charAt(0));
-				groMatching.setPaymentConfirm(rset.getString(4).charAt(0));
-				groMatching.setRegDate(rset.getDate(5));
-				groMatching.setStDate(rset.getDate(6));
-				groMatching.setExDate(rset.getDate(7));
-				groMatching.setPayDate(rset.getInt(8));
-				matchingList.add(groMatching);
+				GroupMatching groupMatching = new GroupMatching();
+				groupMatching.setMemberId(rset.getString(1));
+				groupMatching.setGroupId(rset.getInt(2));
+				groupMatching.setPaymentYN(rset.getString(3).charAt(0));
+				groupMatching.setPaymentConfirm(rset.getString(4).charAt(0));
+				groupMatching.setRegDate(rset.getDate(5));
+				groupMatching.setStDate(rset.getDate(6));
+				groupMatching.setExDate(rset.getDate(7));
+				groupMatching.setPayDate(rset.getInt(8));
+				matchingList.add(groupMatching);
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.MR02, e);
@@ -424,4 +423,91 @@ public class GroupDao {
 		}
 		return res;
 	}
+
+	//=========================매칭 테이블 전체를 가져오는 함수=========================
+	public GroupMatching getMatching(Connection conn, int groupId, String memberId) {
+		GroupMatching groupMatching = new GroupMatching();
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = "SELECT * FROM SH_MATCHING WHERE GROUP_ID = ? AND MB_ID = ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setInt(1, groupId);
+			pstm.setString(2, memberId);
+			rset = pstm.executeQuery();
+			if(rset.next()) {
+				groupMatching.setMemberId(rset.getString(1));
+				groupMatching.setGroupId(rset.getInt(2));
+				groupMatching.setPaymentYN(rset.getString(3).charAt(0));
+				groupMatching.setPaymentConfirm(rset.getString(4).charAt(0));
+				groupMatching.setRegDate(rset.getDate(5));
+				groupMatching.setStDate(rset.getDate(6));
+				groupMatching.setExDate(rset.getDate(7));
+				groupMatching.setPayDate(rset.getInt(8));
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.MR02, e);
+		} finally {
+			jdt.close(rset, pstm);
+		}
+		return groupMatching;
+	}
+
+	//=========================ST_DATE를 sysdate로 바꾸는 함수=========================
+	public int updateStDate(Connection conn, int groupId, String memberId) {
+		int res = 0;
+		PreparedStatement pstm = null;
+		String query = "UPDATE SH_MATCHING SET ST_DATE = sysdate WHERE GROUP_ID = ? AND MB_ID = ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setInt(1, groupId);
+			pstm.setString(2, memberId);
+			res = pstm.executeUpdate();
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.MR03, e);
+		} finally {
+			jdt.close(pstm);
+		}
+		return res;
+	}
+
+	//=========================PL_SET_EXDATE_FROM_STDATE실행 함수=========================
+	public int execProcedureSEFS(Connection conn, int groupId, String memberId) {
+		int res = 0;
+		CallableStatement cstm = null;
+		String query = "{call PL_SET_EXDATE_FROM_STDATE(?,?)}";		
+		try {
+			cstm = conn.prepareCall(query);
+			cstm.setInt(1, groupId);
+			cstm.setString(2, memberId);
+			res =cstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DataAccessException(ErrorCode.PR01, e);
+		} finally {
+			jdt.close(cstm); 
+		}
+		return res;
+	}
+	
+	//=========================PL_SET_EXDATE_FROM_EXDATE실행 함수=========================
+	public int execProcedureSEFE(Connection conn, int groupId, String memberId) {
+		int res = 0;
+		CallableStatement cstm = null;
+		String query = "{call PL_SET_EXDATE_FROM_EXDATE(?,?)}";		
+		try {
+			cstm = conn.prepareCall(query);
+			cstm.setInt(1, groupId);
+			cstm.setString(2, memberId);
+			res = cstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DataAccessException(ErrorCode.PR01, e);
+		} finally {
+			jdt.close(cstm); 
+		}
+		return res;
+	}
+	
+	
 }

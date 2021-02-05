@@ -250,5 +250,70 @@ public class GroupService {
 		}
 		return res;
 	}
+	
+	//=========================매칭 테이블 전체를 가져오는 함수=========================
+	public GroupMatching getMatching(int groupId, String memberId) {
+		Connection conn = jdt.getConnection();
+		GroupMatching groupMatching = null;
+		try {
+			groupMatching = groupDao.getMatching(conn, groupId, memberId);
+			jdt.commit(conn);
+		} catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return groupMatching;
+	}
+
+	//=========================ST_DATE를 sysdate로 바꾸는 함수=========================
+	public int updateStDate(int groupId, String memberId) {
+		int res = 0;
+		Connection conn = jdt.getConnection();
+		try {
+			res = groupDao.updateStDate(conn, groupId, memberId);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error); 
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
+
+	//=========================PL_SET_EXDATE_FROM_STDATE실행 함수=========================
+	public int execProcedureSEFS(int groupId, String memberId) {
+		int res = 0;
+		Connection conn = jdt.getConnection();
+		try {
+			res = groupDao.execProcedureSEFS(conn, groupId, memberId);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error); 
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
+	
+	//=========================PL_SET_EXDATE_FROM_EXDATE실행 함수=========================
+	public int execProcedureSEFE(int groupId, String memberId) {
+		int res = 0;
+		Connection conn = jdt.getConnection();
+		try {
+			res = groupDao.execProcedureSEFE(conn, groupId, memberId);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error); 
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
+
 }
 
