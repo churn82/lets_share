@@ -11,13 +11,31 @@ public class Group {
 	private String accountInfo;
 	private String shareId;
 	private String sharePw;
-	private Date date;
-	private char autoYN;
+	private Date regdate;
+	private Date autoDate;
 	private String serviceCode;
 	private int memberCntWish;
+	private Date lastDay;
 	
 	public Group() {
 		
+	}
+
+	public Group(int groupId, String memberId, int memberCnt, int groupPayDate, String accountInfo, String shareId,
+			String sharePw, Date regdate, Date autoDate, String serviceCode, int memberCntWish, Date lastDay) {
+		super();
+		this.groupId = groupId;
+		this.memberId = memberId;
+		this.memberCnt = memberCnt;
+		this.groupPayDate = groupPayDate;
+		this.accountInfo = accountInfo;
+		this.shareId = shareId;
+		this.sharePw = sharePw;
+		this.regdate = regdate;
+		this.autoDate = autoDate;
+		this.serviceCode = serviceCode;
+		this.memberCntWish = memberCntWish;
+		this.lastDay = lastDay;
 	}
 
 	public int getGroupId() {
@@ -76,20 +94,20 @@ public class Group {
 		this.sharePw = sharePw;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getRegdate() {
+		return regdate;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setRegdate(Date regdate) {
+		this.regdate = regdate;
 	}
 
-	public char getAutoYN() {
-		return autoYN;
+	public Date getAutoDate() {
+		return autoDate;
 	}
 
-	public void setAutoYN(char autoYN) {
-		this.autoYN = autoYN;
+	public void setAutoDate(Date autoDate) {
+		this.autoDate = autoDate;
 	}
 
 	public String getServiceCode() {
@@ -108,13 +126,24 @@ public class Group {
 		this.memberCntWish = memberCntWish;
 	}
 
+	public Date getLastDay() {
+		return lastDay;
+	}
+
+	public void setLastDay(Date lastDay) {
+		this.lastDay = lastDay;
+	}
+
 	@Override
 	public String toString() {
 		return "Group [groupId=" + groupId + ", memberId=" + memberId + ", memberCnt=" + memberCnt + ", groupPayDate="
 				+ groupPayDate + ", accountInfo=" + accountInfo + ", shareId=" + shareId + ", sharePw=" + sharePw
-				+ ", date=" + date + ", autoYN=" + autoYN + ", serviceCode=" + serviceCode + ", memberCntWish="
-				+ memberCntWish + "]";
+				+ ", regdate=" + regdate + ", autoDate=" + autoDate + ", serviceCode=" + serviceCode
+				+ ", memberCntWish=" + memberCntWish + ", lastDay=" + lastDay + "]";
 	}
 
+	
+
+	
 	
 }
