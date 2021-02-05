@@ -61,7 +61,7 @@
 						<form action="${context}/member/joinimpl" method="post" id="form_join" class="member_info_form">
 							<div class="wrap_line3">
 								<span>아이디</span>
-								<input type="text" name="id" id="id"placeholder="아이디를 입력하세요">
+								<input type="text" name="id" id="ida"placeholder="아이디를 입력하세요">
 								<button type="button" onclick="idCheck()">중복확인</button>
 								
 							</div>
@@ -112,7 +112,7 @@
 	let idCheckFlg = false;
 	let idCheck = () => {
 	
-		let mbId = id.value;
+		let mbId = ida.value;
 		
 		if(mbId){
 			fetch("/member/idcheck?mbId=" + mbId,{
@@ -125,7 +125,7 @@
 				   }else{
 					   idCheckFlg = false;
 					   confirm_id.innerHTML = '사용 불가능한 아이디 입니다.';
-					   id.value="";
+					   ida.value="";
 				   }
 			   })
 			   

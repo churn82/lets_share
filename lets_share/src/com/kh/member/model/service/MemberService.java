@@ -4,14 +4,16 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.kh.common.code.Code;
 import com.kh.common.exception.DataAccessException;
 import com.kh.common.exception.ToAlertException;
 import com.kh.common.mail.MailSender;
 import com.kh.common.template.JDBCTemplate;
-
+import com.kh.common.util.Util;
 import com.kh.member.model.dao.MemberDao;
 import com.kh.member.model.vo.Member;
 
@@ -28,6 +30,16 @@ public class MemberService {
 	         jdt.close(conn);
 	      }
 	      
+	      return member;
+	   }
+	public Member selectMemberBylevel(String mbId){	
+		Connection conn = jdt.getConnection();
+	      Member member = null;
+	      try {
+	         member = memberDao.selectMemberById(conn, mbId);
+	      } finally {
+	         jdt.close(conn);
+	      }     
 	      return member;
 	   }
 	public Member selectMemberById(String mbId){	
@@ -63,9 +75,28 @@ public class MemberService {
 	   }
 	
 	 public void Emailsend(Member member) {
-	 
+		  //POST방식으로 통신해보기
+	      String subject = "회원가입을 완료해주세요!";
+	      String htmlText = "";
+	      
+	      Util http = new Util();
+	      String url = Code.DOMAIN+"/mail";
+	     
+	      //header 저장
+	      Map<String,String> headers = new HashMap<>();
+	      headers.put("content-type", "application/x-www-form-urlencoded; charset=utf-8");
+	      
+	      //parameter 저장
+	      Map<String,String> params = new HashMap<>();
+	      params.put("mailTemplate", "temp_join");
+	      params.put("mbId", member.getMbId());
+	      
+	      htmlText = http.post(url, headers, http.urlEncodedForm(params));
+	       new MailSender().sendEmail(member.getMbemail(),subject,htmlText);
+	       
+	  
 	   }
-//authenticateEmail
+
 	
 	public int insertMember(Member member){
 		//Transaction관리를 Service단에서 처리하기 위해 Connection을 

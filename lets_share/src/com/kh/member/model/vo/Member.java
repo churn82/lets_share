@@ -67,5 +67,11 @@ public class Member {
 	public void setMbLeaveDate(Date mbLeaveDate) {
 		this.mbLeaveDate = mbLeaveDate;
 	}
+	@Override
+	public String toString() {
+		return "Member [mbId=" + mbId + ", mbpassword=" + mbpassword + ", mbnick=" + mbnick + ", mbtel=" + mbtel
+				+ ", mbemail=" + mbemail + ", mbpoint=" + mbpoint + ", mblevel=" + mblevel + ", mbRegisterDate="
+				+ mbRegisterDate + ", mbLeaveDate=" + mbLeaveDate + "]";
+	}
 	
 }

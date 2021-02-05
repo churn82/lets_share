@@ -94,6 +94,7 @@ public class MemberController extends HttpServlet {
 		member.setMbPassword(mbpassword);
 		member.setMbNick(mbnick);
 		member.setMbtel(mbtel);
+	
 		member.setMbemail(mbemail);
 		
 		
@@ -107,6 +108,7 @@ public class MemberController extends HttpServlet {
 		String mbtel = request.getParameter("tel");
 		String mbemail = request.getParameter("email");
 		
+		
 		Member member = new Member();
 		member.setMbId(mbId);
 		member.setMbPassword(mbpassword);
@@ -115,7 +117,7 @@ public class MemberController extends HttpServlet {
 		member.setMbemail(mbemail);
 		
 		int res = memberService.insertMember(member);
-		
+		//request.getSession().removeAttribute("persistUser");
 		
 		System.out.println("mbId : " + mbId);
 	}
@@ -153,7 +155,6 @@ public class MemberController extends HttpServlet {
 		
 		String mbId = request.getParameter("id");
 		String mbpassword = request.getParameter("pw");
-		
 		Member member = memberService.memberAuthenticate(mbId, mbpassword);
 		if(member != null) {
 			//세션에 회원 정보 저장
@@ -168,6 +169,9 @@ public class MemberController extends HttpServlet {
 		
 		
 		request.getSession().setAttribute("user", member);
+		
+		System.out.println("id : " + mbId);
+		System.out.println("pw : " + mbpassword);
 		
 		
 	}
@@ -189,6 +193,16 @@ public class MemberController extends HttpServlet {
 		member.setMbNick(mbnick);
 		member.setMbtel(mbtel);
 		member.setMbemail(mbemail);
+		
+		int res = memberService.insertMember(member);
+		memberService.Emailsend(member);
+		
+		
+		
+		request.setAttribute("msg", "회원가입 완료를 위한 이메일이 발송되었습니다.");
+		request.setAttribute("url", "/index");
+		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+		.forward(request, response);
 		
 	}
 }
