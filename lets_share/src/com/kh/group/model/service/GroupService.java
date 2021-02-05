@@ -8,6 +8,8 @@ import com.kh.common.exception.ToAlertException;
 import com.kh.common.template.JDBCTemplate;
 import com.kh.group.model.dao.GroupDao;
 import com.kh.group.model.vo.Group;
+import com.kh.group.model.vo.GroupMatching;
+import com.kh.group.model.vo.GroupStandBy;
 
 public class GroupService {
 	
@@ -137,8 +139,6 @@ public class GroupService {
 		return groupId;
 	}
 	
-	
-	
 	//=========================그룹 정보를 group에 담아 가져오는 함수=========================
 	public Group getGroup(int groupId) {
 		Group group = null;
@@ -153,6 +153,102 @@ public class GroupService {
 			jdt.close(conn);
 		}
 		return group;
+	}
+
+	//=========================그룹 대기 정보를 Arraylist에 담아 가져오는 함수=========================
+	public ArrayList<GroupStandBy> getStandByList(int groupId){
+		ArrayList<GroupStandBy> standByList = null;
+		Connection conn = jdt.getConnection();	
+		try {
+			standByList = groupDao.getStandByList(conn, groupId); 
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return standByList;
+	}
+
+	//=========================그룹 가입 승인 함수=========================
+	public int approval(int groupId, String memberId) { 
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			res = groupDao.approval(conn, groupId, memberId);
+			jdt.commit(conn);
+		} catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
+	
+	//=========================가입 거절 함수=========================
+	public int refuse(int groupId, String memberId) {
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			res = groupDao.refuse(conn, groupId, memberId);
+			jdt.commit(conn);
+		} catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
+	
+	//=========================그룹ID 소속의 매칭데이터를 가져오는 함수=========================
+	public ArrayList<GroupMatching> getMatching(int groupId){
+		Connection conn = jdt.getConnection();
+		ArrayList<GroupMatching> matchingList = null;
+		try {
+			matchingList = groupDao.getMatching(conn, groupId);
+			jdt.commit(conn);
+		} catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return matchingList;
+	}
+
+	//=========================서비스 하루 당 가격을 가져오는 함수=========================
+	public int getServicePerDay(String serviceCode) {
+		Connection conn = jdt.getConnection();
+		int serviceperDay = 0;
+		try {
+			serviceperDay = groupDao.getServicePerDay(conn, serviceCode);
+			jdt.commit(conn);
+		} catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return serviceperDay;
+	}
+	
+	//=========================매칭 테이블의 PAY_DATE정보를 수정하는 함수=========================
+	public int updatePayDate(String memberId, int groupId, int payDate) {
+		int res = 0;
+		Connection conn = jdt.getConnection();
+		try {
+			res = groupDao.updatePayDate(conn, memberId, groupId, payDate);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error); 
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
 	}
 }
 

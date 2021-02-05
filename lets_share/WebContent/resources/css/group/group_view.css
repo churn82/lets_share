@@ -135,6 +135,12 @@
     height: 100%;
 }
 /* 캘린더 시작 */
+
+.wrap_calendar{
+	display:flex;
+	flex-direction:column;
+	align-items: center;
+}
 .calendar_box{
     display: flex;
 }
@@ -146,7 +152,22 @@
     margin: auto;
     text-align:center;
 }
+#tip_msg{
+	font-family: 'Noto Sans KR', sans-serif;
+	text-align:center;
+	color:lightgray;
+	display:flex;
+    align-items:center;
+    margin: auto;
+}
 
+#color-box{
+	display:inline-block;
+	background-color:rgb(179,255,251);
+	width:1.5vw;
+	height:1.5vw;
+	border-radius: 25%;
+}
 /* 캘린더 끝 */
 
 .bottom{
@@ -167,6 +188,104 @@
     margin: auto;
     background-image: url(../../images/pic15.jpg);
 }
+
+
+/* 그룹 대기 리스트*/
+.standByTitle{
+	display: flex;	
+}
+.standByTitle>div{
+	font-family: 'Noto Sans KR', sans-serif;
+	width: 50vw;
+	margin:auto;
+	margin-top : 3vh;
+	font-size: 2em;
+}
+
+.standByBox{
+    display: flex;
+}
+.standByTable{
+    font-family: 'Noto Sans KR', sans-serif;
+    width: 50vw;
+    margin: auto;
+    margin-top : 1vh;
+}
+.standByTable td{
+	border : 1px solid #929291;
+}
+.standByTable  td > button{
+	margin : 3px;
+}
+.btn_approval{
+    background-image: url(../../images/pic11.jpg);
+}
+.btn_approval:hover{
+    background-image: url(../../images/pic12.jpg);
+}
+
+
+/* 멤버 테이블 */
+.memberTitle{
+    display: flex;	
+}
+.memberTitle>div{
+	font-family: 'Noto Sans KR', sans-serif;
+	width: 50vw;
+	margin:auto;
+	margin-top : 3vh;
+	font-size: 2em;
+}
+
+.memberBox{
+    width: 50vw;
+    font-family: 'Noto Sans KR', sans-serif;
+    /* border : 1px solid black; */
+    margin: auto;
+    margin-top : 3vh;
+}
+
+.tbody>tr:nth-child(1){
+    border-top: 1px solid black;
+}
+
+.tbody>tr:nth-child(odd){
+    background-color: #e9e6e6;
+}
+
+/* 결제 정보 모달 */
+#ex1  h5{
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: center;
+    font-size : 1.5em;
+    margin-bottom: 3vh;
+    margin-top : 1vh;
+}
+#ex1 > div{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.8em;
+}
+#ex1 > div > a{
+    font-weight: 1000;
+}
+.payBox{
+    margin: auto;
+    margin-top: 2vh;
+}
+.payBox > form {
+    display: flex;
+    justify-content : space-between;
+}
+.payBox  input{
+    width: 40%;
+}
+
+#servicePerDay ,#memberId, #groupId{
+    display: none;
+}
+
+
+
 
 
 
