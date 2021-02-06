@@ -57,26 +57,15 @@
 			<div class="content_wrap">
 				<div class="content">
 					<div class="content_header">
-						<h3>홈페이지 점검 안내드립니다.</h3>
-						<span class="date">2021-01-30</span>
+						<h3>${notice.noticeTitle}</h3>
+						<span class="date">${notice.noticeDate}</span>
 					</div>
 					<div class="content_body">
 						<pre id="text">
-							세상의 모서리 구부정하게 커버린 골칫거리 outsider
-							걸음걸이, 옷차림, 이어폰 너머 play list 음악까지 다 minor
-							넌 모르지 떨군 고개 위 환한 빛 조명이 어딜 비추는지 느려도 좋으니 결국 알게 되길
-							The one and only You are my celebrity 잊지마 넌 흐린 어둠 사이
-							왼손으로 그린 별 하나 보이니 그 유일함이 얼마나 아름다운지 말야
-							You are my celebrity celebrity You are my celebrity
-							지쳐버린 표정 마치 전원을 꺼놓은 듯이 심장소린 too quiet
-							네가 가진 반짝거림, 상상력, identity 까지 모조리 diet
-							넌 모르지 아직 못다 핀 널 위해 쓰여진 오래된 사랑시 헤매도 좋으니 웃음 짓게 되길
-							The one and only You are my celebrity 잊지마 넌 흐린 어둠 사이
-							왼손으로 그린 별 하나 보이니 그 유일함이 얼마나
-							아름다운지 말야 You are my celebrity 발자국마다 이어진 별자리	
+							${notice.noticeContent}
 						</pre>
 					</div>
-					<div class="prevNext">
+		<%-- 			<div class="prevNext">
 						<div class="prev_next">
 							<span class="next_sel">이전글</span>
 							<h4 onclick="Nextmove">공지사항입니다.</h4>
@@ -88,7 +77,7 @@
 							<h4 onclick="Nextmove">등급 관련 안내</h4>
 							<span class="date_bottom">2021-01-31</span>
 						</div>
-					</div>
+					</div> --%>
 					
 					<!-- 목록버튼 -->
 					<div class="list_btn">
