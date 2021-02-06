@@ -15,63 +15,47 @@
     <script src='../../../resources/css/cal_lib/main.js'></script>
     <script>
     	document.addEventListener('DOMContentLoaded', function() {
-    		var today = new Date();
     		/* 날짜 지정  */
-    		var firstDay = new Date(); 
-    		firstDay.setDate(1); //달력은 이번달 초부터 다음달 말까지 표시해준다.
+    		var today = new Date(); 
+    		today.setDate(1); //달력은 이번달 초부터 다음달 말까지 표시해준다.
     		var endday = new Date(today.getFullYear(),today.getMonth()+2,0);
     		endday.setDate(endday.getDate()+1);
-    		/* 로그인한 사용자의 입금일(서비스 이용 종료일) 입력 */
+    		/* 결제일, 입금일 지정 !!(el사용하여 입력) */
     		var payDay = '2021-02-17';
-    		/* 그룹원(본인,그룹장 제외)이 서비스 사용이 끝나는 날짜 표시 */
-    		var member1Day = '2021-03-10';
-    		var member2Day = '2021-03-07';
-    		/* 그룹장이 서비스 사용을 그만둘 날짜 표시 */
-    		var theLastDay = '2021-03-30';
+    		var prepayDay = '2021-02-14';
+    		/* 사용 가능한 날짜 지정 !!(el사용하여 입력) */
+    		var accessableDay = '2021-03-14';
     		/* 캘린더 생성 */
     		var calendarEl = document.getElementById('calendar');
     		var calendar = new FullCalendar.Calendar(calendarEl, {
     			initialView: 'dayGridMonth',
     			validRange: {
-       	        	start: firstDay,
+       	        	start: today,
        	        	end: endday
        	    	},
        	    	events: [
        	    		{
        	    			id: 'payDate',
-       	    			title: '내 갱신일',
+       	    			title: '결제일',
        	    			start: payDay,
        	    			color:'red'
        	    		},
        	    		{
-       	    			id: 'lastDate',
-       	    			title: '그룹 종료',
-       	    			start: theLastDay,
-       	    			color:'red'
+       	    			id: 'prepayDay',
+       	    			title: '입금일',
+       	    			start: prepayDay,
+       	    			color: 'red'
        	    		},
        	    		{
-       	    			id: 'member1',
-       	    			title: '멤버1 종료',
-       	    			start: member1Day,
-       	    			color:'purple'
-       	    		},
-       	    		{
-       	    			id: 'member2',
-       	    			title: '멤버2 종료',
-       	    			start: member2Day,
-       	    			color:'purple'
-       	    		},
-       	    		{
-       	    			title:'서비스 이용 가능',
-       	    			start:today,
-       	    			end: payDay,
-       	    			textColor:'green',
+       	    			id: 'accessableDay',
+       	    			start: prepayDay,
+       	    			end: accessableDay,
        	    			backgroundColor:'#00fff2',
-       	    			borderColor:'lightgray'
+       	    			overlap:false,
+       	    			display:'background'
        	    		}
        	    	],
-       	    	displayEventTime:false,
-       	    	showNonCurrentDates:false
+    			
 			});
     	/* 캘린더 크기 지정 */
     	calendar.setOption('contentHeight','auto');
@@ -79,7 +63,6 @@
         calendar.setOption('locale','kr');
         calendar.render();
       });
-
     </script>
 </head>
 	<body class="no-sidebar is-preload">
@@ -133,16 +116,109 @@
 				<div class="calendar_box">
 					<div id="calendar"></div>
 				</div>
-				<c:if test="${group.getMemberId()==sessionScope.userId}">
-					<!-- 그룹장으로판명 그룹 대기 리스트 그려주자 -->
+				<div class="calendar_box">
+					<div id="tip_msg"><div id="color-box"></div>는 서비스를 이용 가능한 기간입니다.</div>
+				</div>
+				
+				<!-- 그룹원 테이블 -->
+				<c:if test="${!matchingList.isEmpty()}"> 
+					<div class="memberTitle">
+						<div>그룹원</div>
+					</div>
+					<div class="memberBox">
+						<table class="groupMemTable">
+							<thead>
+								<tr align="center" bgcolor="white">
+									<th>ID</th>
+									<th>그룹 가입일</th>
+									<th>서비스 이용 시작</th>
+									<th>서비스 이용 마감</th>
+									<th>입금 확인 버튼</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<c:forEach var="groupMember" items="${matchingList}">
+									<tr align="center">
+										<td>${groupMember.getMemberId()}</td>
+										<td>${groupMember.getRegDate()}</td>
+										<td>${groupMember.getStDate()}</td>
+										<td>${groupMember.getExDate()}</td>
+										<td>
+											<c:if test="${group.getMemberId()==sessionScope.userId}">
+												<button onclick="payConfirm('${groupMember.getMemberId()}', ${groupMember.getGroupId()})">입금 확인</button>
+											</c:if>
+											<c:if test="${group.getMemberId()!=sessionScope.userId}">
+												<i class="fas fa-user-slash"></i>
+											</c:if>
+										</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
 				</c:if>
+				
+				<!-- 버튼  -->
 				<div class="bottom">
 					<div class="">
 						<button>ID/PW 확인</button>
 					</div>
+					<c:if test="${group.getMemberId()!=sessionScope.userId}">
+					<div class="">
+						<button><a href="#ex1" rel="modal:open">서비스 결제</a></button>
+					</div>
+					</c:if>
 					<div class="">
 						<button>모임 탈퇴</button>
 					</div>
+				</div>
+				<!-- 그룹 대기 테이블 -->
+				<c:if test="${!standByList.isEmpty()}">
+					<c:if test="${group.getMemberId()==sessionScope.userId}"> <!--그룹장만 그룹대기 리스트 확인가능-->
+						<div class="memberTitle">
+							<div>그룹 대기 리스트</div>
+						</div>
+						<div class="memberBox">
+							<table class="groupMemTable">
+								<thead>
+									<tr align="center" bgcolor="white">
+										<th>ID</th>
+										<th>승인</th>
+										<th>거절</th>
+									</tr>
+								</thead>
+								<tbody class="tbody">
+									<c:forEach var="standBy" items="${standByList}">
+										<tr align="center">
+											<td>${standBy.getMemberId()}</td>
+											<td>
+												<button class="btn_approval" onclick="approval('${standBy.getMemberId()}',${standBy.getGroupId()})">승인</button>
+											</td>
+											<td><button class="btn_refuse" onclick="refuse('${standBy.getMemberId()}',${standBy.getGroupId()})">거절</button></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</c:if>
+				</c:if>
+			</div>
+			<!-- 결제 모달 -->
+			<div id="ex1" class="modal">
+				<h5>결제 정보</h5>
+				<div>1. 본 서비스의 하루 이용 가격은 약 <a>[${servicePerDay}]원</a> 입니다.</div>
+				<div>2. <a>[본인이 입력한 일 수] x [${servicePerDay}원]</a> 이 입금 금액 입니다.</div>
+				<div>3. 입금 계좌는 <a>[${group.getAccountInfo()}]</a> 입니다.</div>
+				<div>4. 최소 15일 최대 90일 결제 가능합니다.</div>
+				<div>5. 환불은 불가능하고 그룹장이 입금확인 시점 부터 입력한 일 수    만큼 ID,PW 열람이 가능합니다.</div>
+				<div class="payBox">
+					<form action="/group/pay" method="POST">
+						<input type="number" name="payDate" id="payDate" min="15" max="90">
+						<input type="number" name="servicePerDay" id="servicePerDay" value="${servicePerDay}">
+						<input type="text" name="memberId" id="memberId" value="${sessionScope.userId}">
+						<input type="text" name="groupId" id="groupId" value="${group.getGroupId()}">
+						<input type="submit" value="입금">
+					</form>
 				</div>
 			</div>
 			<!-- Footer -->
@@ -161,5 +237,17 @@
 		<script src="/resources/js/main.js"></script>
 		<!-- 모달 -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+		<!-- 스크립트 -->
+		<script type="text/javascript">
+			let approval = (memberId, groupId) => {
+				location.href="/group/approval?userId="+memberId+"&groupId="+groupId;
+			}
+			let refuse = (memberId, groupId) => {
+				location.href="/group/refuse?userId="+memberId+"&groupId="+groupId;
+			}
+			let payConfirm = (memberId, groupId) => {
+				location.href="/group/payConfirm?userId="+memberId+"&groupId="+groupId;
+			}
+		</script>
 	</body>
 </html>

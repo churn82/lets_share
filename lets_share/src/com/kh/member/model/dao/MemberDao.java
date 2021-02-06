@@ -15,6 +15,9 @@ import com.kh.member.model.vo.Member;
 
 public class MemberDao {
 	
+
+	
+	
 	JDBCTemplate jdt = JDBCTemplate.getInstance();
 	public MemberDao() {}
 	public Member memberAuthenticate(Connection conn, String mbId,String mbpassword) {
@@ -52,6 +55,7 @@ public class MemberDao {
 				member.setMblevel(rset.getString("mb_level"));
 				member.setMbRegisterDate(rset.getDate("mb_register_Date"));
 				
+				
 			}
 		} catch (SQLException e) {
 			
@@ -69,6 +73,36 @@ public class MemberDao {
 		String query = "select * from sh_member where mb_id = ?";
 		pstm = conn.prepareStatement(query);
 		pstm.setString(1, mbId);
+		
+		rset = pstm.executeQuery();
+		
+		if(rset.next()) {
+			member = new Member();
+			member.setMbId(rset.getString("mb_id"));
+			member.setMbPassword(rset.getString("mb_password"));
+			member.setMbNick(rset.getString("mb_nick"));
+			member.setMbtel(rset.getString("mb_tel"));
+			member.setMbemail(rset.getString("mb_email"));
+			member.setMbRegisterDate(rset.getDate("mb_registerDate"));
+		}
+	} catch (SQLException e) {
+		throw new DataAccessException(ErrorCode.SM01,e);	
+	} finally {
+		jdt.close(rset,pstm);
+	}
+	
+	return member;
+}
+	public Member selectMemberBylevel(Connection conn, String mblevel) {
+		Member member = null;
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+	try {
+		String query = "select sh_grade.mb_gr_name from sh_member\r\n"
+				+ "inner join sh_grade on sh_grade.mb_level = sh_member.mb_level\r\n"
+				+ " where sh_grade.mb_gr_name = '일반 회원';";
+		pstm = conn.prepareStatement(query);
+		pstm.setString(1, mblevel);
 		
 		rset = pstm.executeQuery();
 		

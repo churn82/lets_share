@@ -13,4 +13,9 @@
     <filter-name>encoding</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+  <!-- 에러 페이지 -->
+	<error-page>
+		<exception-type>com.kh.common.exception.CustomException</exception-type>
+		<location>/exception</location>
+	</error-page>
 </web-app>

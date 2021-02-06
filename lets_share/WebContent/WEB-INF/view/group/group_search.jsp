@@ -153,12 +153,10 @@
 					if(sessionStorage.getItem("userId")==null){
 						alert("로그인을 하고 가입해주세요");
 					}
-					sessionStorage.setItem("userId","test49");
+					sessionStorage.setItem("userId","test48");
 					let userId = sessionStorage.getItem("userId");
 					location.href="/group/register?userId="+userId+"&groupId="+groupId;
 				}
-
-
 			</script>
 	</body>
 </html>
