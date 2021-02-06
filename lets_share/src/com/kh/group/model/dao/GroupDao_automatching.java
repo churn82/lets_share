@@ -18,7 +18,7 @@ public class GroupDao_automatching {
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
 		String query = "select group_id from sh_group where ser_code = ? and sysdate + ? < group_last_day"
-				+ "and rownum = 1";//나중에 orderby 넣어서 인원수가 빈지 오래된 그룹부터 
+				+ "and rownum = 1";
 		try {
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, userSerCode);
