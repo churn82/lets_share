@@ -42,11 +42,10 @@ public class NoticeController extends HttpServlet {
 		switch(uriArr[uriArr.length-1]) {
 		case "noticeList" :
 			goNoticeList(request,response); break;
-		case "noticeListImpl":
-			noticeListImpl(request,response); break;
+		case "noticeDetail" :
+			goNoticeDetail(request,response); break;
 		case "eventList" :
 			goEventList(request,response); break;
-			
 		case "eventDetail" :
 			goEventDetail(request,response); break;
 		case "writer" :
@@ -99,11 +98,10 @@ public class NoticeController extends HttpServlet {
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));//게시글을 클릭하면 notice_no가 넘어옴
 		
 		Notice notice = new Notice();
+		notice = noticeService.selectNoticeDetail(noticeNo);
 		request.setAttribute("notice",notice);
 		
-		notice = noticeService.selectNoticeDetail(noticeNo);
-		
-		request.getRequestDispatcher("/WEB-INF/view/notice/notic_detail.jsp")
+		request.getRequestDispatcher("/WEB-INF/view/notice/notice_detail.jsp")
 		.forward(request, response);
 	}
 	
@@ -133,14 +131,6 @@ public class NoticeController extends HttpServlet {
 		noticeService.insertNoticeBoard(notice);
 		
 		request.getRequestDispatcher("/WEB-INF/view/notice/noticeList.jsp")
-		.forward(request, response);	
-	}
-	
-	
-	protected void noticeListImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		
-		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
 		.forward(request, response);	
 	}
 	
