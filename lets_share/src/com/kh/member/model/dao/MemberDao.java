@@ -186,6 +186,7 @@ public ArrayList<Member> selectMemberList(Connection conn){
 		
 		return memberList;
 	}
+
 public int insertMember(Connection conn, Member member){
 	
 	int res = 0;
@@ -210,6 +211,33 @@ public int insertMember(Connection conn, Member member){
 	
 	return res;
 }
+/*
+public int insertMember(Connection conn, Member member){
+	
+	int res = 0;
+	PreparedStatement pstm = null;
+	
+	try {
+		String query = "INSERT INTO SH_MEMBER(MB_ID, MB_PASSWORD,MB_NICK, MB_TEL ,MB_EMAIL,MB_POINT,MB_LEVEL,MB_REGISTER_DATE,MB_LEAVE_DATE) "
+				+"values(?,?,?,?,?,default,default,sysdate,sysdate)";
+		pstm = conn.prepareStatement(query);
+		pstm.setString(1, "rladydwns10");
+		pstm.setString(2,"rladydwns!@#1");
+		pstm.setString(3, "rladydwns10");
+		pstm.setString(4, "01012344123");
+		pstm.setString(5, "dnfheh@naver.com");
+		
+		
+		res = pstm.executeUpdate();
+	} catch (SQLException e) {
+		throw new DataAccessException(ErrorCode.IM01,e);
+	}finally {
+		jdt.close(pstm);
+	}
+	
+	return res;
+}
+*/
 public int updateMember(Connection conn, Member member){
 	int res = 0;
 	PreparedStatement pstm = null;

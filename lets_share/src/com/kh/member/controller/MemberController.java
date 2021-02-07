@@ -46,7 +46,7 @@ public class MemberController extends HttpServlet {
 			case "mailauth" : Email(request,response); break;
 			default : System.out.println("오류");
 		}
-	}
+	} 
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -118,7 +118,8 @@ public class MemberController extends HttpServlet {
 		
 		int res = memberService.insertMember(member);
 		//request.getSession().removeAttribute("persistUser");
-		
+		request.getRequestDispatcher("/WEB-INF/view/member/login.jsp")
+		.forward(request, response);
 		System.out.println("mbId : " + mbId);
 	}
 	private void confirmId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
