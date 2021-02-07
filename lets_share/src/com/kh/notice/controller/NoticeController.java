@@ -51,9 +51,9 @@ public class NoticeController extends HttpServlet {
 			goEventDetail(request,response); break;
 		case "writer" :
 			goWriter(request,response); break;
-			
-			
-		case "writeImpl" :
+		//case "update" :
+			//goUpdate(request, response); break;
+		case "writerImpl" :
 			writeImpl(request, response); break;
 		default : response.setStatus(404); break;
 		}
@@ -68,7 +68,7 @@ public class NoticeController extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	
+	//공지리스트
 	protected void goNoticeList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
@@ -113,6 +113,7 @@ public class NoticeController extends HttpServlet {
 		request.setAttribute("noticeTitle", noticeTitle);
 		request.setAttribute("noticeContent", noticeContent);
 		request.setAttribute("noticeDate", noticeDate);
+		request.setAttribute("noticeNo", noticeNo);
 		
 		request.getRequestDispatcher("/WEB-INF/view/notice/notice_detail.jsp")
 		.forward(request, response);
@@ -121,9 +122,7 @@ public class NoticeController extends HttpServlet {
 	
 	//이벤트 상세페이지
 	protected void goEventDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		
+	
 		request.getRequestDispatcher("/WEB-INF/view/notice/event_detail.jsp")
 		.forward(request, response);
 	}
@@ -134,7 +133,7 @@ public class NoticeController extends HttpServlet {
 		  .forward(request, response);
 		
 	}
-	
+	//작성페이지
 	protected void writeImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String title = request.getParameter("title"); 
@@ -146,13 +145,25 @@ public class NoticeController extends HttpServlet {
 		
 		noticeService.insertNoticeBoard(notice);
 		
-		request.getRequestDispatcher("/WEB-INF/view/notice/noticeList.jsp")
+		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
 		.forward(request, response);	
 	}
 	
-	
-	
-	
+	/*
+	//수정페이지
+	protected void goUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//db에서 저장한 값을 불러오기
+		Notice notice = new Notice();
+		notice.getNoticeTitle(title);
+		notice.getNoticeContent(contents);
+		
+		noticeService.insertNoticeBoard(notice);
+		
+		request.getRequestDispatcher("/WEB-INF/view/notice/update.jsp")
+		.forward(request, response);	
+	}
+	*/
 	
 
 }

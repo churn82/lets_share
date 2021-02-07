@@ -25,14 +25,13 @@ public class NoticeDao {
 		int res = 0;
 		String sql = "insert into sh_notice "
 				+ "(NOTICE_NO,NOTICE_TITLE,NOTICE_CONTENT,NOTICE_DATE,NOTICE_TYPE) "
-				+ "values(sc_notice_no.nextval,?,?,sysdate,?)";
+				+ "values(sc_notice_no.nextval,?,?,sysdate,'notice')";
 		PreparedStatement pstm = null;
 		
 		try {
 			pstm = conn.prepareStatement(sql);
 			pstm.setString(1, notice.getNoticeTitle());
 			pstm.setString(2, notice.getNoticeContent());
-			pstm.setString(3, notice.getNoticeType());
 			res = pstm.executeUpdate();
 			System.out.println(res);
 		} catch (SQLException e) {
@@ -65,12 +64,12 @@ public class NoticeDao {
 		}
 		return res;
 	}
-	*/
 	
+		
 	
-	/*
-	//공지게시판 수정
-	public int updateNoticeBoard(Connection conn, Notice notice) {
+	//공지 수정게시판
+	//매개변수로 받아오기
+	public int updateNoticeBoard(Connection conn, ) {
 		
 		int rs = 0;
 		PreparedStatement pstm = null;
@@ -79,15 +78,13 @@ public class NoticeDao {
 			String query = "update sh_notice set "
 					+"notice_title=?, "
 					+"notice_content=?, "
-					+"notice_date=sysdate, "
-					+"notice_view=? "
-					+"where notice_no = ? and notice_type='notice'";
+					+"where notice_no=?";
 			
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, notice.getNoticeTitle());
-			pstm.setString(2, notice.getNoticeContent());
-			pstm.setDate(3, notice.getNoticeDate());
-			pstm.setInt(4, notice.getNoticeView());
+			pstm.setString(2, noticeContent);
+			pstm.setInt(3, noticeNo);
+			
 			rs = pstm.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -97,7 +94,8 @@ public class NoticeDao {
 		return rs;
 		
 	}
-	
+	*/
+	/*
 	
 	//삭제게시판
 	public int deleteNoticeBoard(Connection conn, int noticeNo) {

@@ -16,6 +16,7 @@ public class NoticeService {
 	JDBCTemplate jdt = JDBCTemplate.getInstance();
 	NoticeDao noticeDao = new NoticeDao();
 	
+	//공지게시글 등록
 	public int insertNoticeBoard(Notice notice) {
 		int rs = 0;
 		Connection conn = jdt.getConnection();
