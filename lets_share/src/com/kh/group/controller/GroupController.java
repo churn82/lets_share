@@ -67,8 +67,9 @@ public class GroupController extends HttpServlet {
 		
 		//1.[임시]세션에서 userId를 가져온다
 		HttpSession session = request.getSession();
-		session.setAttribute("userId", "test49");
-		String userId = (String) session.getAttribute("userId");
+		Member member = (Member) session.getAttribute("user");
+		
+		String userId = member.getMbId();
 		
 		//2. userId가 속한 그룹의 grouoId를 가져온다
 		int groupId = 0;
