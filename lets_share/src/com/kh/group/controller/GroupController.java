@@ -1,6 +1,7 @@
 package com.kh.group.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -43,6 +44,9 @@ public class GroupController extends HttpServlet {
 		case "refuse" : refuseGroup(request, response); break;
 		case "pay" : payMoney(request, response); break;
 		case "payConfirm" : payConfirm(request, response); break;
+		case "IdPwConfirm" : IdPwConfirm(request, response); break;
+		case "PwChange" : PwChange(request, response); break;
+		case "out" : outGroup(request, response); break;
 		default : 
 			response.setStatus(404);
 			break;
@@ -227,7 +231,7 @@ public class GroupController extends HttpServlet {
 			String content = "Let's Share 입니다. \n["+accountInfo+"] \n결제금액 : "+sum+"원";
 			
 			SMS sms = new SMS();
-			sms.sendSMS(to, content);
+			//sms.sendSMS(to, content);
 		}
 		request.setAttribute("msg", "정상적으로 입금신청 되었습니다.");
 		request.setAttribute("url", "/group/view");
@@ -235,7 +239,7 @@ public class GroupController extends HttpServlet {
 		.forward(request, response);
 	}
 
-	//입금 확인(sms 해야댐)
+	//입금 확인
 	protected void payConfirm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String memberId = request.getParameter("userId");
 		String groupSId = request.getParameter("groupId");
@@ -265,6 +269,115 @@ public class GroupController extends HttpServlet {
 		String to = member.getMbtel(); // 전송할 전화번호
 		String content = "Let's Share 입니다.\n입금이 확인되어 ID,PW 안내드립니다.\n아이디 : "+shareID+"\n비밀번호 :"+sharePW; 
 		SMS sms = new SMS();
-		sms.sendSMS(to, content);
+		//sms.sendSMS(to, content);
+		
+		//5.view페이지 리로드
+		request.setAttribute("msg", "정상적으로 입금 확인되었습니다.");
+		request.setAttribute("url", "/group/view");
+		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+		.forward(request, response);
+		
+	}
+
+	//ID, PW 확인
+	//==================================(!!!!질문해야댐!!!!)====================================
+	protected void IdPwConfirm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//1. groupId를 받고 [임시]session에서 Id 가져온다.
+		String groupSId = request.getParameter("groupId");
+		int groupId = Integer.parseInt(groupSId);
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("userId");
+		
+		System.out.println(groupId+","+memberId);
+		
+		//2. SH_MATCHING 테이블에서 EX_DATE를 가져온다
+		GroupMatching groupMatching = groupService.getMatching(groupId, memberId);
+		Date exDate = groupMatching.getExDate();		
+		Date today = new Date(System.currentTimeMillis());
+		System.out.println(exDate);
+		System.out.println(today);
+		
+		//3. 만기일 비교해서 문자 처리해주자
+		if(exDate == null) {
+			//3-1.만기일이 없음 
+			System.out.println("만기일 없음");
+			request.setAttribute("msg", "서비스 ID,PW를 열람할 권한이 없습니다.\n결제를 진행하십시오.");
+			request.setAttribute("url", "/group/view");
+		}else {
+			if(today.after(exDate)) {
+				//3-2. 만기일 지났음
+				request.setAttribute("msg", "서비스 ID,PW를 열람할 권한이 없습니다.\n결제를 진행하십시오.");
+				request.setAttribute("url", "/group/view");
+			}else {
+				//3-3. 만기일 안지남 문자 보내자
+				Member member = memberService.selectMemberById(memberId);
+				Group group = groupService.getGroup(groupId);
+				String shareID = group.getShareId();
+				String sharePW = group.getSharePw();
+				String to = member.getMbtel(); // 전송할 전화번호
+				String content = "Let's Share 입니다.\nID,PW 안내드립니다.\n아이디 : "+shareID+"\n비밀번호 :"+sharePW; 
+				SMS sms = new SMS();
+				//sms.sendSMS(to, content);
+				request.setAttribute("msg", "회원님의 전화번호로 ID,PW를 보내드렸습니다.");
+				request.setAttribute("url", "/group/view");
+			}
+		}
+		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
+	}
+
+	//서비스 PW 변경
+	protected void PwChange(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String groupSId = request.getParameter("groupId");
+		int groupId = Integer.parseInt(groupSId);
+		String servicePw = request.getParameter("servicePw");
+		
+		//1. DB에 비밀번호를 변경해주자
+		groupService.updateServicePw(groupId, servicePw);
+		
+		//2. 변경되었다고 문자보내주자
+		//2-1. Arraylist형태로 SH_MATCHING 테이블에서 가져오자 group_id가 같은것들을 
+		ArrayList<GroupMatching> groupMatchings = groupService.getGroupMember(groupId);
+		
+		//2-2. 세션에서 아이디를 가져오자 (그룹장의 아이디) [임시]
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("userId");
+		
+		//2-3. 반복문을 돌며 문자 보내주자 단! 그룹장에게는 문자보내지 않도록 && Ex date가 지나지 않은 사람들만
+		Date today = new Date(System.currentTimeMillis());
+		for (GroupMatching groupMatching : groupMatchings) {
+			if(groupMatching.getExDate() != null) { //null이 아니고
+				if(!today.after(groupMatching.getExDate())) { //지나지 않았다면
+					SMS sms = new SMS();
+					Member member = memberService.selectMemberById(groupMatching.getMemberId());
+					Group group = groupService.getGroup(groupId);
+					String sharePW = group.getSharePw();
+					String to = member.getMbtel(); // 전송할 전화번호
+					String content = "Let's Share 입니다.\n이용하시는 서비스의 비밀 번호가 변경되어 알림 드립니다.\n비밀번호 : "+sharePW;
+					sms.sendSMS(to, content);
+				}
+			}
+		}
+		
+		//3. 다시 view 페이지로 리로드
+		request.setAttribute("msg", "정상적으로 변경되었습니다.");
+		request.setAttribute("url", "/group/view");
+		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
+	}
+
+	//그룹 탈퇴
+	protected void outGroup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String groupSId = request.getParameter("groupId");
+		int groupId = Integer.parseInt(groupSId);
+		String memberId = request.getParameter("memberId");
+		
+		//1. 매칭테이블에서 삭제해주고, 그룹원수 다시 설정하는 프로시저 실행
+		groupService.execProcedureOG(groupId, memberId);
+		
+		//2. index 페이지로
+		request.setAttribute("msg", "그룹 탈퇴 되었습니다.");
+		request.setAttribute("url", "/index");
+		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
+		
 	}
 }

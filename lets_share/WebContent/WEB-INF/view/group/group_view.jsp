@@ -160,17 +160,25 @@
 				
 				<!-- 버튼  -->
 				<div class="bottom">
-					<div class="">
-						<button>ID/PW 확인</button>
-					</div>
 					<c:if test="${group.getMemberId()!=sessionScope.userId}">
-					<div class="">
-						<button><a href="#ex1" rel="modal:open">서비스 결제</a></button>
-					</div>
-					</c:if>
-					<div class="">
-						<button>모임 탈퇴</button>
-					</div>
+						<div class="">
+							<button onclick="IdPwConfirm(${group.getGroupId()})">ID/PW 확인</button>
+						</div>
+						<div class="">
+							<button><a href="#ex1" rel="modal:open">서비스 결제</a></button>
+						</div>
+						<div class="">
+							<button><a href="#ex3" rel="modal:open">그룹 탈퇴</a></button>
+						</div>
+					</c:if>				
+					<c:if test="${group.getMemberId()==sessionScope.userId}">
+						<div class="">
+							<button><a href="#ex2" rel="modal:open">서비스 비밀번호 변경</a></button>
+						</div>
+						<div class="">
+							<button><a href="#ex4" rel="modal:open">그룹 해지</a></button>
+						</div>
+					</c:if>				
 				</div>
 				<!-- 그룹 대기 테이블 -->
 				<c:if test="${!standByList.isEmpty()}">
@@ -203,7 +211,8 @@
 					</c:if>
 				</c:if>
 			</div>
-			<!-- 결제 모달 -->
+			
+			<!-- 서비스 결제 모달 -->
 			<div id="ex1" class="modal">
 				<h5>결제 정보</h5>
 				<div>1. 본 서비스의 하루 이용 가격은 약 <a>[${servicePerDay}]원</a> 입니다.</div>
@@ -221,6 +230,49 @@
 					</form>
 				</div>
 			</div>
+			
+			<!-- PW 변경 모달 -->
+			<div id="ex2" class="modal">
+				<h5>서비스 비밀번호 변경</h5>
+				<form action="/group/PwChange" method="POST">
+					<input type="text" name="groupId" id="groupId" value="${group.getGroupId()}">
+					<input type="password" name="servicePw" id="servicePw" placeholder="변경한 비밀번호를 입력 하십시오">
+					<div>변경 전 다시한번 비밀번호를 확인 해주세요!</div>
+					<div class="">
+						<input type="submit" value="변경">
+					</div>
+				</form>
+			</div>
+			
+			<!-- 그룹 탈퇴  -->
+			<div id="ex3" class="modal">
+				<h5>그룹 탈퇴</h5>
+				<form action="/group/out" method="POST">
+					<input type="text" name="groupId" id="groupId" value="${group.getGroupId()}">
+					<input type="text" name="memberId" id="memberId" value="${sessionScope.userId}">
+					<div>탈퇴 후 모든 정보는 완전히 삭제되며 더 이상 복구 할 수 없게됩니다.</div>
+					<div>서비스 만기일이 되지 않았더라도 더이상 ID, PW 열람이 불가능해집니다.</div>
+					<div class="">
+						<input type="submit" value="탈퇴">
+					</div>
+				</form>
+			</div>
+			
+			<!-- 그룹 해지  -->
+			<div id="ex4" class="modal">
+				<h5>그룹 해지 신청</h5>
+				<form action="/group/close" method="POST">
+					<div>그룹 해지는 그룹원 들의 만기일이 모두 지났을 시점부터 가능합니다.</div>
+					<div>그룹 해지 후 모든 정보는 완전히 삭제되며 더 이상 복구할 수 없게 됩니다.</div>
+					<div>
+						<input type="date" name="closeDate" id="closeDate">
+					</div>
+					<div class="">
+						<input type="submit" value="해지">
+					</div>
+				</form>
+			</div>
+			
 			<!-- Footer -->
 			<div id="footer">
 				<div style="text-align: center;">Copyright © 1998-2021 KH Information Educational Institute All Right Reserved</div>
@@ -247,6 +299,9 @@
 			}
 			let payConfirm = (memberId, groupId) => {
 				location.href="/group/payConfirm?userId="+memberId+"&groupId="+groupId;
+			}
+			let IdPwConfirm = (groupId) => {
+				location.href="/group/IdPwConfirm?groupId="+groupId;
 			}
 		</script>
 	</body>

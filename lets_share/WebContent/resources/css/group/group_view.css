@@ -254,7 +254,7 @@
 }
 
 /* 결제 정보 모달 */
-#ex1  h5{
+#ex1  h5, #ex2  h5, #ex3 h5{
     font-family: 'Noto Sans KR', sans-serif;
     text-align: center;
     font-size : 1.5em;
@@ -283,6 +283,49 @@
 #servicePerDay ,#memberId, #groupId{
     display: none;
 }
+
+
+/* 비밀번호 변경 모달 */
+#ex2 div{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.8em;
+    margin-top: 2vh;
+    display: flex;
+}
+
+#ex2 div > input{
+	margin: auto;
+}
+
+/* 그룹 탈퇴 */
+#ex3{
+	font-family: 'Noto Sans KR', sans-serif;
+}
+#ex3 div{
+    
+    font-size: 0.7em;
+    margin-top: 1vh;
+    display: flex;
+}
+
+#ex3 div > input{
+	margin: auto;
+}
+
+/*그룹 해지*/
+#ex4{
+	font-family: 'Noto Sans KR', sans-serif;
+}
+#ex4 div{
+    font-size: 0.7em;
+    margin-top: 1vh;
+    display: flex;
+}
+#ex4 div > input{
+	margin: auto;
+}
+
+
 
 
 

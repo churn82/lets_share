@@ -335,7 +335,7 @@ public class GroupDao {
 		return res;
 	}
 	
-	//=========================가입 거절 함수=========================
+	//=========================Refuse 가입 거절 프로시저 실행하는 함수=========================
 	public int refuse(Connection conn, int groupId, String memberId) {
 		int res = 0;
 		PreparedStatement pstm = null;
@@ -509,5 +509,69 @@ public class GroupDao {
 		return res;
 	}
 	
+	//=========================그룹 비밀번호를 변경하는 함수=========================
+	public int updateServicePw(Connection conn, int groupId, String servicePw) {
+		int res = 0;
+		PreparedStatement pstm = null;
+		String query = "UPDATE SH_GROUP SET GROUP_SHARE_PASSWORD = ? WHERE GROUP_ID = ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, servicePw);
+			pstm.setInt(2, groupId);
+			res = pstm.executeUpdate();
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.GR04, e);
+		}finally {
+			jdt.close(pstm);
+		}
+		return res;
+	}
 	
+	//=========================PL_OUT_GROUP실행 함수=========================
+	public int execProcedureOG(Connection conn, int groupId, String memberId) {
+		int res = 0;
+		CallableStatement cstm = null;
+		String query = "{call PL_OUT_GROUP(?,?)}";		
+		try {
+			cstm = conn.prepareCall(query);
+			cstm.setInt(1, groupId);
+			cstm.setString(2, memberId);
+			res = cstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DataAccessException(ErrorCode.PR01, e);
+		} finally {
+			jdt.close(cstm); 
+		}
+		return res;
+	}
+
+	//=========================그룹별 매칭 테이블 데이터를 가져오는 함수=========================
+	public ArrayList<GroupMatching> getGroupMember(Connection conn, int groupId){
+		ArrayList<GroupMatching> groupMatchings = new ArrayList<GroupMatching>();
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = "SELECT * FROM SH_MATCHING WHERE GROUP_ID = ?";
+		try {
+			pstm  = conn.prepareStatement(query);
+			pstm.setInt(1, groupId);
+			rset = pstm.executeQuery();
+			while(rset.next()) {
+				GroupMatching groupMatching = new GroupMatching();
+				groupMatching.setMemberId(rset.getString(1));
+				groupMatching.setGroupId(rset.getInt(2));
+				groupMatching.setPaymentYN(rset.getString(3).charAt(0));
+				groupMatching.setPaymentConfirm(rset.getString(4).charAt(0));
+				groupMatching.setRegDate(rset.getDate(5));
+				groupMatching.setStDate(rset.getDate(6));
+				groupMatching.setExDate(rset.getDate(7));
+				groupMatching.setPayDate(rset.getInt(8));
+				groupMatchings.add(groupMatching);
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.MR05, e);
+		}
+		return groupMatchings;
+	}
+
 }
