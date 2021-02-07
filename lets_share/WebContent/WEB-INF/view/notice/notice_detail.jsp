@@ -45,10 +45,10 @@
 			<!-- tab_menu 시작 -->
 			<ul class="tab_menu">
 				<li class="n_menu">
-					<a href="">공지사항</a>
+					<a href="/notice/noticeList">공지사항</a>
 				</li>
 				<li class="e_menu">
-					<a href="">이벤트</a>
+					<a href="/notice/eventList">이벤트</a>
 				</li>
 			</ul>
 			<!-- tab_menu 끝 -->
@@ -57,12 +57,12 @@
 			<div class="content_wrap">
 				<div class="content">
 					<div class="content_header">
-						<h3>${notice.noticeTitle}</h3>
-						<span class="date">${notice.noticeDate}</span>
+						<h3>${requestScope.noticeTitle}</h3>
+						<span class="date">${requestScope.noticeDate}</span>
 					</div>
 					<div class="content_body">
 						<pre id="text">
-							<c:out value="${notice.noticeContent}"/>
+							<c:out value="${requestScope.noticeContent}"/>
 						</pre>
 					</div>
 		<%-- 			<div class="prevNext">

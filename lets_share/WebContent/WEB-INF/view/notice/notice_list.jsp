@@ -80,32 +80,30 @@
 					</thead>
 					<tbody>
 					
-					<c:forEach var="notice" items="${noticeList}">
+					<c:forEach var="noticeList" items="${noticeList}">
 					
 						<tr>
 							<td class="num">
-								${notice.noticeNo}
+								${noticeList.noticeNo}
 							</td>
-							<td class="title" onclick="goDetail()">
-								${notice.noticeTitle}
-							</td>
+							<td class="title">
+                      		  <a href="/notice/noticeDetail?noticeNo=${noticeList.noticeNo}">
+                        	  	${noticeList.noticeTitle}
+                        		</a>
+                     		</td>
 							<td class="writer">
 								관리자
 							</td>
 							<td class="date">
-								${notice.noticeDate}
+								${noticeList.noticeDate}
 							</td>
 							<td class="hit">
-								${notice.noticeView}
+								${noticeList.noticeView}
 							</td>
 						</tr>
 					<script type="text/javascript">
 					function changeWriter(){
 						location.href="writer";
-					}
-					function goDetail(){
-						location.href = '/notice/noticeDetail?noticeNo='+${notice.noticeNo};
-						
 					}
 					</script>
 					</c:forEach>

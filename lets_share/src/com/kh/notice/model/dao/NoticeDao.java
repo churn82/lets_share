@@ -67,10 +67,9 @@ public class NoticeDao {
 	}
 	*/
 	
-	//날짜는 sysdate로
-	//기본키 기준으로
-	//수정게시판
+	
 	/*
+	//공지게시판 수정
 	public int updateNoticeBoard(Connection conn, Notice notice) {
 		
 		int rs = 0;
@@ -82,16 +81,13 @@ public class NoticeDao {
 					+"notice_content=?, "
 					+"notice_date=sysdate, "
 					+"notice_view=? "
-					+"mb_id=? "
-					+"where notice_no = ? ";
+					+"where notice_no = ? and notice_type='notice'";
 			
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, notice.getNoticeTitle());
 			pstm.setString(2, notice.getNoticeContent());
 			pstm.setDate(3, notice.getNoticeDate());
 			pstm.setInt(4, notice.getNoticeView());
-			pstm.setString(5, notice.getNoticeType());
-			pstm.setString(6, notice.getMbId());
 			rs = pstm.executeUpdate();
 			
 		} catch (SQLException e) {

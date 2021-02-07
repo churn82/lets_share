@@ -51,6 +51,8 @@ public class NoticeController extends HttpServlet {
 			goEventDetail(request,response); break;
 		case "writer" :
 			goWriter(request,response); break;
+			
+			
 		case "writeImpl" :
 			writeImpl(request, response); break;
 		default : response.setStatus(404); break;
@@ -71,9 +73,6 @@ public class NoticeController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		String id = (String)session.getAttribute("id");
-		
-		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
-		.forward(request, response);
 		
 		ArrayList<Notice> noticeList = null;
 		noticeList = noticeService.selectNoticeList();
@@ -99,12 +98,11 @@ public class NoticeController extends HttpServlet {
 	}
 	
 	
-	//공지상세페이지
+	//공지 상세페이지
 	protected void goNoticeDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));//게시글을 클릭하면 notice_no가 넘어옴
 		
 		Notice notice = new Notice();
-		
 		notice = noticeService.selectNoticeDetail(noticeNo);
 		request.setAttribute("notice",notice);
 		
@@ -119,6 +117,7 @@ public class NoticeController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/notice/notice_detail.jsp")
 		.forward(request, response);
 	}
+	
 	
 	//이벤트 상세페이지
 	protected void goEventDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
