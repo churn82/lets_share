@@ -14,57 +14,45 @@ import com.kh.common.template.JDBCTemplate;
 import com.kh.member.model.vo.Member;
 
 public class MemberDao {
-	
 
-	
-	
 	JDBCTemplate jdt = JDBCTemplate.getInstance();
-	public MemberDao() {}
-	public Member memberAuthenticate(Connection conn, String mbId,String mbpassword) {
-		Member member = null;
-		
-				//쿼리 실행용 객체
-				PreparedStatement pstm = null;
-				
-				//Select쿼리의 결과로 반환된 데이터를 저장하는 객체
-				ResultSet rset = null;
-		
 	
-		
+	public MemberDao() {}
+	
+	public Member memberAuthenticate(Connection conn, String mbId,String mbpassword) {
+		Member member = new Member();
+		//쿼리 실행용 객체
+		PreparedStatement pstm = null;
+		//Select쿼리의 결과로 반환된 데이터를 저장하는 객체
+		ResultSet rset = null;
 		
 		try {
-			String query = "select * from SH_MEMBER where mb_id =? and mb_password=?";
-			
-			
+			String query = "SELECT * FROM SH_MEMBER WHERE MB_ID = ? AND MB_PASSWORD = ?";
 			pstm = conn.prepareStatement(query);
-			
 			pstm.setString(1, mbId);
 			pstm.setString(2, mbpassword);
-			
-			
 			rset = pstm.executeQuery();
-			
 			if(rset.next()) {
-				member = new Member();
-				
-				member.setMbId(rset.getString("mb_id"));
-				member.setMbPassword(rset.getString("mb_password"));
-				member.setMbNick(rset.getString("mb_nick"));
-				member.setMbtel(rset.getString("mb_tel"));
-				member.setMbemail(rset.getString("mb_email"));
-				member.setMblevel(rset.getString("mb_level"));
-				member.setMbRegisterDate(rset.getDate("mb_register_Date"));
-				
-				
+				member.setMbId(rset.getString(1));
+				member.setMbPassword(rset.getString(2));
+				member.setMbNick(rset.getString(3));
+				member.setMbtel(rset.getString(4));
+				member.setMbemail(rset.getString(5));
+				member.setMbpoint(rset.getInt(6));
+				member.setMblevel(rset.getString(7));
+				member.setMbRegisterDate(rset.getDate(8));
+				member.setMbLeaveDate(rset.getDate(9));
 			}
 		} catch (SQLException e) {
-			
 			throw new DataAccessException(ErrorCode.SM01,e);	
 		}finally {
 			jdt.close(rset,pstm);
-		}return member;
-		
+		}
+		return member;
 	}
+	
+	
+	
 	public Member selectMemberById(Connection conn, String mbId) {
 		Member member = null;
 		PreparedStatement pstm = null;
@@ -186,6 +174,7 @@ public ArrayList<Member> selectMemberList(Connection conn){
 		
 		return memberList;
 	}
+
 public int insertMember(Connection conn, Member member){
 	
 	int res = 0;
@@ -210,6 +199,33 @@ public int insertMember(Connection conn, Member member){
 	
 	return res;
 }
+/*
+public int insertMember(Connection conn, Member member){
+	
+	int res = 0;
+	PreparedStatement pstm = null;
+	
+	try {
+		String query = "INSERT INTO SH_MEMBER(MB_ID, MB_PASSWORD,MB_NICK, MB_TEL ,MB_EMAIL,MB_POINT,MB_LEVEL,MB_REGISTER_DATE,MB_LEAVE_DATE) "
+				+"values(?,?,?,?,?,default,default,sysdate,sysdate)";
+		pstm = conn.prepareStatement(query);
+		pstm.setString(1, "rladydwns10");
+		pstm.setString(2,"rladydwns!@#1");
+		pstm.setString(3, "rladydwns10");
+		pstm.setString(4, "01012344123");
+		pstm.setString(5, "dnfheh@naver.com");
+		
+		
+		res = pstm.executeUpdate();
+	} catch (SQLException e) {
+		throw new DataAccessException(ErrorCode.IM01,e);
+	}finally {
+		jdt.close(pstm);
+	}
+	
+	return res;
+}
+*/
 public int updateMember(Connection conn, Member member){
 	int res = 0;
 	PreparedStatement pstm = null;

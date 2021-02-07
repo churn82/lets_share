@@ -315,5 +315,52 @@ public class GroupService {
 		return res;
 	}
 
+	//=========================그룹 비밀번호를 변경하는 함수=========================
+	public int updateServicePw(int groupId, String servicePw) {
+		int res = 0;
+		Connection conn = jdt.getConnection();
+		try {
+			res = groupDao.updateServicePw(conn, groupId, servicePw);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error); 
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
+
+	//=========================PL_SET_EXDATE_FROM_EXDATE실행 함수=========================
+	public int execProcedureOG(int groupId, String memberId) {
+		int res = 0;
+		Connection conn = jdt.getConnection();
+		try {
+			res = groupDao.execProcedureOG(conn, groupId, memberId);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error); 
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
+
+	//=========================그룹별 매칭 테이블 데이터를 가져오는 함수=========================
+	public ArrayList<GroupMatching> getGroupMember(int groupId){
+		Connection conn = jdt.getConnection();
+		ArrayList<GroupMatching> groupMatchings = null;
+		try {
+			groupMatchings = groupDao.getGroupMember(conn, groupId);
+			jdt.commit(conn);
+		} catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return groupMatchings;
+	}
 }
 

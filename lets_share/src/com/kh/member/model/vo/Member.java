@@ -13,6 +13,27 @@ public class Member {
 	private String mblevel;
 	private Date mbRegisterDate;
 	private Date mbLeaveDate;
+	
+	public Member() {
+		
+	}
+	
+	public Member(String mbId, String mbpassword, String mbnick, String mbtel, String mbemail, int mbpoint,
+			String mblevel, Date mbRegisterDate, Date mbLeaveDate) {
+		
+		super();
+		this.mbId = mbId;
+		this.mbpassword = mbpassword;
+		this.mbnick = mbnick;
+		this.mbtel = mbtel;
+		this.mbemail = mbemail;
+		this.mbpoint = mbpoint;
+		this.mblevel = mblevel;
+		this.mbRegisterDate = mbRegisterDate;
+		this.mbLeaveDate = mbLeaveDate;
+	}
+	
+	
 	public String getMbId() {
 		return mbId;
 	}

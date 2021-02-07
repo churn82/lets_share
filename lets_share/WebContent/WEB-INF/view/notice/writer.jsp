@@ -39,7 +39,7 @@
 	<div class="content_wrap">
 		<div class="content">
 		
-			<form id="insertForm" name="boardWriteForm" action="/notice/writeImpl" method="post">
+			<form action="/notice/writerImpl" id="insertForm" name="boardWriteForm" method="post">
         		<div class="form form_title">
         			<div class="title_wrap">
 						<div class="form_space">제목</div>
@@ -67,8 +67,7 @@
 						<option value="event">이벤트</option>
 					</select>
 				</div>
-				<button class="write_btn" onclick="writeFn()">작성</button>
-		        <button type="submit" class="save_btn">임시저장</button>
+				<button class="write_btn" type="submit" onclick="goNoticeList()">작성</button>
 			</div>
 			
 			<!-- 목록버튼 -->
@@ -120,17 +119,15 @@
 		
 	 	
 		
-		//목록을 눌렀을 때 안 됨
-		function listClick(){
-			location.href="notice/noticeList"
-		} 
-	
+		//작성눌렀을때
+		function goNoticeList(){
+			
+			location.href="/notice/noticeList";
+			
 		
-		function writeFn(){
-			location.href="noticeListImpl";
 		}
-	
-		let noticeValue = document.querySelector(".cate_sel")
+			
+			
 		
 		
 	</script>

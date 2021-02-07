@@ -40,7 +40,7 @@
 <!-- <div class="wrapper style1"> -->
 <div id="main">
 	<div class="section">
-		<h2>공지사항</h2>
+		<h2>수정</h2>
 			
 			<!-- tab_menu 시작 -->
 			<ul class="tab_menu">
@@ -56,40 +56,26 @@
 			<!-- 내용 시작 -->
 			<div class="content_wrap">
 				<div class="content">
-					<div class="content_header">
-						<h3>제목 : ${requestScope.noticeTitle}</h3>
-						<span class="date">작성날짜 : ${requestScope.noticeDate}</span>
-					</div>
-					<div class="content_body">
-						<pre id="text">
-							<c:out value="${requestScope.noticeContent}"/>
-						</pre>
-					</div>
-		<%-- 			<div class="prevNext">
-						<div class="prev_next">
-							<span class="next_sel">이전글</span>
-							<h4 onclick="Nextmove">공지사항입니다.</h4>
-							<span class="date_bottom">2021-01-31</span>
+					<form  name="noticeNo" method="post">
+						<h2>제목 : </h2><input class="content_header" value="${requestScope.noticeTitle}"/>
+							
+						<div class="content_body">
+						
+							<pre id="text">
+								<input value="${requestScope.noticeContent}"/>
+							</pre>
+						</div>
+	
+						
+						<!-- 목록버튼 -->
+						<div class="list_btn">
+							<button onclick="goList()">목록</button>
 						</div>
 						
-						<div class="prev_next">
-							<span class="next_sel">다음글</span>
-							<h4 onclick="Nextmove">등급 관련 안내</h4>
-							<span class="date_bottom">2021-01-31</span>
-						</div>
-					</div> --%>
-					
-					<!-- 목록버튼 -->
-					<div class="list_btn">
-						<button onclick="goList()">목록</button>
-					</div>
-					
-					<!-- 수정 버튼 -->
-            		<div class="update_btn">
-		           	 <button><a href="/notice/update?noticeNo=${requestScope.noticeNo}">수정</button>
-		           	 <button>삭제</button>
-		            </div>
-					
+	            		<div class="update_btn">
+			           	 <button type="submit" onclick="goList()">수정완료</button>
+			            </div>
+					</form>	
 					
 				
 				</div>
