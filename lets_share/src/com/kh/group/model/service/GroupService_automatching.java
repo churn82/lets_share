@@ -18,18 +18,15 @@ public class GroupService_automatching {
 		int groupId = 0;
 		try {
 			groupId = groupDao_auto.findGroup(conn, userSerCode, userPeriod, userId); //조건에 맞는 그룹의 ID를 검색
-			
-			if(groupId == 0) { //조건에 맞는 그룹이 없는 경우 예외 발생시키기
-				throw new DataAccessException(ErrorCode.MR04, new Exception());
+			if(groupId != 0) {
+				groupDao_auto.addGroup(conn, userId, groupId, userPeriod); //찾은 그룹에 유저를 넣어준다.
+				if(groupDao_auto.isMax(conn, groupId)) { //그룹에 유저를 넣어준 후, 그룹이 가득찼다면
+					groupDao_auto.exitQueue(conn, groupId); //그룹을 매칭 대기열에서 제외한다.
+				}
+				jdt.commit(conn); //이상의 작업 중 오류가 발생하지 않으면 커밋한다.
 			}
-			groupDao_auto.addGroup(conn, userId, groupId, userPeriod); //찾은 그룹에 유저를 넣어준다.
-			if(groupDao_auto.isMax(conn, groupId)) { //그룹에 유저를 넣어준 후, 그룹이 가득찼다면
-				groupDao_auto.exitQueue(conn, groupId); //그룹을 매칭 대기열에서 제외한다.
-			}
-			jdt.commit(conn); //이상의 작업 중 오류가 발생하지 않으면 커밋한다.
 		}catch (DataAccessException e) {
 			jdt.rollback(conn);
-			groupId = 0; //작업 중 오류 발생시, 롤백하고 그룹id를 0으로 반환하여 오류를 알린다.
 			throw new ToAlertException(e.error);		
 		}finally {
 			jdt.close(conn);

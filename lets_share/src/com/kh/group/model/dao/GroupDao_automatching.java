@@ -21,6 +21,8 @@ public class GroupDao_automatching {
 		ResultSet rset = null;
 		//사용자가 원하는 서비스 코드와 같고, 원하는 기간의 마지막 날이 그룹이 해산되기 이전이면서
 		//위 조건을 만족하는 그룹 중 가장 먼저 매칭에 등록된 그룹을 검색한다
+		
+		//!!수정필요)사용자가 이미 그룹원인 그룹을 빼야함.
 		String query = "select GROUP_ID from "
 				+ "(select * from SH_GROUP where (SER_CODE = ? ) and "
 				+ "(GROUP_LAST_DAY is null or GROUP_LAST_DAY > sysdate + ? ) "
