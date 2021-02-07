@@ -113,9 +113,15 @@
 				</div>
 					
 				<!-- 글쓰기 버튼 -->
-				<div class="write_btn">
-					<button id="write" onclick="writeAdmin()">글쓰기</button>				
-				</div>			
+				<c:if test="${sessionScope.user.userId}equals adimin">
+					<div class="write_btn">
+						<input type="button" id="write" onclick="writeAdmin(${sessionScope.user.userId})" value="글쓰기"/>		
+								
+					</div>
+				
+				</c:if>
+				
+							
 						
 				
 				
@@ -151,6 +157,17 @@
 			location.href="noticeWriter";
 		}
 	
+		
+		function id_check(id){
+			
+			
+		}
+		
+		
+		
+		
+		
+		
 	</script>
 	
 	
