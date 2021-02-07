@@ -54,33 +54,34 @@ public class MemberDao {
 	
 	
 	public Member selectMemberById(Connection conn, String mbId) {
-		Member member = null;
+		Member member = new Member();
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
-	try {
-		String query = "select * from sh_member where mb_id = ?";
-		pstm = conn.prepareStatement(query);
-		pstm.setString(1, mbId);
-		
-		rset = pstm.executeQuery();
-		
-		if(rset.next()) {
-			member = new Member();
-			member.setMbId(rset.getString("mb_id"));
-			member.setMbPassword(rset.getString("mb_password"));
-			member.setMbNick(rset.getString("mb_nick"));
-			member.setMbtel(rset.getString("mb_tel"));
-			member.setMbemail(rset.getString("mb_email"));
-			member.setMbRegisterDate(rset.getDate("mb_registerDate"));
+		try {
+			String query = "SELECT * FROM SH_MEMBER WHERE MB_ID = ?";
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, mbId);
+			rset = pstm.executeQuery();
+			if(rset.next()) {
+				member.setMbId(rset.getString(1));
+				member.setMbPassword(rset.getString(2));
+				member.setMbNick(rset.getString(3));
+				member.setMbtel(rset.getString(4));
+				member.setMbemail(rset.getString(5));
+				member.setMbpoint(rset.getInt(6));
+				member.setMblevel(rset.getString(7));
+				member.setMbRegisterDate(rset.getDate(8));
+				member.setMbLeaveDate(rset.getDate(9));
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.SM01,e);	
+		} finally {
+			jdt.close(rset,pstm);
 		}
-	} catch (SQLException e) {
-		throw new DataAccessException(ErrorCode.SM01,e);	
-	} finally {
-		jdt.close(rset,pstm);
+		return member;
 	}
 	
-	return member;
-}
+	
 	public Member selectMemberBylevel(Connection conn, String mblevel) {
 		Member member = null;
 		PreparedStatement pstm = null;

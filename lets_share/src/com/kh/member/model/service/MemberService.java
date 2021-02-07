@@ -38,8 +38,6 @@ public class MemberService {
 		return member;
 	}
 	
-	
-	
 	public Member selectMemberBylevel(String mbId){	
 		Connection conn = jdt.getConnection();
 	      Member member = null;
@@ -50,16 +48,26 @@ public class MemberService {
 	      }     
 	      return member;
 	   }
+	
+	//멤버정보 가져오기
 	public Member selectMemberById(String mbId){	
-		Connection conn = jdt.getConnection();
-	      Member member = null;
-	      try {
-	         member = memberDao.selectMemberById(conn, mbId);
-	      } finally {
-	         jdt.close(conn);
-	      }     
-	      return member;
-	   }
+		Member member = null;
+		Connection conn = jdt.getConnection();	
+		try {
+			member = memberDao.selectMemberById(conn, mbId);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return member;
+	}
+
+	
+	
+	
 	public Member selectMemberBynick(String mbnick){	
 		Connection conn = jdt.getConnection();
 	      Member member = null;
