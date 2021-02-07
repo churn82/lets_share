@@ -1,16 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.kh.notice.controller.NoticeController" %>
+<%@page import="java.util.List"%>
 <%@ include file="/WEB-INF/view/include/head.jsp" %>
 <head>
 		<title>Let's Share</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="/resources/css/main.css" />
-		<link rel="stylesheet" href="../../../resources/css/notice/event_list.css"/>
+		<link rel="stylesheet" href="../../../resources/css/notice/notice_list.css"/>
 		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
 </head>
 <body class="no-sidebar is-preload">
-	
+
 	<div id="page-wrapper">
 	
 	<!-- Header -->
@@ -44,10 +46,10 @@
 			
 		<ul class="tab_menu">
 			<li class="n_menu">
-				<a href="">공지사항</a>
+				<a href="/notice/noticeList">공지사항</a>
 			</li>
 			<li class="e_menu">
-				<a href="">이벤트</a>
+				<a href="/notice/eventList">이벤트</a>
 			</li>
 		</ul>
 		
@@ -74,28 +76,39 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td class="num"></td>
-							<td class="title"></td>
-							<td class="writer"></td>
-							<td class="date"></td>
-							<td class="hit"></td>
-						</tr>
+					
+					<c:forEach var="notice" items="${noticeList}">
 					
 						<tr>
-							<td class="num"><span>1</span></td>
-							<td class="title"><a href="">게시판</a></td>
-							<td class="writer"><span>작성자</span></td>
-							<td class="date"><span>2020-01-29</span></td>
-							<td class="hit"><span>5</span></td>
+							<td class="num">
+								${notice.noticeNo}
+							</td>
+							<td class="title" >
+								<span onclick="goDetail()">	
+									${notice.noticeTitle}
+								</span>
+							</td>
+							<td class="writer">
+								관리자
+							</td>
+							<td class="date">
+								${notice.noticeDate}
+							</td>
+							<td class="hit">
+								${notice.noticeView}
+							</td>
 						</tr>
-						<tr>
-							<td class="num">2</td>
-							<td class="title">게시판 만들기</td>
-							<td class="writer">관리자</td>
-							<td class="date">2021-01-29</td>
-							<td class="hit">32</td>
-						</tr>					
+					<script type="text/javascript">
+					function changeWriter(){
+						location.href="writer";
+					}
+					function goDetail(){
+						location.href = '/notice/noticeDetail?noticeNo='+${notice.noticeNo};	
+					}
+					</script>
+					</c:forEach>
+						
+					
 					</tbody>				
 				</table>
 
@@ -110,9 +123,14 @@
 					
 				<!-- 글쓰기 버튼 -->
 				<div class="write_btn">
-					<button>글쓰기</button>				
-				</div>			
-
+					<button id="write" onclick="changeWriter()">글쓰기</button>				
+				</div>						
+		<!--  관리자 로그인 -->
+        <c:if test="${sessionScope.sessionID !=null && sessionScope.MB_LEVEL=='MB10'}">
+            <button id="memberViewBtn" class="btn btn-warning" onclick="changeView(5)">회원보기</button>
+        </c:if>
+				
+				
 			</div>
 		</div>
 		
@@ -126,9 +144,9 @@
 		</div>
 	</div>
 
-		</div>
+	</div>
 
-<!-- Scripts -->
+	<!-- Scripts -->
 	<script src="/resources/js/jquery.min.js"></script>
 	<script src="/resources/js/jquery.dropotron.min.js"></script>
 	<script src="/resources/js/jquery.scrolly.min.js"></script>
@@ -137,6 +155,19 @@
 	<script src="/resources/js/breakpoints.min.js"></script>
 	<script src="/resources/js/util.js"></script>
 	<script src="/resources/js/main.js"></script>
+	
+	<!-- Javascript  -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	</body>
 </html>
