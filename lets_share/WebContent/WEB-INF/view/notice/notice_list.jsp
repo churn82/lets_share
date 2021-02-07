@@ -86,10 +86,8 @@
 							<td class="num">
 								${notice.noticeNo}
 							</td>
-							<td class="title" >
-								<span onclick="goDetail()">	
-									${notice.noticeTitle}
-								</span>
+							<td class="title" onclick="goDetail()">
+								${notice.noticeTitle}
 							</td>
 							<td class="writer">
 								관리자
@@ -106,7 +104,8 @@
 						location.href="writer";
 					}
 					function goDetail(){
-						location.href = '/notice/noticeDetail?noticeNo='+${notice.noticeNo};	
+						location.href = '/notice/noticeDetail?noticeNo='+${notice.noticeNo};
+						
 					}
 					</script>
 					</c:forEach>

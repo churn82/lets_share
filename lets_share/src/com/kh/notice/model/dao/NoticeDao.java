@@ -25,13 +25,14 @@ public class NoticeDao {
 		int res = 0;
 		String sql = "insert into sh_notice "
 				+ "(NOTICE_NO,NOTICE_TITLE,NOTICE_CONTENT,NOTICE_DATE,NOTICE_TYPE) "
-				+ "values(sc_notice_no.nextval,?,?,sysdate,'notice')";
+				+ "values(sc_notice_no.nextval,?,?,sysdate,?)";
 		PreparedStatement pstm = null;
 		
 		try {
 			pstm = conn.prepareStatement(sql);
 			pstm.setString(1, notice.getNoticeTitle());
 			pstm.setString(2, notice.getNoticeContent());
+			pstm.setString(3, notice.getNoticeType());
 			res = pstm.executeUpdate();
 			System.out.println(res);
 		} catch (SQLException e) {
@@ -125,7 +126,7 @@ public class NoticeDao {
 	}
 	*/
 
-	//공지 테이블 상세페이지 조회 만드는 중
+	//공지 테이블 상세페이지
 	public Notice selectNoticeDetail(Connection conn, int noticeNo){
 		Notice notice = null;
 		PreparedStatement pstm = null;

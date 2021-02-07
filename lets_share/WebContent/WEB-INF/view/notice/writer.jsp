@@ -117,7 +117,7 @@
 			
 			//카테고리 선택
 			
-		}
+		
 	 	
 		
 		//목록을 눌렀을 때 안 됨
@@ -130,8 +130,8 @@
 			location.href="noticeListImpl";
 		}
 	
-	
-		//noticeListImpl
+		let noticeValue = document.querySelector(".cate_sel")
+		
 		
 	</script>
 

@@ -62,7 +62,7 @@
 					</div>
 					<div class="content_body">
 						<pre id="text">
-							${notice.noticeContent}
+							<c:out value="${notice.noticeContent}"/>
 						</pre>
 					</div>
 		<%-- 			<div class="prevNext">
@@ -116,6 +116,15 @@
 			<script src="/resources/js/breakpoints.min.js"></script>
 			<script src="/resources/js/util.js"></script>
 			<script src="/resources/js/main.js"></script>
+			
+		<script type="text/javascript">
+			function goList(){
+				location.href="/notice/noticeList";
+				
+			}
+		
+		
+		</script>
 
 	</body>
 </html>

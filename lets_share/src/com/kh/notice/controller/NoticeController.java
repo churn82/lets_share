@@ -46,7 +46,8 @@ public class NoticeController extends HttpServlet {
 			noticeListImpl(request,response); break;
 		case "eventList" :
 			goEventList(request,response); break;
-			
+		case "noticeDetail" :
+			goNoticeDetail(request,response); break;	
 		case "eventDetail" :
 			goEventDetail(request,response); break;
 		case "writer" :
@@ -88,7 +89,6 @@ public class NoticeController extends HttpServlet {
 		
 		request.setAttribute("noticeList", noticeList);
 		
-		
 		request.getRequestDispatcher("/WEB-INF/view/notice/event_list.jsp")
 		.forward(request, response);
 	}
@@ -99,23 +99,32 @@ public class NoticeController extends HttpServlet {
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));//게시글을 클릭하면 notice_no가 넘어옴
 		
 		Notice notice = new Notice();
-		request.setAttribute("notice",notice);
 		
 		notice = noticeService.selectNoticeDetail(noticeNo);
 		
-		request.getRequestDispatcher("/WEB-INF/view/notice/notic_detail.jsp")
+		String noticeTitle = notice.getNoticeTitle();
+		String noticeContent = notice.getNoticeContent();
+		Date noticeDate = notice.getNoticeDate();
+		
+		request.setAttribute("noticeTitle", noticeTitle);
+		request.setAttribute("noticeContent", noticeContent);
+		request.setAttribute("noticeDate", noticeDate);
+		
+		request.getRequestDispatcher("/WEB-INF/view/notice/notice_detail.jsp")
 		.forward(request, response);
 	}
 	
-	
-	
+	//이벤트 상세페이지
 	protected void goEventDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		
+		
 		request.getRequestDispatcher("/WEB-INF/view/notice/event_detail.jsp")
 		.forward(request, response);
 	}
 	
 	protected void goWriter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		
 		 request.getRequestDispatcher("/WEB-INF/view/notice/writer.jsp")
 		  .forward(request, response);
 		
