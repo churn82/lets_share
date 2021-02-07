@@ -26,7 +26,6 @@ public class IndexController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("?");
 		request.getRequestDispatcher("/WEB-INF/view/index/index.jsp").forward(request, response);
 	}
 
