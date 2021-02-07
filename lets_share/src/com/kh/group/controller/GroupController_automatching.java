@@ -44,28 +44,15 @@ public class GroupController_automatching extends HttpServlet {
 		int userPeriod = Integer.parseInt(request.getParameter("user_period")); //사용자 요청 사용기간
 		String userId = "test50"; //현재 사용자의 아이디
 		
-		int foundGroupId = groupService_auto.findGroup(userSerCode, userPeriod, userId);//조건에 맞는 그룹 탐색
-		if(foundGroupId != 0) {
-			addGroup = groupService_auto.addGroup(userId, foundGroupId, userPeriod);
-		}else {
-			//해당 조건을 만족하는 그룹을 찾지 못하였습니다.
-			throw new ToAlertException(ErrorCode.MR04);
+		int groupId = groupService_auto.autoMatching(userSerCode, userPeriod, userId);
+	
+		if(groupId == 0) {
+			throw new ToAlertException(ErrorCode.MR01);
+		}else { //매칭 과정이 무사히 끝나면, 해당 그룹의 뷰 페이지로 이동시켜준다.
+			request.setAttribute("groupId", groupId);
+			request.getRequestDispatcher("/WEB-INF/view/group/group_view.jsp")
+			.forward(request, response);
 		}
-		if(addGroup != 0) {
-			//그룹의 인원수를 갱신하고, 그룹이 가득찼다면 대기열에서 뺀다
-			if(groupService_auto.isMax(foundGroupId)) {
-				groupService_auto.exitQueue(foundGroupId);
-			}
-		}else {
-			//매칭된 그룹에 등록하는 도중 에러가 발생하였습니다.
-			throw new ToAlertException(ErrorCode.MR02);
-		}
-		
-		//그룹 매칭, 그룹원 등록, 그룹인원 갱신까지의 작업이 모두 성공했다면,
-		//사용자에게 등록된 그룹의 뷰로 이동시킨다.
-		request.setAttribute("groupId", foundGroupId);
-		request.getRequestDispatcher("/WEB-INF/view/group/group_view.jsp")
-		.forward(request, response);
 	}
 	
 	

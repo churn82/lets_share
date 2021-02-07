@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.kh.notice.model.dao.NoticeDao;
 import com.kh.notice.model.service.NoticeService;
@@ -42,12 +43,10 @@ public class NoticeController extends HttpServlet {
 		switch(uriArr[uriArr.length-1]) {
 		case "noticeList" :
 			goNoticeList(request,response); break;
-		case "noticeListImpl":
-			noticeListImpl(request,response); break;
-		case "eventList" :
-			goEventList(request,response); break;
 		case "noticeDetail" :
-			goNoticeDetail(request,response); break;	
+			goNoticeDetail(request,response); break;
+		case "eventList" :
+			goEventList(request,response); break;	
 		case "eventDetail" :
 			goEventDetail(request,response); break;
 		case "writer" :
@@ -69,6 +68,12 @@ public class NoticeController extends HttpServlet {
 	}
 	
 	protected void goNoticeList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HttpSession session = request.getSession();
+		String id = (String)session.getAttribute("id");
+		
+		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
+		.forward(request, response);
 		
 		ArrayList<Notice> noticeList = null;
 		noticeList = noticeService.selectNoticeList();
@@ -101,6 +106,7 @@ public class NoticeController extends HttpServlet {
 		Notice notice = new Notice();
 		
 		notice = noticeService.selectNoticeDetail(noticeNo);
+		request.setAttribute("notice",notice);
 		
 		String noticeTitle = notice.getNoticeTitle();
 		String noticeContent = notice.getNoticeContent();
@@ -142,14 +148,6 @@ public class NoticeController extends HttpServlet {
 		noticeService.insertNoticeBoard(notice);
 		
 		request.getRequestDispatcher("/WEB-INF/view/notice/noticeList.jsp")
-		.forward(request, response);	
-	}
-	
-	
-	protected void noticeListImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		
-		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
 		.forward(request, response);	
 	}
 	

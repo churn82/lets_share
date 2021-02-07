@@ -124,6 +124,16 @@
 				</div>
 					
 				<!-- 글쓰기 버튼 -->
+				<c:if test="${sessionScope.user.userId}equals adimin">
+					<div class="write_btn">
+						<input type="button" id="write" onclick="writeAdmin(${sessionScope.user.userId})" value="글쓰기"/>		
+								
+					</div>
+				
+				</c:if>
+				
+							
+						
 				<div class="write_btn">
 					<button id="write" onclick="changeWriter()">글쓰기</button>				
 				</div>						
@@ -161,6 +171,21 @@
 	<!-- Javascript  -->
 	
 	
+<<<<<<< HEAD
+		
+		function id_check(id){
+			
+			
+		}
+		
+		
+		
+		
+		
+		
+	</script>
+=======
+>>>>>>> 5cfa51132dcdda0b0ce8933e4d4ecd90b3ecfc96
 	
 	
 	
