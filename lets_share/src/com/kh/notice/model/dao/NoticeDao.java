@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-
 import com.kh.common.code.ErrorCode;
 import com.kh.common.exception.DataAccessException;
 import com.kh.common.template.JDBCTemplate;
@@ -64,37 +62,66 @@ public class NoticeDao {
 		}
 		return res;
 	}
-	
+	*/
 		
 	
-	//공지 수정게시판
-	//매개변수로 받아오기
-	public int updateNoticeBoard(Connection conn, ) {
-		
-		int rs = 0;
+	
+	
+	//수정전
+	public Notice beforeUpdate(Connection conn, int noticeNo){
+		Notice notice = null;
 		PreparedStatement pstm = null;
-	
+		ResultSet rs = null;
+		String sql = "select * from sh_notice where notice_no=? and notice_type='notice' ";
 		try {
-			String query = "update sh_notice set "
-					+"notice_title=?, "
-					+"notice_content=?, "
-					+"where notice_no=?";
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, noticeNo);
+			rs = pstm.executeQuery();
 			
-			pstm = conn.prepareStatement(query);
-			pstm.setString(1, notice.getNoticeTitle());
-			pstm.setString(2, noticeContent);
-			pstm.setInt(3, noticeNo);
-			
-			rs = pstm.executeUpdate();
-			
+			if(rs.next()) {
+				notice = new Notice();
+				notice.setNoticeNo(rs.getInt("notice_no"));
+				notice.setNoticeTitle(rs.getString("notice_title"));
+				notice.setNoticeContent(rs.getString("notice_content"));
+				notice.setNoticeDate(rs.getDate("notice_date"));
+				notice.setNoticeView(rs.getInt("notice_view"));
+			}			
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.UB01, e);
+		}finally {
+			jdt.close(rs,pstm);
 		}
-
-		return rs;
+		return notice;
+	}
+	
+	//게시글 수정 요청
+	public int updateRequest(Connection conn, Notice notice) {
+		
+		int res = 0;
+		PreparedStatement pstm = null;
+		String query = "update sh_notice set "
+				+"notice_title=?, "
+				+"notice_content=?, "
+				+"notice_date=sysdate, "
+				+"where notice_no=?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, notice.getNoticeTitle());
+			pstm.setString(2, notice.getNoticeContent());
+			pstm.setInt(3, notice.getNoticeNo());
+			res = pstm.executeUpdate();
+			System.out.println(res);
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.UB01, e);
+		}finally {
+			jdt.close(pstm);
+		}
+		return res;
 		
 	}
-	*/
+	
+	
+	
 	/*
 	
 	//삭제게시판
