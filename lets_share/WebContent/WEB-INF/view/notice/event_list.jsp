@@ -8,7 +8,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="/resources/css/main.css" />
-		<link rel="stylesheet" href="../../../resources/css/notice/notice_list.css"/>
+		<link rel="stylesheet" href="../../../resources/css/notice/event_list.css"/>
 		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
 </head>
 <body class="no-sidebar is-preload">
@@ -77,33 +77,30 @@
 					</thead>
 					<tbody>
 					
-					<c:forEach var="notice" items="${noticeList}">
+					<c:forEach var="noticeList" items="${noticeList}">
 					
 						<tr>
 							<td class="num">
-								${notice.noticeNo}
+								${noticeList.noticeNo}
 							</td>
 							<td class="title" >
-								<span onclick="goDetail()">	
-									${notice.noticeTitle}
-								</span>
+								<a href="/notice/eventDetail?noticeNo=${noticeList.noticeNo}">
+                        	  	${noticeList.noticeTitle}
+                        		</a>
 							</td>
 							<td class="writer">
 								관리자
 							</td>
 							<td class="date">
-								${notice.noticeDate}
+								${noticeList.noticeDate}
 							</td>
 							<td class="hit">
-								${notice.noticeView}
+								${noticeList.noticeView}
 							</td>
 						</tr>
 					<script type="text/javascript">
 					function changeWriter(){
 						location.href="writer";
-					}
-					function goDetail(){
-						location.href = '/notice/noticeDetail?noticeNo='+${notice.noticeNo};	
 					}
 					</script>
 					</c:forEach>
@@ -120,12 +117,24 @@
 					<a class="page_btn" href="">3</a>
 					<a class="page_btn" href="">4</a>
 				</div>
+				
+				<!-- 글쓰기 버튼 -->
+				<c:if test="${sessionScope.user.userId}equals adimin">
+					<div class="write_btn">
+						<input type="button" id="write" onclick="writeAdmin(${sessionScope.user.userId})" value="글쓰기"/>		
+								
+					</div>
+				
+				</c:if>	
 					
+				
+				
 				<!-- 글쓰기 버튼 -->
 				<div class="write_btn">
 					<button id="write" onclick="changeWriter()">글쓰기</button>				
 				</div>						
-		<!--  관리자 로그인 -->
+			
+		<!--  관리자 로그인 승현-->
         <c:if test="${sessionScope.sessionID !=null && sessionScope.MB_LEVEL=='MB10'}">
             <button id="memberViewBtn" class="btn btn-warning" onclick="changeView(5)">회원보기</button>
         </c:if>

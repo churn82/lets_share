@@ -42,7 +42,7 @@ public class NoticeDao {
 		return res;
 	}
 	
-	/*
+	
 	//이벤트게시글 등록
 	public int insertEventBoard(Connection conn, Notice notice) {
 		int res = 0;
@@ -64,7 +64,7 @@ public class NoticeDao {
 		}
 		return res;
 	}
-	
+	/*
 		
 	
 	//공지 수정게시판
@@ -97,7 +97,7 @@ public class NoticeDao {
 	*/
 	/*
 	
-	//삭제게시판
+	//공지게시판 삭제 기능
 	public int deleteNoticeBoard(Connection conn, int noticeNo) {
 		
 		int res = 0;
@@ -119,6 +119,30 @@ public class NoticeDao {
 		
 	}
 	*/
+	
+	//이벤트 게시판 삭제 기능
+		public int deleteEventBoard(Connection conn, int noticeNo) {
+			int res = 0;
+			PreparedStatement pstm = null;
+			String sql = "update sh_notice set notice_delete=sysdate where notice_No = ? ";
+			
+			try {
+				pstm = conn.prepareStatement(sql);
+				pstm.setInt(1, noticeNo);
+				
+			} catch (SQLException e) {
+				throw new DataAccessException(ErrorCode.DB01, e);
+			}finally {
+				jdt.close(pstm);
+			}
+
+			return res;
+			
+		}
+		
+	
+	
+	
 
 	//공지 테이블 상세페이지
 	public Notice selectNoticeDetail(Connection conn, int noticeNo){
@@ -185,6 +209,37 @@ public class NoticeDao {
 		return noticeList;
 	}
 	
+	//이벤트 상세페이지
+	public Notice selectEventDetail(Connection conn, int noticeNo){
+		Notice notice = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		String sql = "select * from sh_notice where notice_no=? and notice_type='event' ";
+		
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, noticeNo);
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				notice = new Notice();
+				notice.setNoticeNo(rs.getInt("notice_no"));
+				notice.setNoticeTitle(rs.getString("notice_title"));
+				notice.setNoticeContent(rs.getString("notice_content"));
+				notice.setNoticeDate(rs.getDate("notice_date"));
+				notice.setNoticeView(rs.getInt("notice_view"));	
+			}			
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.SB01, e);
+		}finally {
+			jdt.close(rs,pstm);
+		}
+
+		return notice;
+		
+	}
+	
 	
 	//이벤트 목록 조회(번호,제목,작성자,작성날짜,조회수)
 		public ArrayList<Notice> selectEventList(Connection conn) {
@@ -194,7 +249,7 @@ public class NoticeDao {
 			ResultSet rs = null;
 			
 			try {
-				String sql = "select * from sh_notice where notice_type='event' order by notice_no desc";
+				String sql = "select * from sh_notice where notice_type='event' and notice_delete is null order by notice_no desc";
 				pstm = conn.prepareStatement(sql);
 				rs = pstm.executeQuery();
 				

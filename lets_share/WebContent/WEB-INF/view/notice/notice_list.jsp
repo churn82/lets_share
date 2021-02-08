@@ -135,17 +135,17 @@
 				<div class="write_btn">
 					<button id="write" onclick="changeWriter()">글쓰기</button>				
 				</div>						
-		<!--  관리자 로그인 -- 승현님>
-        <c:if test="${sessionScope.sessionID !=null && sessionScope.MB_LEVEL=='MB10'}">
-            <button id="memberViewBtn" class="btn btn-warning" onclick="changeView(5)">회원보기</button>
-        </c:if>
+			<%--  관리자 로그인 승현님 --%>
+	        <c:if test="${sessionScope.sessionID !=null && sessionScope.MB_LEVEL=='MB10'}">
+	            <button id="memberViewBtn" class="btn btn-warning" onclick="changeView(5)">회원보기</button>
+	        </c:if>
 				
 				
 			</div>
 		</div>
 		
 	</div>
-<!-- </div> -->
+<%-- </div> --%>
 
 <!-- Footer -->
 	<div id="footer">
