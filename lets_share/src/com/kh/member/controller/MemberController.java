@@ -44,6 +44,7 @@ public class MemberController extends HttpServlet {
 			case "nickcheck" : confirmnick(request,response); break;
 			case "logout" : logout(request,response); break;
 			case "mailauth" : Email(request,response); break;
+			//case "kakaologin" : kakaologin(request,response); break;
 			default : System.out.println("오류");
 		}
 	} 
@@ -94,7 +95,7 @@ public class MemberController extends HttpServlet {
 		member.setMbPassword(mbpassword);
 		member.setMbNick(mbnick);
 		member.setMbtel(mbtel);
-	
+		member.setMblevel(mblevel);
 		member.setMbemail(mbemail);
 		
 		
@@ -120,7 +121,7 @@ public class MemberController extends HttpServlet {
 		//request.getSession().removeAttribute("persistUser");
 		request.getRequestDispatcher("/WEB-INF/view/member/login.jsp")
 		.forward(request, response);
-		System.out.println("mbId : " + mbId);
+		
 	}
 	private void confirmId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -152,30 +153,55 @@ public class MemberController extends HttpServlet {
 			
 		}
 	}
+	
+	//로그인
 	private void loginImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String mbId = request.getParameter("id");
 		String mbpassword = request.getParameter("pw");
 		Member member = memberService.memberAuthenticate(mbId, mbpassword);
+		
 		if(member != null) {
 			//세션에 회원 정보 저장
 			request.getSession().setAttribute("user", member);
-			response.sendRedirect("/index");
-			
-		}else {
-			request.getRequestDispatcher("/WEB-INF/view/member/login_fail.jsp")
+			request.setAttribute("msg", "정상적으로 로그인 되었습니다.");
+			request.setAttribute("url", "/index");
+			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
 			.forward(request, response);
 			
+		}else {
+			request.setAttribute("msg", "아이디나 비밀번호를 확인하세요.");
+			request.setAttribute("url", "/member/login");
+			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+			.forward(request, response);
 		}
 		
 		
-		request.getSession().setAttribute("user", member);
-		
-		System.out.println("id : " + mbId);
-		System.out.println("pw : " + mbpassword);
-		
-		
 	}
+	/*
+private void kakaologin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String mbkakaoId = request.getParameter("userID");
+		
+		Member member = memberService.memberAuthenticatekakao(mbkakaoId);
+		
+		if(member != null) {
+			//세션에 회원 정보 저장
+			request.getSession().setAttribute("user", member);
+			request.setAttribute("msg", "정상적으로 로그인 되었습니다.");
+			request.setAttribute("url", "/index");
+			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+			.forward(request, response);
+			
+		}else {
+			request.setAttribute("msg", "아이디나 비밀번호를 확인하세요.");
+			request.setAttribute("url", "/member/login");
+			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+			.forward(request, response);
+		}
+		
+		
+	}*/
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getSession().removeAttribute("user");
 		response.sendRedirect("/index");

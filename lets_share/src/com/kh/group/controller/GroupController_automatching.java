@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.kh.common.code.ErrorCode;
 import com.kh.common.exception.ToAlertException;
 import com.kh.group.model.service.GroupService_automatching;
+import com.kh.member.model.vo.Member;
 
 @WebServlet("/auto/*")
 public class GroupController_automatching extends HttpServlet {
@@ -42,19 +43,20 @@ public class GroupController_automatching extends HttpServlet {
 		int addGroup = 0;
 		String userSerCode = (String) request.getParameter("service"); //사용자 요청 서비스 코드
 		int userPeriod = Integer.parseInt(request.getParameter("user_period")); //사용자 요청 사용기간
-		String userId = "test50"; //현재 사용자의 아이디
+		Member user = (Member) request.getSession().getAttribute("user"); //세션에서 아이디를 가져오기
+		String userId = user.getMbId();  //현재 사용자의 아이디
+		int groupId = 0;
 		
-		int groupId = groupService_auto.autoMatching(userSerCode, userPeriod, userId);
-	
-		if(groupId == 0) {
-			throw new ToAlertException(ErrorCode.MR01);
-		}else { //매칭 과정이 무사히 끝나면, 해당 그룹의 뷰 페이지로 이동시켜준다.
-			request.setAttribute("groupId", groupId);
-			request.getRequestDispatcher("/WEB-INF/view/group/group_view.jsp")
-			.forward(request, response);
+		groupId = groupService_auto.autoMatching(userSerCode, userPeriod, userId);
+		if(groupId != 0) {
+			request.setAttribute("groupFound", "found");
+			response.sendRedirect("/group/view?groupId=" + groupId);
+		}else {
+			throw new ToAlertException(ErrorCode.MR04);
 		}
+
 	}
-	
+
 	
 	
 }

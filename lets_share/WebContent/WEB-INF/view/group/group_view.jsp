@@ -112,6 +112,10 @@
 						</a>
 					</div>
 				</div>
+				<c:if test="${group.getLastDay() != null}">
+					<div class="lastDate">그룹 해지날짜(<a>${group.getLastDay()}</a>)가 지정되었습니다</div>
+					<div class="lastDate2">그룹원들은 추가 결제가 불가능합니다.</div>
+				</c:if>
 				<!-- 캘린더 호출 -->
 				<div class="calendar_box">
 					<div id="calendar"></div>
@@ -144,10 +148,10 @@
 										<td>${groupMember.getStDate()}</td>
 										<td>${groupMember.getExDate()}</td>
 										<td>
-											<c:if test="${group.getMemberId()==sessionScope.userId}">
+											<c:if test="${group.getMemberId()==sessionScope.user.getMbId()}">
 												<button onclick="payConfirm('${groupMember.getMemberId()}', ${groupMember.getGroupId()})">입금 확인</button>
 											</c:if>
-											<c:if test="${group.getMemberId()!=sessionScope.userId}">
+											<c:if test="${group.getMemberId()!=sessionScope.user.getMbId()}">
 												<i class="fas fa-user-slash"></i>
 											</c:if>
 										</td>
@@ -157,10 +161,9 @@
 						</table>
 					</div>
 				</c:if>
-				
 				<!-- 버튼  -->
 				<div class="bottom">
-					<c:if test="${group.getMemberId()!=sessionScope.userId}">
+					<c:if test="${group.getMemberId()!=sessionScope.user.getMbId()}">
 						<div class="">
 							<button onclick="IdPwConfirm(${group.getGroupId()})">ID/PW 확인</button>
 						</div>
@@ -171,7 +174,7 @@
 							<button><a href="#ex3" rel="modal:open">그룹 탈퇴</a></button>
 						</div>
 					</c:if>				
-					<c:if test="${group.getMemberId()==sessionScope.userId}">
+					<c:if test="${group.getMemberId()==sessionScope.user.getMbId()}">
 						<div class="">
 							<button><a href="#ex2" rel="modal:open">서비스 비밀번호 변경</a></button>
 						</div>
@@ -182,7 +185,7 @@
 				</div>
 				<!-- 그룹 대기 테이블 -->
 				<c:if test="${!standByList.isEmpty()}">
-					<c:if test="${group.getMemberId()==sessionScope.userId}"> <!--그룹장만 그룹대기 리스트 확인가능-->
+					<c:if test="${group.getMemberId()==sessionScope.user.getMbId()}"> <!--그룹장만 그룹대기 리스트 확인가능-->
 						<div class="memberTitle">
 							<div>그룹 대기 리스트</div>
 						</div>
@@ -224,7 +227,7 @@
 					<form action="/group/pay" method="POST">
 						<input type="number" name="payDate" id="payDate" min="15" max="90">
 						<input type="number" name="servicePerDay" id="servicePerDay" value="${servicePerDay}">
-						<input type="text" name="memberId" id="memberId" value="${sessionScope.userId}">
+						<!-- <input type="text" name="memberId" id="memberId" value="${sessionScope.userId}">  -->
 						<input type="text" name="groupId" id="groupId" value="${group.getGroupId()}">
 						<input type="submit" value="입금">
 					</form>
@@ -249,7 +252,7 @@
 				<h5>그룹 탈퇴</h5>
 				<form action="/group/out" method="POST">
 					<input type="text" name="groupId" id="groupId" value="${group.getGroupId()}">
-					<input type="text" name="memberId" id="memberId" value="${sessionScope.userId}">
+					<input type="text" name="memberId" id="memberId" value="${sessionScope.user.getMbId()}">
 					<div>탈퇴 후 모든 정보는 완전히 삭제되며 더 이상 복구 할 수 없게됩니다.</div>
 					<div>서비스 만기일이 되지 않았더라도 더이상 ID, PW 열람이 불가능해집니다.</div>
 					<div class="">
@@ -265,6 +268,7 @@
 					<div>그룹 해지는 그룹원 들의 만기일이 모두 지났을 시점부터 가능합니다.</div>
 					<div>그룹 해지 후 모든 정보는 완전히 삭제되며 더 이상 복구할 수 없게 됩니다.</div>
 					<div>
+						<input type="text" name="groupId" id="groupId" value="${group.getGroupId()}">
 						<input type="date" name="closeDate" id="closeDate">
 					</div>
 					<div class="">

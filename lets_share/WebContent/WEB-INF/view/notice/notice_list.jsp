@@ -101,11 +101,7 @@
 								${noticeList.noticeView}
 							</td>
 						</tr>
-					<script type="text/javascript">
-					function changeWriter(){
-						location.href="writer";
-					}
-					</script>
+					
 					</c:forEach>
 						
 					
@@ -122,13 +118,17 @@
 				</div>
 					
 				<!-- 글쓰기 버튼 -->
-				<c:if test="${sessionScope.user.userId}equals adimin">
+				<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mbId eq 'admin'}">
 					<div class="write_btn">
-						<input type="button" id="write" onclick="writeAdmin(${sessionScope.user.userId})" value="글쓰기"/>		
-								
-					</div>
-				
+						<button id="write" onclick="changeWriter()">글쓰기</button>				
+					</div>	
 				</c:if>
+					
+					<script type="text/javascript">
+						function changeWriter(){
+							location.href="writer";
+						}
+					</script>
 				
 							
 						
@@ -146,6 +146,17 @@
 		
 	</div>
 <%-- </div> --%>
+								
+		         <%--  관리자 로그인 승현님 --%>
+           <c:if test="${sessionScope.sessionID !=null && sessionScope.MB_LEVEL=='MB10'}">
+               <button id="memberViewBtn" class="btn btn-warning" onclick="changeView(5)">회원보기</button>
+           </c:if>
+            
+            
+         </div>
+      </div>
+      
+   </div>
 
 <!-- Footer -->
 	<div id="footer">

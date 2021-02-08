@@ -14,6 +14,7 @@ import com.kh.common.exception.ToAlertException;
 import com.kh.common.mail.MailSender;
 import com.kh.common.template.JDBCTemplate;
 import com.kh.common.util.Util;
+import com.kh.group.model.vo.Group;
 import com.kh.member.model.dao.MemberDao;
 import com.kh.member.model.vo.Member;
 
@@ -21,17 +22,37 @@ public class MemberService {
 	MemberDao memberDao = new MemberDao();
 	JDBCTemplate jdt = JDBCTemplate.getInstance();
 	
+	//로그인
 	public Member memberAuthenticate(String mbId, String mbpassword){	
-	    Connection conn = jdt.getConnection();
-	      Member member = null;
-	      try {
-	         member = memberDao.memberAuthenticate(conn, mbId, mbpassword);
-	      } finally {
-	         jdt.close(conn);
-	      }
-	      
-	      return member;
-	   }
+		Member member = null;
+		Connection conn = jdt.getConnection();	
+		try {
+			member = memberDao.memberAuthenticate(conn, mbId, mbpassword);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return member;
+	}
+	//카카오
+	public Member memberAuthenticatekakao(String mbkakaoId){	
+		Member member = null;
+		Connection conn = jdt.getConnection();	
+		try {
+			member = memberDao.memberAuthenticatekakao(conn, mbkakaoId);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return member;
+	}
+	
 	public Member selectMemberBylevel(String mbId){	
 		Connection conn = jdt.getConnection();
 	      Member member = null;
@@ -42,16 +63,26 @@ public class MemberService {
 	      }     
 	      return member;
 	   }
+	
+	//멤버정보 가져오기
 	public Member selectMemberById(String mbId){	
-		Connection conn = jdt.getConnection();
-	      Member member = null;
-	      try {
-	         member = memberDao.selectMemberById(conn, mbId);
-	      } finally {
-	         jdt.close(conn);
-	      }     
-	      return member;
-	   }
+		Member member = null;
+		Connection conn = jdt.getConnection();	
+		try {
+			member = memberDao.selectMemberById(conn, mbId);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return member;
+	}
+
+	
+	
+	
 	public Member selectMemberBynick(String mbnick){	
 		Connection conn = jdt.getConnection();
 	      Member member = null;

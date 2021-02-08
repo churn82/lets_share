@@ -33,25 +33,44 @@ public class NoticeService {
 		return rs;
 	}
 	
-	/*
-	public int updateNoticeBoard(Notice notice) {
+	//게시글 수정전
+	public Notice beforeUpdate(int noticeNo) {
+
 		Connection conn = jdt.getConnection();
-		int rs = 0;
+		Notice notice = null;
 		
 		try {
-			rs = noticeDao.updateNoticeBoard(conn, notice);
+			notice = noticeDao.beforeUpdate(conn,noticeNo);
 			jdt.commit(conn);
 		}catch (DataAccessException e) {
 			jdt.rollback(conn);
 			throw new ToAlertException(e.error);
-		}finally {
+		}
+		finally {
 			jdt.close(conn);
 		}
-	
-		return rs;
+		
+		return notice;
 	}
 	
-
+	//게시글 수정요청
+	public int updateRequest(Notice notice) {
+		int res = 0;
+		Connection conn = jdt.getConnection();
+		
+		try {
+			res = noticeDao.updateRequest(conn, notice);
+			jdt.commit(conn);
+			
+		}catch(DataAccessException e){
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}		
+		return res;
+	}
+	
+	/*
 	public int deleteNoticeBoard(int noticeNo) {
 		Connection conn = jdt.getConnection();
 		int rs = 0;

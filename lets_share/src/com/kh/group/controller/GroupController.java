@@ -47,13 +47,13 @@ public class GroupController extends HttpServlet {
 		case "IdPwConfirm" : IdPwConfirm(request, response); break;
 		case "PwChange" : PwChange(request, response); break;
 		case "out" : outGroup(request, response); break;
+		case "close" : closeGroup(request, response); break;
 		default : 
 			response.setStatus(404);
 			break;
 		}
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 	
@@ -65,10 +65,9 @@ public class GroupController extends HttpServlet {
 	// Session에서 회원정보를 가지고 회원이 소속된 그룹의 Group_view를 그려준다
 	protected void goView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//1.[임시]세션에서 userId를 가져온다
-		HttpSession session = request.getSession();
-		session.setAttribute("userId", "test49");
-		String userId = (String) session.getAttribute("userId");
+		//1.세션에서 userId를 가져온다
+		Member member = (Member) request.getSession().getAttribute("user");
+		String userId = member.getMbId();
 		
 		//2. userId가 속한 그룹의 grouoId를 가져온다
 		int groupId = 0;
@@ -92,7 +91,6 @@ public class GroupController extends HttpServlet {
 			//6. SH_SER_CODE 정보를 가져온다 
 			int servicePerDay = groupService.getServicePerDay(group.getServiceCode());
 			request.setAttribute("servicePerDay", servicePerDay);
-			
 		}
 		
 		request.getRequestDispatcher("/WEB-INF/view/group/group_view.jsp")
@@ -133,8 +131,10 @@ public class GroupController extends HttpServlet {
 		String date = request.getParameter("date");
 		int groupPayDate = Integer.parseInt(date);
 		
+		
+		Member member = (Member) request.getSession().getAttribute("user");
 		Group group = new Group();
-		group.setMemberId("test49"); //[임시] 원래 세션에서 로그인한 회원의 값을 찾아 넣어준다
+		group.setMemberId(member.getMbId()); //세션에서 아이디값 넣어준다
 		group.setAccountInfo(bank+" "+bank_account);
 		group.setServiceCode(service);
 		group.setShareId(service_id);
@@ -153,14 +153,20 @@ public class GroupController extends HttpServlet {
 		.forward(request, response);
 	}
 	
-	//그룹 가입 신청
+	//그룹 가입 신청(?)
 	protected void registerGroup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//1. 그룹 아이디를 Get방식으로 받고 session에서 아이디 꺼내기
 		String groupSId = request.getParameter("groupId");
-		String userId = request.getParameter("userId");
 		int groupId = Integer.parseInt(groupSId);
-		int res = groupService.insertStandBy(groupId, userId);
-		System.out.println(res);
 		
+		//java.lang.NullPointerException: Cannot invoke "com.kh.member.model.vo.Member.getMbId()" because "member" is null
+		//이거뜨는데 왜뜨는지 모르겠음 정상적으로 들어가긴함
+		Member member = (Member) request.getSession().getAttribute("user");
+		String userId = member.getMbId();
+		
+		
+		//2. 그룹 대기 테이블에 넣어줌
+		int res = groupService.insertStandBy(groupId, userId);
 		request.setAttribute("msg", "가입 신청을 정상적으로 완료하였습니다.");
 		request.setAttribute("url", "/index");
 		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
@@ -206,12 +212,14 @@ public class GroupController extends HttpServlet {
 		}
 	}
 
-	//입금 신청
+	//입금 신청(sms주석처리)
 	protected void payMoney(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String payDateS = request.getParameter("payDate");
 		String servicePerDayS = request.getParameter("servicePerDay");
 		String groupIdS = request.getParameter("groupId");
-		String memberId = request.getParameter("memberId");
+		
+		Member member = (Member) request.getSession().getAttribute("user");
+		String memberId = member.getMbId();
 		
 		int payDate = Integer.parseInt(payDateS);
 		int servicePerDay = Integer.parseInt(servicePerDayS);
@@ -223,7 +231,7 @@ public class GroupController extends HttpServlet {
 		if(res==1) {
 			//2. member에서 전화번호 가져온 후 (servicePerDay * payDate)원 계좌정보 입금 요망 sms 
 			int sum = payDate * servicePerDay;
-			Member member = memberService.selectMemberById(memberId);
+			//Member member = memberService.selectMemberById(memberId);
 			Group group = groupService.getGroup(groupId);
 			String accountInfo = group.getAccountInfo();
 			
@@ -237,9 +245,10 @@ public class GroupController extends HttpServlet {
 		request.setAttribute("url", "/group/view");
 		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
 		.forward(request, response);
+		
 	}
 
-	//입금 확인
+	//입금 확인(sms주석처리)
 	protected void payConfirm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String memberId = request.getParameter("userId");
 		String groupSId = request.getParameter("groupId");
@@ -279,24 +288,19 @@ public class GroupController extends HttpServlet {
 		
 	}
 
-	//ID, PW 확인
-	//==================================(!!!!질문해야댐!!!!)====================================
+	//ID, PW 확인(?)(sms주석처리)
 	protected void IdPwConfirm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//1. groupId를 받고 [임시]session에서 Id 가져온다.
+		//1. groupId를 받고 session에서 Id 가져온다.
 		String groupSId = request.getParameter("groupId");
 		int groupId = Integer.parseInt(groupSId);
-		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("userId");
-		
-		System.out.println(groupId+","+memberId);
+		Member member = (Member) request.getSession().getAttribute("user");
+		String userId = member.getMbId();
 		
 		//2. SH_MATCHING 테이블에서 EX_DATE를 가져온다
-		GroupMatching groupMatching = groupService.getMatching(groupId, memberId);
+		GroupMatching groupMatching = groupService.getMatching(groupId, userId);
 		Date exDate = groupMatching.getExDate();		
 		Date today = new Date(System.currentTimeMillis());
-		System.out.println(exDate);
-		System.out.println(today);
 		
 		//3. 만기일 비교해서 문자 처리해주자
 		if(exDate == null) {
@@ -311,7 +315,7 @@ public class GroupController extends HttpServlet {
 				request.setAttribute("url", "/group/view");
 			}else {
 				//3-3. 만기일 안지남 문자 보내자
-				Member member = memberService.selectMemberById(memberId);
+				//Member member = memberService.selectMemberById(memberId);
 				Group group = groupService.getGroup(groupId);
 				String shareID = group.getShareId();
 				String sharePW = group.getSharePw();
@@ -326,7 +330,7 @@ public class GroupController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 	}
 
-	//서비스 PW 변경
+	//서비스 PW 변경 (sms주석처리)
 	protected void PwChange(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String groupSId = request.getParameter("groupId");
 		int groupId = Integer.parseInt(groupSId);
@@ -353,8 +357,8 @@ public class GroupController extends HttpServlet {
 					Group group = groupService.getGroup(groupId);
 					String sharePW = group.getSharePw();
 					String to = member.getMbtel(); // 전송할 전화번호
-					String content = "Let's Share 입니다.\n이용하시는 서비스의 비밀 번호가 변경되어 알림 드립니다.\n비밀번호 : "+sharePW;
-					sms.sendSMS(to, content);
+					String content = "Let's Share 입니다.\n서비스 비밀 번호가 변경되어 알림 드립니다.\n비밀번호 : "+sharePW;	
+					//sms.sendSMS(to, content);				
 				}
 			}
 		}
@@ -365,7 +369,7 @@ public class GroupController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 	}
 
-	//그룹 탈퇴
+	//그룹 탈퇴(sms 해야댐)
 	protected void outGroup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String groupSId = request.getParameter("groupId");
 		int groupId = Integer.parseInt(groupSId);
@@ -378,6 +382,29 @@ public class GroupController extends HttpServlet {
 		request.setAttribute("msg", "그룹 탈퇴 되었습니다.");
 		request.setAttribute("url", "/index");
 		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
+	}
+
+	//그룹 해지
+	protected void closeGroup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		String groupSId = request.getParameter("groupId");
+		int groupId = Integer.parseInt(groupSId);
+		String closeSDate = request.getParameter("closeDate");
+		Date closeDate = Date.valueOf(closeSDate);
+		
+		//1. 입력한 날짜가 그룹원들의 MAX(EX_DATE) 지났는지 확인해야함
+		Date maxExDate = groupService.getMaxExDate(groupId);
+		if(maxExDate == null || closeDate.after(maxExDate)) {
+			//2.  MAX(EX_DATE) 지남 => 해지 설정 해주자
+			groupService.updateCloseDate(groupId, closeDate);
+			request.setAttribute("msg", "정상적으로 그룹 해지 신청되었습니다.");
+			request.setAttribute("url", "/group/view");
+			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
+		}else {
+			//3.  MAX(EX_DATE) 지나지 않음 
+			request.setAttribute("msg", "그룹원 서비스 이용 만기일이 모두 지나야 해지 하실 수 있습니다.       그룹원 최종 만기일 : "+maxExDate);
+			request.setAttribute("url", "/group/view");
+			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
+		}
 	}
 }
