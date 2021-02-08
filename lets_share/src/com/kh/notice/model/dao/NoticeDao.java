@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-
 import com.kh.common.code.ErrorCode;
 import com.kh.common.exception.DataAccessException;
 import com.kh.common.template.JDBCTemplate;
@@ -42,7 +40,7 @@ public class NoticeDao {
 		return res;
 	}
 	
-	/*
+	
 	//이벤트게시글 등록
 	public int insertEventBoard(Connection conn, Notice notice) {
 		int res = 0;
@@ -64,40 +62,70 @@ public class NoticeDao {
 		}
 		return res;
 	}
-	
+	/*
+	*/
 		
 	
-	//공지 수정게시판
-	//매개변수로 받아오기
-	public int updateNoticeBoard(Connection conn, ) {
-		
-		int rs = 0;
+	
+	
+	//수정전
+	public Notice beforeUpdate(Connection conn, int noticeNo){
+		Notice notice = null;
 		PreparedStatement pstm = null;
-	
+		ResultSet rs = null;
+		String sql = "select * from sh_notice where notice_no=? and notice_type='notice' ";
 		try {
-			String query = "update sh_notice set "
-					+"notice_title=?, "
-					+"notice_content=?, "
-					+"where notice_no=?";
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, noticeNo);
+			rs = pstm.executeQuery();
 			
-			pstm = conn.prepareStatement(query);
-			pstm.setString(1, notice.getNoticeTitle());
-			pstm.setString(2, noticeContent);
-			pstm.setInt(3, noticeNo);
-			
-			rs = pstm.executeUpdate();
-			
+			if(rs.next()) {
+				notice = new Notice();
+				notice.setNoticeNo(rs.getInt("notice_no"));
+				notice.setNoticeTitle(rs.getString("notice_title"));
+				notice.setNoticeContent(rs.getString("notice_content"));
+				notice.setNoticeDate(rs.getDate("notice_date"));
+				notice.setNoticeView(rs.getInt("notice_view"));
+			}			
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.UB01, e);
+		}finally {
+			jdt.close(rs,pstm);
 		}
-
-		return rs;
+		return notice;
+	}
+	
+	//게시글 수정 요청
+	public int updateRequest(Connection conn, Notice notice) {
+		
+		int res = 0;
+		PreparedStatement pstm = null;
+		String query = "update sh_notice set "
+				+"notice_title=?, "
+				+"notice_content=?, "
+				+"notice_date=sysdate, "
+				+"where notice_no=?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, notice.getNoticeTitle());
+			pstm.setString(2, notice.getNoticeContent());
+			pstm.setInt(3, notice.getNoticeNo());
+			res = pstm.executeUpdate();
+			System.out.println(res);
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.UB01, e);
+		}finally {
+			jdt.close(pstm);
+		}
+		return res;
 		
 	}
-	*/
+	
+	
+	
 	/*
 	
-	//삭제게시판
+	//공지게시판 삭제 기능
 	public int deleteNoticeBoard(Connection conn, int noticeNo) {
 		
 		int res = 0;
@@ -119,6 +147,30 @@ public class NoticeDao {
 		
 	}
 	*/
+	
+	//이벤트 게시판 삭제 기능
+		public int deleteEventBoard(Connection conn, int noticeNo) {
+			int res = 0;
+			PreparedStatement pstm = null;
+			String sql = "update sh_notice set notice_delete=sysdate where notice_No = ? ";
+			
+			try {
+				pstm = conn.prepareStatement(sql);
+				pstm.setInt(1, noticeNo);
+				
+			} catch (SQLException e) {
+				throw new DataAccessException(ErrorCode.DB01, e);
+			}finally {
+				jdt.close(pstm);
+			}
+
+			return res;
+			
+		}
+		
+	
+	
+	
 
 	//공지 테이블 상세페이지
 	public Notice selectNoticeDetail(Connection conn, int noticeNo){
@@ -185,6 +237,37 @@ public class NoticeDao {
 		return noticeList;
 	}
 	
+	//이벤트 상세페이지
+	public Notice selectEventDetail(Connection conn, int noticeNo){
+		Notice notice = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		String sql = "select * from sh_notice where notice_no=? and notice_type='event' ";
+		
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, noticeNo);
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				notice = new Notice();
+				notice.setNoticeNo(rs.getInt("notice_no"));
+				notice.setNoticeTitle(rs.getString("notice_title"));
+				notice.setNoticeContent(rs.getString("notice_content"));
+				notice.setNoticeDate(rs.getDate("notice_date"));
+				notice.setNoticeView(rs.getInt("notice_view"));	
+			}			
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.SB01, e);
+		}finally {
+			jdt.close(rs,pstm);
+		}
+
+		return notice;
+		
+	}
+	
 	
 	//이벤트 목록 조회(번호,제목,작성자,작성날짜,조회수)
 		public ArrayList<Notice> selectEventList(Connection conn) {
@@ -194,7 +277,7 @@ public class NoticeDao {
 			ResultSet rs = null;
 			
 			try {
-				String sql = "select * from sh_notice where notice_type='event' order by notice_no desc";
+				String sql = "select * from sh_notice where notice_type='event' and notice_delete is null order by notice_no desc";
 				pstm = conn.prepareStatement(sql);
 				rs = pstm.executeQuery();
 				

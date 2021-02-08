@@ -51,8 +51,13 @@ public class NoticeController extends HttpServlet {
 			goWriter(request,response); break;
 		//case "update" :
 			//goUpdate(request, response); break;
+
 		case "writerImpl" :
 			writeImpl(request, response); break;
+		case "beforeUpdate" :
+			beforeUpdate(request, response); break;
+		case "updateRequest" :
+			updateRequest(request, response); break;	
 		default : response.setStatus(404); break;
 		}
 		
@@ -69,22 +74,21 @@ public class NoticeController extends HttpServlet {
 	//공지리스트
 	protected void goNoticeList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		HttpSession session = request.getSession();
-		String id = (String)session.getAttribute("id");
-		
 		ArrayList<Notice> noticeList = null;
 		noticeList = noticeService.selectNoticeList();
 		
 		request.setAttribute("noticeList", noticeList);
 		
-		
 		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
 		.forward(request, response);
 		
-		
 	}
 	
+	//이벤트 목록
 	protected void goEventList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HttpSession session = request.getSession();
+		String id = (String)session.getAttribute("id");
 		
 		ArrayList<Notice> noticeList = null;
 		noticeList = noticeService.selectEventList();
@@ -120,7 +124,21 @@ public class NoticeController extends HttpServlet {
 	
 	//이벤트 상세페이지
 	protected void goEventDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+		
+		Notice notice = new Notice();
+		notice = noticeService.selectEventDetail(noticeNo);
+		request.setAttribute("notice", notice);
+		
+		String noticeTitle = notice.getNoticeTitle();
+		String noticeContent = notice.getNoticeContent();
+		Date noticeDate = notice.getNoticeDate();
+		
+		request.setAttribute("noticeTitle", noticeTitle);
+		request.setAttribute("noticeContent", noticeContent);
+		request.setAttribute("noticeDate", noticeDate);
+		request.setAttribute("noticeNo", noticeNo);
+		
 		request.getRequestDispatcher("/WEB-INF/view/notice/event_detail.jsp")
 		.forward(request, response);
 	}
@@ -133,35 +151,68 @@ public class NoticeController extends HttpServlet {
 	}
 	//작성페이지
 	protected void writeImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		//view에서 사용자 값 가져오기
 		String title = request.getParameter("title"); 
 		String contents = request.getParameter("contents");
-	
+		
+		//db에서 쓸 값을 VO에 저장하기
 		Notice notice = new Notice();
 		notice.setNoticeTitle(title);
 		notice.setNoticeContent(contents);
 		
+		//저장한 vo를 service단을 통해 dao로 전달
 		noticeService.insertNoticeBoard(notice);
 		
 		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
 		.forward(request, response);	
 	}
 	
-	/*
-	//수정페이지
-	protected void goUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+	//수정전 
+	protected void beforeUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 		
-		//db에서 저장한 값을 불러오기
 		Notice notice = new Notice();
-		notice.getNoticeTitle(title);
-		notice.getNoticeContent(contents);
+		notice = noticeService.beforeUpdate(noticeNo);
+		request.setAttribute("notice",notice);
 		
-		noticeService.insertNoticeBoard(notice);
+		String noticeTitle = notice.getNoticeTitle();
+		String noticeContent = notice.getNoticeContent();
+		Date noticeDate = notice.getNoticeDate();
+		
+		request.setAttribute("noticeTitle", noticeTitle);
+		request.setAttribute("noticeContent", noticeContent);
+		request.setAttribute("noticeDate", noticeDate);
+		request.setAttribute("noticeNo", noticeNo);
 		
 		request.getRequestDispatcher("/WEB-INF/view/notice/update.jsp")
 		.forward(request, response);	
 	}
-	*/
 	
+	
+	//수정요청
+	protected void updateRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+		
+		//view에서 사용자 값 가져오기
+		String title = request.getParameter("title"); 
+		String contents = request.getParameter("contents");
+		
+		
+		//수정된 값을 VO에 저장하기
+		Notice notice = new Notice();
+		notice.setNoticeTitle(title);
+		notice.setNoticeContent(contents);
+		notice.setNoticeNo(noticeNo);
+		
+		//저장한 vo를 service단을 통해 dao로 전달
+		noticeService.updateRequest(notice);
+		
+		request.getRequestDispatcher("/WEB-INF/view/notice/update.jsp")
+		.forward(request, response);	
+	}
 
+	
+	
+	
 }

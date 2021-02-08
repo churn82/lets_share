@@ -85,10 +85,15 @@
 					</div>
 					
 					<!-- 수정 버튼 -->
-            		<div class="update_btn">
-		           	 <button><a href="/notice/update?noticeNo=${requestScope.noticeNo}">수정</button>
-		           	 <button>삭제</button>
-		            </div>
+            		<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mbId eq 'admin'}">
+						<div class="update_btn">
+		           	 		<span><a href="/notice/beforeUpdate?noticeNo=${requestScope.noticeNo}">수정</a></span>
+		           	 		<button>삭제</button>
+		           		 </div>	
+					</c:if>
+            		
+            		
+            		
 					
 					
 				

@@ -37,6 +37,21 @@ public class MemberService {
 		}
 		return member;
 	}
+	//카카오
+	public Member memberAuthenticatekakao(String mbkakaoId){	
+		Member member = null;
+		Connection conn = jdt.getConnection();	
+		try {
+			member = memberDao.memberAuthenticatekakao(conn, mbkakaoId);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return member;
+	}
 	
 	public Member selectMemberBylevel(String mbId){	
 		Connection conn = jdt.getConnection();

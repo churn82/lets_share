@@ -100,35 +100,11 @@
 		<script src="/resources/js/main.js"></script>
 
 	<script type="text/javascript">
-	/* 	function boardWriteCheck(){
-			let form = document.boardWriteForm;
-			
-			if(form.title.value == ''){
-				alert('제목을 입력하세요.');
-				
-				form.title.focus();
-				return false;
-			}
-			
-			if(form.contents.value==''){
-				alert('내용을 입력하세요.');
-			} */
-			
-			//카테고리 선택
-			
-		
-	 	
 		
 		//작성눌렀을때
 		function goNoticeList(){
-			
 			location.href="/notice/noticeList";
-			
-		
 		}
-			
-			
-		
 		
 	</script>
 

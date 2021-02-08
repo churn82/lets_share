@@ -13,17 +13,14 @@
 	
 	<div id="page-wrapper">
 	
-	<!-- Header -->
 	<div id="header">
 
-		<!-- Inner -->
 		<div class="inner">
 			<header>
 				<h1><a href="index.html" id="logo">Let's Share</a></h1>
 			</header>
 		</div>
 
-		<!-- Nav -->
 		<nav id="nav">
 			<ul>
 				<li><a href="index.html">Home</a></li>
@@ -36,55 +33,53 @@
 
 	</div>
 
-<!-- Main -->
-<!-- <div class="wrapper style1"> -->
-<div id="main">
+<div id="main"><%-- <div class="wrapper style1"> --%>
 	<div class="section">
 		<h2>수정</h2>
 			
-			<!-- tab_menu 시작 -->
-			<ul class="tab_menu">
-				<li class="n_menu">
-					<a href="/notice/noticeList">공지사항</a>
-				</li>
-				<li class="e_menu">
-					<a href="/notice/eventList">이벤트</a>
-				</li>
-			</ul>
-			<!-- tab_menu 끝 -->
-			
-			<!-- 내용 시작 -->
-			<div class="content_wrap">
-				<div class="content">
-					<form  name="noticeNo" method="post">
-						<h2>제목 : </h2><input class="content_header" value="${requestScope.noticeTitle}"/>
-							
-						<div class="content_body">
-						
-							<pre id="text">
-								<input value="${requestScope.noticeContent}"/>
-							</pre>
+	<div class="content_wrap">
+		<div class="content">
+			<form action="/notice/updateRequest" id="update" name="update" method="post">
+				<div class="form form_title">
+					<div class="title_wrap">
+						<div class="form_space">제목</div>
+						<!-- 파일선택 -->
+						<div class="form_space file_sel">
+							<input type="file" name="files">
 						</div>
-	
-						
-						<!-- 목록버튼 -->
-						<div class="list_btn">
-							<button onclick="goList()">목록</button>
-						</div>
-						
-	            		<div class="update_btn">
-			           	 <button type="submit" onclick="goList()">수정완료</button>
-			            </div>
-					</form>	
-					
-				
+					</div>
+					<input type="text" name="title" required="required" value="${requestScope.noticeTitle}"/>
+          		</div>
+				<div class="form form_content">
+		            <div class="form_space">내용</div>
+		            <textarea rows="10" name="contents" required="required">${requestScope.noticeContent}</textarea>
 				</div>
+					
+			
+			<!-- submit 버튼 -->
+			<div class="submits">
+				<!-- 카테고리 -->
+				<div class="cate_sel">
+					<label for="cate">카테고리: </label>
+					<select name="writer_cate" class="wrap_option">
+						<option value="notice">공지사항</option>
+						<option value="event">이벤트</option>
+					</select>
+				</div>
+				<button class="write_btn" type="submit" onclick="goNoticeList()">수정</button>
+			</div>
+			
+			<!-- 목록버튼 -->
+			<div class="list_btn">
+				<button>목록</button>
+			</div>
+			</form>
+		</div>
 		
-		</div>			
+	</div>			
 	</div>
 </div>
 		
-<!-- </div> -->
 
 			<!-- Footer -->
 				<div id="footer">

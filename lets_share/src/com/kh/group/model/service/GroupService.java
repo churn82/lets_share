@@ -1,6 +1,7 @@
 package com.kh.group.model.service;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.ArrayList;
 
 import com.kh.common.exception.DataAccessException;
@@ -362,5 +363,39 @@ public class GroupService {
 		}
 		return groupMatchings;
 	}
+
+	//=========================그룹 해지 시 그룹원들 만기일 중 가장 늦는거 가져오기=========================
+	public Date getMaxExDate(int groupId) {
+		Connection conn = jdt.getConnection();
+		Date maxExDate = null;
+		try {
+			maxExDate = groupDao.getMaxExDate(conn, groupId);
+			jdt.commit(conn);
+		} catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return maxExDate;
+	}
+	
+	//=========================그룹 해지 날짜 update해주기=========================
+	public int updateCloseDate(int groupId, Date closeDate) {
+		int res = 0;
+		Connection conn = jdt.getConnection();
+		try {
+			res = groupDao.updateCloseDate(conn, groupId, closeDate);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error); 
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
+
+
 }
 
