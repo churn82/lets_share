@@ -50,6 +50,34 @@ public class MemberDao {
 		}
 		return member;
 	}
+	//카카오
+	public Member memberAuthenticatekakao(Connection conn, String mbkakaoId) {
+		Member member = new Member();
+		//쿼리 실행용 객체
+		PreparedStatement pstm = null;
+		//Select쿼리의 결과로 반환된 데이터를 저장하는 객체
+		ResultSet rset = null;
+		
+		try {
+			String query = "SELECT * FROM SH_MEMBER WHERE MB_KAKAO_ID = ?";
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, mbkakaoId);
+			
+			rset = pstm.executeQuery();
+			if(rset.next()) {
+				member.setMbkakaoId(rset.getString(1));
+				member.setMbkakaonick(rset.getString(2));
+				member.setMbkakaoemail(rset.getString(3));
+			
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.SM01,e);	
+		}finally {
+			jdt.close(rset,pstm);
+		}
+		return member;
+	}
+	
 	
 	
 	
@@ -88,8 +116,7 @@ public class MemberDao {
 		ResultSet rset = null;
 	try {
 		String query = "select sh_grade.mb_gr_name from sh_member\r\n"
-				+ "inner join sh_grade on sh_grade.mb_level = sh_member.mb_level\r\n"
-				+ " where sh_grade.mb_gr_name = '일반 회원';";
+				+ "inner join sh_grade on sh_grade.mb_level = sh_member.mb_level";
 		pstm = conn.prepareStatement(query);
 		pstm.setString(1, mblevel);
 		
@@ -103,6 +130,7 @@ public class MemberDao {
 			member.setMbtel(rset.getString("mb_tel"));
 			member.setMbemail(rset.getString("mb_email"));
 			member.setMbRegisterDate(rset.getDate("mb_registerDate"));
+			member.setMblevel(rset.getString("mb_level"));
 		}
 	} catch (SQLException e) {
 		throw new DataAccessException(ErrorCode.SM01,e);	
@@ -200,7 +228,35 @@ public int insertMember(Connection conn, Member member){
 	
 	return res;
 }
+//카카오
 /*
+public int insertMemberkakao(Connection conn, Member member){
+	
+	int res = 0;
+	PreparedStatement pstm = null;
+	
+	try {
+		String query = "INSERT INTO SH_MEMBER(MB_KAKAO_ID,MB_KAKAO_NICK , MB_KAKAO_EMAIL) "
+				+"values(?,?,?)";
+		pstm = conn.prepareStatement(query);
+		pstm.setString(1, member.getMbkakaoId());
+		pstm.setString(2,member.getMbkakaonick());
+		pstm.setString(3, member.getMbkakaoemail());
+		
+		
+		res = pstm.executeUpdate();
+	} catch (SQLException e) {
+		throw new DataAccessException(ErrorCode.IM01,e);
+	}finally {
+		jdt.close(pstm);
+	}
+	
+	return res;
+}
+*/
+
+/*
+ * 이메일 join MB_ID null
 public int insertMember(Connection conn, Member member){
 	
 	int res = 0;
