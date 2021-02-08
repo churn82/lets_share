@@ -33,13 +33,15 @@ public class ReportController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String[] uriArr = request.getRequestURI().split("/");
 		switch (uriArr[uriArr.length-1]) {
-		case "form": RgotoForm(request,response);
+		case "form": reportForm(request,response);
 		break;
-		case "detail": rdetail(request,response);
+		case "formM": reportFormM(request,response);
 		break;
-		case "view" : gotoview(request,response);
+		case "detail": reportDetail(request,response);
 		break;
-		case "download": downloadFile(request,response);
+		case "view" : reportView(request,response);
+		break;
+		case "viewM" : reportViewM(request,response);
 		break;
 		default : response.setStatus(404);
 		break;
@@ -55,22 +57,24 @@ public class ReportController extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	protected void RgotoForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/view/report/reportForm.jsp")
+	private void reportForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/report/reportWrite.jsp")
 		.forward(request, response);
 	}
-	protected void gotoview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/view/report/reportView.jsp")
+	private void reportFormM(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/report/reportWrite_m.jsp")
 		.forward(request, response);
 	}
-	protected void rdetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
+	private void reportDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/view/report/reportDetail.jsp")
 		.forward(request, response);
 	}
-	protected void downloadFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	private void reportView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/report/reportView.jsp")
+		.forward(request, response);
 	}
-
+	private void reportViewM(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/view/report/reportView_m.jsp")
+		.forward(request, response);
+	}
 }

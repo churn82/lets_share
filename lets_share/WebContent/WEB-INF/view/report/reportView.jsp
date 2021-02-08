@@ -1,80 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<!DOCTYPE HTML>
-<!--
-	Helios by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/view/include/head.jsp" %>
+<!-- 사용자가 자신의 신고내역을 목록으로 확인할 수 있는 페이지입니다. -->
+<!-- 접근권한 : 사용자 -->
+<head>
 		<title>Let's Share</title>
-		<style type="text/css">
-			.searchForm{
-				text-align :center;
-				position : relative;
-				top : 30px;
-				display : inline;
-			}
-			
-			.button{
-			width : 100%;
-			
-			}
-			
-			.btng{
-				position: absolute;
-				right : 5%;
-				background-color: skyblue;
-			}
-			.btnm{
-					position: absolute;
-				right : 15%;
-				background-color: skyblue;
-			}
-			.imgs{
-				width : 40%;
-				margin : 10px auto;
-				border: 1px solid #000000;
-			}
-			.imgs img{
-				width: 100%;
-				vertical-align: middle;
-			}
-			.img-text{
-			padding : 5px 10px;
-			background-color: white;
-			text-align: center;
-			}
-			.page_btn{
-				font-size : 10px;
-				padding : 10px 10px;
-			}
-			.btn{
-			max-width : 100%;
-			height: auto;
-			width : 450px;
-			
-			
-			}
-		
-			
-		
-		</style>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="../../../resources/css/htmlMain.css" />
-		<noscript><link rel="stylesheet" href="../../../resources/css/noscript.css" /></noscript>
-	</head>
+		<link rel="stylesheet" href="/resources/css/report/reportView.css" />
+		<link rel="stylesheet" href="/resources/css/main.css" />
+		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
+</head>
 	<body class="no-sidebar is-preload">
-	<!-- 페이지 넘버
-	int pageNumber = 1;
-	if (request.getParameter("pageNumber") != null) {
-		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-	}
-	
-	 -->
 		<div id="page-wrapper">
-			
+
 			<!-- Header -->
 				<div id="header">
 
@@ -97,111 +36,100 @@
 						</nav>
 
 				</div>
-			
-			<div class="imgs">
-			<p><a href="/WEB-INF/view/group/groupform.jsp">	<img src="../../../resources/images/arrow.jpg" align="center" width="100px" height="100px"/> </a></p>
-				<div class="img-text">
-				<p style="text-align : center;">가이드 페이지로 이동</p>
-				</div>
-			</div>	
 
 			<!-- Main -->
-			<div class="wrapper style1">
-					<div class="wrap">
-					<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
-			
+				<div class="wrapper style1">
+					<div class="section">
+						<div class="wrap_title"><h2>내 신고내역</h2></div>
+						<ul class="tab_menu">
+							<li class="n_menu">
+								<a href="/report/reportList?list=all">전체 신고내역</a>
+							</li>
+							<li class="e_menu">
+								<a href="/report/reportList?list=replied">처리된 신고내역</a>
+							</li>
+						</ul>
 				
-					<thead>
-					<tr>
-						<th style="background-color: #eeeeee; text-align: center;">번호</th>
-						<th style="background-color: #eeeeee; text-align: center;">제목</th>
-						<th style="background-color: #eeeeee; text-align: center;">작성자</th>
-						<th style="background-color: #eeeeee; text-align: center;">작성일</th>
-					</tr>
-				</thead>
-					<tbody>
-					
-					
-					<tr>
-						<td><span>1 <!-- ${data.reportboard.bdIdx} --></span></td>
-						<td>제목</td>
-						<td>작성자</td>
-						<td>2021-01-29</td>
-					</tr>
-					</tbody>
-				</table>
-				
-	  
-          <button onclick="submitData('list')"><span>목록</span></button>
-       	
-		  <a href="template.jsp" class="btng">글쓰기</a> <!-- 글쓰기.jsp 페이지로 이동 -->
-		 
-		  	<div class="btn" style="margin:0px 550px;">
-		  		<button class="page_btnl">이전</button>
-		  		<button class="page_btn">1</button>
-		  		<button class="page_btn">2</button>
-		  		<button class="page_btn">3</button>
-		  		<button class="page_btn">4</button>
-		  		<button class="page_btn">5</button>
-		  		<button class="page_btnr">다음</button>
-		  	</div>
-		  
-		  	
-		
-	 <div id="searchForm" class ="searchForm" >
-        <form>
-            <select name="option" style= "width : 150px; height : 40px; font-size: small; margin-left:535px;">
-         		
-                <option value="0">제목</option>
-                <option value="1">내용</option>
-                <option value="2">제목+내용</option>
-                <option value="3">작성자</option>
-               	<div>
-               <input type="search" size ="40" value="검색"/> 
-               <button>검색</button>
-              </div> 
-                		
-               
-            </select>
-       		     
-            
-        </form>    
-    </div>
-		  
-      	 
-	
+						<div class="tab_content">
+							<div id="search_bar">
+								<select id="search_sel" name="select">
+									<option value="sel_all">전체  ▼ </option>
+									<option value="sel_title">제목</option>
+									<option value="sel_content">내용</option>
+								</select>
+								<input type="text" class="searchText" name="searchText" placeholder="검색어를 입력하세요.">
+								<button class="search_btn" onclick="searchList">조회</button>
+							</div>
 						</div>
+						
+						<div class="table_wrap">
+							<table class="tb_list">
+								<thead>
+									<tr>
+										<th>번호</th>
+										<th>제목</th>
+										<th>작성자</th>
+										<th>작성날짜</th>
+										<th>조회수</th>
+									</tr>
+								</thead>
+								<tbody>
+								<!-- <c:forEach var="reportList" items="${reportList}"> -->
+										<tr class="table_head">
+											<td class="reportNo">
+												신고 번호
+											</td>
+											<td class="title">
+				                      		  <a href="/report/reportDetail?reportNo=${reportList.reportNo}">
+				                        	  	신고 제목
+				                        		</a>
+				                     		</td>
+											<td class="writer">
+												작성자
+											</td>
+											<td class="date">
+												신고 게시일
+											</td>
+											<td class="hit">
+												조회수
+											</td>
+										</tr>
+								<!-- </c:forEach> -->
+								</tbody>				
+							</table>
+						</div>
+						<!-- 게시판 페이지 번호 -->
+						<div class="paging">
+							<a class="page_btn" href="">1</a>
+							<a class="page_btn" href="">2</a>
+							<a class="page_btn" href="">3</a>
+							<a class="page_btn" href="">4</a>
+						</div>
+					
+					<!-- 글쓰기 버튼 -->
+					<div class="write_btn">
+						<button id="write" onclick="changeWriter()">신고하기</button>				
+					</div>						
+				
 					</div>
 				</div>
-		
-		
-		
-		
-		
-	
-
-
-		
-	 
-
-
 
 			<!-- Footer -->
-				
-				
-					<div id="footer">
+				<div id="footer">
 					<div style="text-align: center;">Copyright © 1998-2021 KH Information Educational Institute All Right Reserved</div>
 				</div>
 
+		</div>
+
 		<!-- Scripts -->
-			<script src="../../../resources/js/jquery.min.js"></script>
-			<script src="../../../resources/js/jquery.dropotron.min.js"></script>
-			<script src="../../../resources/js/jquery.scrolly.min.js"></script>
-			<script src="../../../resources/js/jquery.scrollex.min.js"></script>
-			<script src="../../../resources/js/browser.min.js"></script>
-			<script src="../../../resources/js/breakpoints.min.js"></script>
-			<script src="../../../resources/js/util.js"></script>
-			<script src="../../../resources/js/main.js"></script>
+			<script src="/resources/js/jquery.min.js"></script>
+			<script src="/resources/js/jquery.dropotron.min.js"></script>
+			<script src="/resources/js/jquery.scrolly.min.js"></script>
+			<script src="/resources/js/jquery.scrollex.min.js"></script>
+			<script src="/resources/js/browser.min.js"></script>
+			<script src="/resources/js/breakpoints.min.js"></script>
+			<script src="/resources/js/util.js"></script>
+			<script src="/resources/js/main.js"></script>
 
 	</body>
 </html>
