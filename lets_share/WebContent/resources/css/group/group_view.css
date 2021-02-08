@@ -10,6 +10,7 @@
     /* border : 1px solid black; */
     margin: auto;
     display: flex;
+    margin-bottom : 3vh;
 }
 .logo_box{
     width : 12%;
@@ -29,6 +30,22 @@
     align-items: center;
     font-size: 2.25em;
     margin-left: 40px;
+}
+/* 해지 날짜가 지정됐을때의 박스*/
+.lastDate{
+	width: 50vw;
+	margin: auto;
+	text-align: center;
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 1em;
+}
+.lastDate2{
+	width: 50vw;
+	margin: auto;
+	margin-bottom : 3vh;
+	text-align: center;
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 1em;
 }
 
 /* content 박스 */

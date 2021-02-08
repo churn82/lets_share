@@ -13,11 +13,48 @@ public class Member {
 	private String mblevel;
 	private Date mbRegisterDate;
 	private Date mbLeaveDate;
+	//카카오
+	private String mbkakaoId;
+	private String mbkakaopw;
+	private String mbkakaonick;
+	private String mbkakaoemail;
 	
+	public String getMbkakaoId() {
+		return mbkakaoId;
+	}
+
+	public void setMbkakaoId(String mbkakaoId) {
+		this.mbkakaoId = mbkakaoId;
+	}
+
+	public String getMbkakaopw() {
+		return mbkakaopw;
+	}
+
+	public void setMbkakaopw(String mbkakaopw) {
+		this.mbkakaopw = mbkakaopw;
+	}
+
+	public String getMbkakaonick() {
+		return mbkakaonick;
+	}
+
+	public void setMbkakaonick(String mbkakaonick) {
+		this.mbkakaonick = mbkakaonick;
+	}
+
+	public String getMbkakaoemail() {
+		return mbkakaoemail;
+	}
+
+	public void setMbkakaoemail(String mbkakaoemail) {
+		this.mbkakaoemail = mbkakaoemail;
+	}
+
 	public Member() {
 		
 	}
-	
+	/*
 	public Member(String mbId, String mbpassword, String mbnick, String mbtel, String mbemail, int mbpoint,
 			String mblevel, Date mbRegisterDate, Date mbLeaveDate) {
 		
@@ -32,8 +69,27 @@ public class Member {
 		this.mbRegisterDate = mbRegisterDate;
 		this.mbLeaveDate = mbLeaveDate;
 	}
+	*/
 	
-	
+	public Member(String mbId, String mbpassword, String mbnick, String mbtel, String mbemail, int mbpoint,
+			String mblevel, Date mbRegisterDate, Date mbLeaveDate, String mbkakaoId, String mbkakaopw,
+			String mbkakaonick, String mbkakaoemail) {
+		super();
+		this.mbId = mbId;
+		this.mbpassword = mbpassword;
+		this.mbnick = mbnick;
+		this.mbtel = mbtel;
+		this.mbemail = mbemail;
+		this.mbpoint = mbpoint;
+		this.mblevel = mblevel;
+		this.mbRegisterDate = mbRegisterDate;
+		this.mbLeaveDate = mbLeaveDate;
+		this.mbkakaoId = mbkakaoId;
+		this.mbkakaopw = mbkakaopw;
+		this.mbkakaonick = mbkakaonick;
+		this.mbkakaoemail = mbkakaoemail;
+	}
+
 	public String getMbId() {
 		return mbId;
 	}
@@ -92,7 +148,8 @@ public class Member {
 	public String toString() {
 		return "Member [mbId=" + mbId + ", mbpassword=" + mbpassword + ", mbnick=" + mbnick + ", mbtel=" + mbtel
 				+ ", mbemail=" + mbemail + ", mbpoint=" + mbpoint + ", mblevel=" + mblevel + ", mbRegisterDate="
-				+ mbRegisterDate + ", mbLeaveDate=" + mbLeaveDate + "]";
+				+ mbRegisterDate + ", mbLeaveDate=" + mbLeaveDate + ", mbkakaoId=" + mbkakaoId + ", mbkakaopw="
+				+ mbkakaopw + ", mbkakaonick=" + mbkakaonick + ", mbkakaoemail=" + mbkakaoemail + "]";
 	}
 	
 }

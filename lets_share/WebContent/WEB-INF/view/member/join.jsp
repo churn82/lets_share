@@ -72,11 +72,11 @@
 							</div>
 							<div class="wrap_line2">
 								<span>비밀번호</span> 
-								<input type="password" name="pw" id="pw" placeholder="비밀번호를 입력하세요">
+								<input type="password" class="userPassword1" name="pw" id="pw" placeholder="비밀번호를 입력하세요">
 							</div>
 							<div class="wrap_line2">
 								<span>비밀번호 확인</span>
-								<input type="password" placeholder="비밀번호를 다시 입력하세요">
+								<input type="password" class="userPassword2"  placeholder="비밀번호를 다시 입력하세요">
 							</div>
 							<div class="wrap_line2">
 								<span></span>
@@ -109,6 +109,7 @@
 				</div>
 
 	<script>
+	//아이디 체크
 	let idCheckFlg = false;
 	let idCheck = () => {
 	
@@ -125,6 +126,7 @@
 				   }else{
 					   idCheckFlg = false;
 					   confirm_id.innerHTML = '사용 불가능한 아이디 입니다.';
+					   console.dir(text);
 					   ida.value="";
 				   }
 			   })
@@ -133,6 +135,7 @@
 			   alert("아이디를 입력하지 않으셨습니다.");
 		   }
 	   }
+	//비밀번호 양식,ID중복검사
 	  document.querySelector('#form_join').addEventListener('submit',(e)=>{
 		   let password = pw.value;
 		   let regExp = /^(?!.*[ㄱ-힣])(?=.*\W)(?=.*\d)(?=.*[a-zA-Z])(?=.{8,})/;
@@ -150,7 +153,7 @@
 			   pw.value='';
 		   }
 	   });
-	  
+	  //닉네임 체크
 	  let nickCheckFlg = false;
 		let nickCheck = () => {
 		
@@ -175,6 +178,19 @@
 				   alert("닉네임을 입력하지 않으셨습니다.");
 			   }
 		}
+		//비밀번호 체크 ()
+		/*
+		function passwordCheckfunction() {
+			var userPassword1 =$('#userPassword1').val();
+			var userPassword2 =$('#userPassword2').val();
+			if(userPassword1 != userPassword2){
+				$('#msg').html('비밀번호가 일치하지 않습니다.')
+			}else{
+				$('#msg').html('');
+			}
+		}
+		*/
+		
 	
 	</script>
 

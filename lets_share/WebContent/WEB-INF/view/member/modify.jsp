@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/include/head.jsp" %>
+<%@page import="com.kh.member.model.dao.MemberDao"%>
+<%@page import="java.util.ArrayList"%>
+
+
+
 <head>
 		<title>Let's Share</title>
 		<meta charset="utf-8" />
@@ -57,7 +62,7 @@
 								<span class="value">${sessionScope.user.mbId}</span>
 							</div>
 							<div class="password infobox">
-								<span class="name">비밀번호 변경</span>
+								<span class="name" >비밀번호 변경</span>
 								<input type="password" placeholder="변경할 비밀번호를 입력하세요." class="value">
 							</div>
 							<div class="password_confirm infobox">
@@ -78,6 +83,10 @@
 								<span class="name">이메일</span>
 								<span class="value">${sessionScope.user.mbemail}</span>
 							</div>
+							
+<!--  관리자 회원관리 -->
+			
+
 							<div class="wrap_btn">
 								<button id="leave_btn">회원 탈퇴하기</button>
 								<button id="cancel_btn">돌아가기</button>

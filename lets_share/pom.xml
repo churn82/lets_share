@@ -60,5 +60,13 @@
         <artifactId>json-simple</artifactId>
         <version>1.1</version>
     </dependency>
+
+    <!-- Quartz 스케줄러 -->
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+      <version>2.3.2</version>
+    </dependency>
+    
   </dependencies>
 </project>
