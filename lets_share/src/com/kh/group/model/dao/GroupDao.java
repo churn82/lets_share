@@ -573,5 +573,4 @@ public class GroupDao {
 		}
 		return groupMatchings;
 	}
-
 }

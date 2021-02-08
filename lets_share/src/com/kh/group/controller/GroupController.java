@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.kh.common.code.ErrorCode;
+import com.kh.common.exception.ToAlertException;
 import com.kh.common.sms.SMS;
 import com.kh.group.model.service.GroupService;
 import com.kh.group.model.vo.Group;
@@ -391,4 +393,5 @@ public class GroupController extends HttpServlet {
 	protected void closeGroup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//TODO 해야댐
 	}
+
 }
