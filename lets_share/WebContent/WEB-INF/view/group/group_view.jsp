@@ -112,6 +112,10 @@
 						</a>
 					</div>
 				</div>
+				<c:if test="${group.getLastDay() != null}">
+					<div class="lastDate">그룹 해지날짜(<a>${group.getLastDay()}</a>)가 지정되었습니다</div>
+					<div class="lastDate2">그룹원들은 추가 결제가 불가능합니다.</div>
+				</c:if>
 				<!-- 캘린더 호출 -->
 				<div class="calendar_box">
 					<div id="calendar"></div>
@@ -264,6 +268,7 @@
 					<div>그룹 해지는 그룹원 들의 만기일이 모두 지났을 시점부터 가능합니다.</div>
 					<div>그룹 해지 후 모든 정보는 완전히 삭제되며 더 이상 복구할 수 없게 됩니다.</div>
 					<div>
+						<input type="text" name="groupId" id="groupId" value="${group.getGroupId()}">
 						<input type="date" name="closeDate" id="closeDate">
 					</div>
 					<div class="">

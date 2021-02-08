@@ -2,6 +2,7 @@ package com.kh.group.model.dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -570,8 +571,48 @@ public class GroupDao {
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.MR05, e);
+		} finally {
+			jdt.close(rset, pstm);
 		}
 		return groupMatchings;
 	}
 
+	//=========================그룹 해지 시 그룹원들 만기일 중 가장 늦는거 가져오기=========================
+	public Date getMaxExDate(Connection conn, int groupId) {
+		Date maxExDate = null;
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = "SELECT MAX(EX_DATE) FROM SH_MATCHING WHERE GROUP_ID = ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setInt(1, groupId);
+			rset = pstm.executeQuery();
+			if(rset.next()) {
+				maxExDate = rset.getDate(1);
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.MR05, e);
+		} finally {
+			jdt.close(rset, pstm);
+		}
+		return maxExDate;
+	}
+
+	//=========================그룹 해지 날짜 update해주기=========================
+	public int updateCloseDate(Connection conn, int groupId, Date closeDate) {
+		int res = 0;
+		PreparedStatement pstm = null;
+		String query = "UPDATE SH_GROUP SET GROUP_LAST_DAY = ? WHERE GROUP_ID = ? ";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setDate(1, closeDate);
+			pstm.setInt(2, groupId);
+			res = pstm.executeUpdate();
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.GR04, e);
+		} finally {
+			jdt.close(pstm);
+		}
+		return res;
+	}
 }
