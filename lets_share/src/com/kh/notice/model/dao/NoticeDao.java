@@ -62,11 +62,6 @@ public class NoticeDao {
 		}
 		return res;
 	}
-	/*
-	*/
-		
-	
-	
 	
 	//수정전
 	public Notice beforeUpdate(Connection conn, int noticeNo){
@@ -320,14 +315,47 @@ public class NoticeDao {
 	}
 	
 */
+	//첫번째 : 요청온 페이지가 왔을 때 아래쪽 페이지 번호들이 출력되는 페이지 목록의 범위를 지정
+	//두번째 : 페이지 번호를 눌렀을 때 해당 페이지의 속하는 게시물의 목록을 뽑아내야 한다 (이 부분은 db 쿼리로 수행)
+		
+	//전체 페이지 수 = (전체 게시물 수 / 한 페이지에 출력할 수 ) + 1 (나머지가 있을 경우)	
+	
+	//한 화면에 보여줄 리스트 갯 수
+	public static final int pageList = 10;
+	//페이징 범위의 갯수
+	public static final int pagingCount = 10;
+	
+	
 	//페이지 범위 구하기
 	//"select count(*) from sh_notice";
 	public int[] paging(int page) {
+		int totalContent = 0;
+		int totalPage = 0;
 		int pageArr[] = null;
 		
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
+		String sql = "select count(*) from sh_notice where notice_type='notice' ";
+		
+		try {
+			rs = pstm.executeQuery();
 			
+			while(rs.next()) {
+				totalContent += rs.getInt(1);
+			}
+			
+			if(totalContent == 0) {
+				return null;
+			}
+			
+			totalPage = totalContent / noticeList.
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		return pageArr;
 		
 	}
@@ -342,8 +370,6 @@ public class NoticeDao {
 		try {
 			pstm = conn.prepareStatement(sql);
 			rs = pstm.executeQuery();
-			
-			
 			
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.SB01, e);
