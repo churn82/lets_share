@@ -70,7 +70,7 @@
 										<th>제목</th>
 										<th>작성자</th>
 										<th>작성날짜</th>
-										<th>조회수</th>
+										<th>처리상태</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -90,8 +90,8 @@
 											<td class="date">
 												신고 게시일
 											</td>
-											<td class="hit">
-												조회수
+											<td class="state">
+												처리상태
 											</td>
 										</tr>
 								<!-- </c:forEach> -->
