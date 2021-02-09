@@ -33,6 +33,25 @@ public class NoticeService {
 		return rs;
 	}
 	
+	//이벤트 게시글 등록
+	public int insertEventBoard(Notice notice) {
+		int rs = 0;
+		Connection conn = jdt.getConnection();
+		
+		try {
+			rs = noticeDao.insertEventBoard(conn, notice);
+			jdt.commit(conn);
+			
+		}catch(DataAccessException e){
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}		
+		return rs;
+	}
+	
+	
+	
 	//게시글 수정전
 	public Notice beforeUpdate(int noticeNo) {
 

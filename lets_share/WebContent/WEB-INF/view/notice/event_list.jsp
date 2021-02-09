@@ -100,7 +100,7 @@
 						</tr>
 					<script type="text/javascript">
 					function changeWriter(){
-						location.href="writer";
+						location.href="eventWriter";	//writer에서 바꿈
 					}
 					</script>
 					</c:forEach>
@@ -127,7 +127,7 @@
 					
 					<script type="text/javascript">
 						function changeWriter(){
-							location.href="writer";
+							location.href="eventWriter";	//writer에서 바꿈
 						}
 					</script>
 										

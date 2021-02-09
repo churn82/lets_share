@@ -30,7 +30,7 @@
 								<li><a href="#">구매자 모집</a></li>
 								<li><a href="left-sidebar.html">구매 참여</a></li>
 								<li><a href="right-sidebar.html">신고 게시판</a></li>
-								<li><a href="no-sidebar.html">공지 사항</a></li>
+								<li><a href="no-sidebar.html">공지 사항<-/a></li>
 							</ul>
 						</nav>
 
@@ -44,9 +44,11 @@
 							<input type="text" id="groupId" name="groupId"/>
 							<input type="text" id="service" name="service">
 							<input type="number" id="userPeriod" name="userPeriod">
-							<button><a href="#ex1" rel="modal:open">그룹번호로 검색</a></button>
-							<button><a href="#ex2" rel="modal:open">서비스 정보로 검색</a></button>
-							<input type="submit" class=".btn" value="검색">
+							<button class="btn_wrap"><a href="#ex1" rel="modal:open">그룹번호로 검색</a></button>
+							<button class="btn_wrap"><a href="#ex2" rel="modal:open">서비스 정보로 검색</a></button>
+							<button class="btn">검색</button> 
+							<!-- 그룹 자동검색 버튼 -->
+							<button id="btn_auto" onclick="automatch()">그룹 자동검색</button>
 						</form>
 						<!-- ex1 : 그룹 번호 검색 -->
 						<div id="ex1" class="modal">
@@ -73,7 +75,7 @@
 							<!-- <input type="submit" value="확인" class="btn"> -->
 							<!-- <button><a href="#" onclick="submit()">확인</a></button> -->
 						</div>
-						<button onclick="automatch()">그룹 자동검색</button>
+						
 						
 					</div>
 					<div class="nodeBox">
@@ -141,6 +143,16 @@
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 	
 			<script>
+				/* '검색'버튼을 제외한 각 버튼에 있는 기본이벤트 해제 */
+				document.querySelector("#btn_auto").addEventListener("click",(e)=>{
+					e.preventDefault();
+				})
+				document.querySelectorAll(".btn_wrap").forEach((b)=>{
+					b.addEventListener("click",(e)=>{
+						e.preventDefault();
+					})
+				});
+				/* 모달1의 확인버튼 */
 				document.querySelector("#btn_confirm").addEventListener("click",(e)=>{
 					document.querySelector("#groupId").value = 
 						document.querySelector("#group_id").value;
@@ -150,7 +162,7 @@
 					console.log(document.querySelector("#userPeriod").value);
 					console.log(document.querySelector("#user_period").value);
 				})
-				
+				/* 모달2의 확인버튼 */
 				document.querySelector("#btn_confirm2").addEventListener("click",(e)=>{
 					document.querySelector("#userPeriod").value = 
 						document.querySelector("#user_period").value;
@@ -169,7 +181,9 @@
 					location.href="/group/register?groupId="+groupId;
 				}
 				
+				/* 자동검색 버튼의 동작 */
 				let automatch = ()=>{
+					
 					let serviceCode = document.querySelector("#service").value;
 					let userPeriod = document.querySelector("#userPeriod").value;
 					if (!serviceCode){

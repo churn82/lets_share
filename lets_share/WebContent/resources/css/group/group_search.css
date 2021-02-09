@@ -20,6 +20,10 @@
 .btn_box  button{
     margin: 10px;
 }
+#btn_auto{
+    height: 5vh;
+    font-size: 0.8em;
+}
 /*  */
 .nodeBox{
     width: 63%;
