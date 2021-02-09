@@ -19,14 +19,14 @@
 					<!-- Inner -->
 						<div class="inner">
 							<header>
-								<h1><a href="index.html" id="logo">Let's Share</a></h1>
+								<h1><a href="/index" id="logo">Let's Share</a></h1>
 							</header>
 						</div>
 
 					<!-- Nav -->
 						<nav id="nav">
 							<ul>
-								<li><a href="index.html">Home</a></li>
+								<li><a href="/index">Home</a></li>
 								<li><a href="#">구매자 모집</a></li>
 								<li><a href="left-sidebar.html">구매 참여</a></li>
 								<li><a href="right-sidebar.html">신고 게시판</a></li>
@@ -38,21 +38,23 @@
 
 			<!-- Main -->
 				<div class="wrapper style1">
-					<div class="title"><a href="">그룹 서칭</a></div>
+					<div class="title"><a href="/group/search">그룹 서칭</a></div>
 					<div class="btn_box">
 						<form action="" method="GET">
 							<input type="text" id="groupId" name="groupId"/>
 							<input type="text" id="service" name="service">
-							<button><a href="#ex1" rel="modal:open">그룹 번호 입력</a></button>
-							<button><a href="#ex2" rel="modal:open">서비스 선택</a></button>
+							<input type="number" id="userPeriod" name="userPeriod">
+							<button><a href="#ex1" rel="modal:open">그룹번호로 검색</a></button>
+							<button><a href="#ex2" rel="modal:open">서비스 정보로 검색</a></button>
 							<input type="submit" class=".btn" value="검색">
 						</form>
-						<!-- ex1 : 결제 날짜 선택 모달  -->
+						<!-- ex1 : 그룹 번호 검색 -->
 						<div id="ex1" class="modal">
 							<h1>찾으시는 그룹 번호를 입력하세요</h1>
 							<input type="text" id="group_id">
 							<a href="#" rel="modal:close" id="btn_confirm">확인</a>
-						</div>	
+						</div>
+						<!-- ex2 : 서비스 선택 & 사용일수 입력 -->	
 						<div id="ex2" class="modal">
 							<h1>원하는 서비스를 선택하세요</h1>
 							
@@ -63,11 +65,15 @@
 								<div><img src="../../../resources/images/group/SR04.PNG" alt="" id="SR04" class="serviceSelect"></div>
 								<div><img src="../../../resources/images/group/SR05.PNG" alt="" id="SR05" class="serviceSelect"></div>
 							</div>
-							
+							<div class="modal2Box2">
+								<h1>서비스를 사용하고 싶은 일수를 입력하세요.</h1>
+								<input type="number" id="user_period">
+								<a href="#" rel="modal:close" id="btn_confirm2">확인</a>
+							</div>
 							<!-- <input type="submit" value="확인" class="btn"> -->
 							<!-- <button><a href="#" onclick="submit()">확인</a></button> -->
 						</div>
-						
+						<button onclick="automatch()">그룹 자동검색</button>
 						
 					</div>
 					<div class="nodeBox">
@@ -138,6 +144,16 @@
 				document.querySelector("#btn_confirm").addEventListener("click",(e)=>{
 					document.querySelector("#groupId").value = 
 						document.querySelector("#group_id").value;
+					
+					document.querySelector("#userPeriod").value = 
+						document.querySelector("#user_period").value;
+					console.log(document.querySelector("#userPeriod").value);
+					console.log(document.querySelector("#user_period").value);
+				})
+				
+				document.querySelector("#btn_confirm2").addEventListener("click",(e)=>{
+					document.querySelector("#userPeriod").value = 
+						document.querySelector("#user_period").value;
 				})
 				document.querySelectorAll(".serviceSelect").forEach((node)=>{
 					node.addEventListener("click", (e)=>{
@@ -151,6 +167,18 @@
 				
 				let register = (groupId) => {
 					location.href="/group/register?groupId="+groupId;
+				}
+				
+				let automatch = ()=>{
+					let serviceCode = document.querySelector("#service").value;
+					let userPeriod = document.querySelector("#userPeriod").value;
+					if (!serviceCode){
+						alert("원하는 서비스를 선택하세요.");
+					}else if (!userPeriod){
+						alert("서비스 사용을 원하는 일수를 입력하세요.");
+					}else{
+						location.href = "/auto?service=" + serviceCode + "&user_period=" + userPeriod;
+					}
 				}
 			</script>
 	</body>

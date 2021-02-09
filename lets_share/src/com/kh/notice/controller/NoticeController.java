@@ -49,6 +49,9 @@ public class NoticeController extends HttpServlet {
 			goEventDetail(request,response); break;
 		case "writer" :
 			goWriter(request,response); break;
+		//case "update" :
+			//goUpdate(request, response); break;
+
 		case "writerImpl" :
 			writeImpl(request, response); break;
 		case "beforeUpdate" :
@@ -83,7 +86,11 @@ public class NoticeController extends HttpServlet {
 		
 	}
 	
+	//이벤트 목록
 	protected void goEventList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HttpSession session = request.getSession();
+		String id = (String)session.getAttribute("id");
 		
 		ArrayList<Notice> noticeList = null;
 		noticeList = noticeService.selectEventList();
@@ -119,7 +126,21 @@ public class NoticeController extends HttpServlet {
 	
 	//이벤트 상세페이지
 	protected void goEventDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+		
+		Notice notice = new Notice();
+		notice = noticeService.selectEventDetail(noticeNo);
+		request.setAttribute("notice", notice);
+		
+		String noticeTitle = notice.getNoticeTitle();
+		String noticeContent = notice.getNoticeContent();
+		Date noticeDate = notice.getNoticeDate();
+		
+		request.setAttribute("noticeTitle", noticeTitle);
+		request.setAttribute("noticeContent", noticeContent);
+		request.setAttribute("noticeDate", noticeDate);
+		request.setAttribute("noticeNo", noticeNo);
+		
 		request.getRequestDispatcher("/WEB-INF/view/notice/event_detail.jsp")
 		.forward(request, response);
 	}
@@ -170,6 +191,7 @@ public class NoticeController extends HttpServlet {
 		.forward(request, response);	
 	}
 	
+	
 	//수정요청
 	protected void updateRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
@@ -192,4 +214,7 @@ public class NoticeController extends HttpServlet {
 		.forward(request, response);	
 	}
 
+	
+	
+	
 }

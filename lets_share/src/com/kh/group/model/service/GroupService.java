@@ -395,6 +395,22 @@ public class GroupService {
 		}
 		return res;
 	}
+	
+	//=========================그룹에 등록된 사람 있는지 확인=========================
+	public boolean checkGroup(String memberId) {
+		boolean flag = true;
+		Connection conn = jdt.getConnection();
+		try {
+			flag = groupDao.checkGroup(conn, memberId);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error); 
+		}finally {
+			jdt.close(conn);
+		}
+		return flag;
+	}
 
 
 }

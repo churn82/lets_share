@@ -153,17 +153,14 @@ public class GroupController extends HttpServlet {
 		.forward(request, response);
 	}
 	
-	//그룹 가입 신청(?)
+	//그룹 가입 신청
 	protected void registerGroup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//1. 그룹 아이디를 Get방식으로 받고 session에서 아이디 꺼내기
 		String groupSId = request.getParameter("groupId");
 		int groupId = Integer.parseInt(groupSId);
 		
-		//java.lang.NullPointerException: Cannot invoke "com.kh.member.model.vo.Member.getMbId()" because "member" is null
-		//이거뜨는데 왜뜨는지 모르겠음 정상적으로 들어가긴함
 		Member member = (Member) request.getSession().getAttribute("user");
 		String userId = member.getMbId();
-		
 		
 		//2. 그룹 대기 테이블에 넣어줌
 		int res = groupService.insertStandBy(groupId, userId);

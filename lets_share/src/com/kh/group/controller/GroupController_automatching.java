@@ -23,21 +23,15 @@ public class GroupController_automatching extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String[] uriArr = request.getRequestURI().split("/");
-		switch (uriArr[uriArr.length-1]) {
-			case "find": groupFind(request, response); break;
-			case "form": matchingForm(request,response); break;
-			default : response.setStatus(404);
+		if((request.getParameter("service") == null) || (request.getParameter("user_period") == null)) {
+			throw new ToAlertException(ErrorCode.AUTH01);
+		}else {
+			groupFind(request,response);
 		}
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-	}
-	private void matchingForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/view/group/group_automatching.jsp")
-		.forward(request, response);
 	}
 	private void groupFind(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int addGroup = 0;

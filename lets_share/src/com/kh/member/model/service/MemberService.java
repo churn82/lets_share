@@ -64,7 +64,7 @@ public class MemberService {
 	      return member;
 	   }
 	
-	//멤버정보 가져오기
+	//멤버정보 가져오기(ID)
 	public Member selectMemberById(String mbId){	
 		Member member = null;
 		Connection conn = jdt.getConnection();	
@@ -82,17 +82,23 @@ public class MemberService {
 
 	
 	
+	//닉네임 체크
+	public Member selectMemberBynick(String mbnick){
+		Member member = null;
+		Connection conn = jdt.getConnection();	
+		try {
+			member = memberDao.selectMemberBynick(conn, mbnick);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return member;
+	}
 	
-	public Member selectMemberBynick(String mbnick){	
-		Connection conn = jdt.getConnection();
-	      Member member = null;
-	      try {
-	         member = memberDao.selectMemberBynick(conn, mbnick);
-	      } finally {
-	         jdt.close(conn);
-	      }     
-	      return member;
-	   }
+		
 	public List<Member> selectMemberByRegdate(Date begin, Date end){
 		  Connection conn = jdt.getConnection();
 	      List<Member> memberList = null;
@@ -176,5 +182,52 @@ public class MemberService {
 		}
 		return res;
 	}
+	
+	
+	//회원등급에 맞는 코드명 가져오기
+	public String getGradeName(String memberRank) {
+		Connection conn = jdt.getConnection();
+		String gradeName = "";
+		try {
+			gradeName = memberDao.getGradeName(conn, memberRank);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
+		return gradeName;
+	}
+	
+	//비밀번호, 닉네임 수정
+	public int updatePwNick(String memberId, String updatePw, String updateNickName) {
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			res = memberDao.updatePwNick(conn, memberId, updatePw, updateNickName);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
+	
+	//회원 탈퇴
+	public int updateLeaveDate(String memberId) {
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			res = memberDao.updateLeaveDate(conn, memberId);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
+
 }
 

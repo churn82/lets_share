@@ -87,7 +87,26 @@ public class NoticeService {
 		return rs;
 	}
 	*/
-	//상세페이지
+	
+	//이벤트 삭제 기능
+	public int deleteEventBoard(int noticeNo) {
+		Connection conn = jdt.getConnection();
+		int rs = 0;
+		
+		try {
+			rs = noticeDao.deleteEventBoard(conn, noticeNo);
+			jdt.commit(conn);
+		}catch (DataAccessException e) {
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
+		
+		return rs;
+	}
+	
+	
+	//공지 상세페이지
 	public Notice selectNoticeDetail(int noticeNo){
 		Connection conn = jdt.getConnection();
 		Notice notice = null;
@@ -100,6 +119,22 @@ public class NoticeService {
 		
 		return notice;
 	}
+	
+	//이벤트 상세페이지
+		public Notice selectEventDetail(int noticeNo){
+			Connection conn = jdt.getConnection();
+			Notice notice = null;
+			
+			try {
+				notice = noticeDao.selectEventDetail(conn, noticeNo);
+			}finally {
+				jdt.close(conn);
+			}
+			
+			return notice;
+		}
+	
+	
 	
 	//공지사항 목록
 	public ArrayList<Notice> selectNoticeList(){

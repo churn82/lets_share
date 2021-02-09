@@ -7,27 +7,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.group.model.service.GroupService;
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.Member;
 
-/**
- * Servlet implementation class MemberController
- */
 @WebServlet("/member/*")
 public class MemberController extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
+	
 	MemberService memberService = new MemberService();
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+	GroupService groupService = new GroupService();
+    
     public MemberController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String[] uriArr = request.getRequestURI().split("/");
 		switch(uriArr[uriArr.length-1]) {
@@ -36,6 +31,7 @@ public class MemberController extends HttpServlet {
 			case "leave" : leave(request,response); break;
 			case "login" : login(request,response); break;
 			case "modify" : modify(request,response); break;
+			case "modifyimpl" : modifyImpl(request,response); break;
 			case "rank" : rank(request,response); break;
 			case "mypage" : mypage(request,response); break;//김승현 mypage
 			case "joinimpl" : joinImpl(request,response); break;
@@ -44,6 +40,7 @@ public class MemberController extends HttpServlet {
 			case "nickcheck" : confirmnick(request,response); break;
 			case "logout" : logout(request,response); break;
 			case "mailauth" : Email(request,response); break;
+			case "withdrawal" : withdrawal(request, response); break;
 			//case "kakaologin" : kakaologin(request,response); break;
 			default : System.out.println("오류");
 		}
@@ -64,7 +61,6 @@ public class MemberController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/member/join.jsp")
 		.forward(request, response);
 	}
-	
 	private void leave(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/view/member/leave.jsp")
 		.forward(request, response);
@@ -81,26 +77,23 @@ public class MemberController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/member/rank.jsp")
 		.forward(request, response);
 	}
+	
+	//마이페이지
 	private void mypage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String mbId = request.getParameter("id");
-		String mbpassword = request.getParameter("pw");
-		String mbnick = request.getParameter("nick");
-		String mbtel = request.getParameter("tel");
-		String mblevel = request.getParameter("level");
-		String mbemail = request.getParameter("email");
+		//1.session에서 회원등급 코드 꺼낸다
+		Member member = (Member) request.getSession().getAttribute("user");
+		String memberRank = member.getMblevel();
 		
-		Member member = new Member();
-		member.setMbId(mbId);
-		member.setMbPassword(mbpassword);
-		member.setMbNick(mbnick);
-		member.setMbtel(mbtel);
-		member.setMblevel(mblevel);
-		member.setMbemail(mbemail);
+		//2.회원등급 코드에 맞는 코드명 가져온다
+		String gradeName = memberService.getGradeName(memberRank);
 		
+		//3. gradeName 설정해준다
+		request.setAttribute("gradeName", gradeName);
 		
 		request.getRequestDispatcher("/WEB-INF/view/member/mypage.jsp")
-		.forward(request, response);
+	    .forward(request, response);
+		
 	}
 	private void joinImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String mbId = request.getParameter("id");
@@ -123,34 +116,28 @@ public class MemberController extends HttpServlet {
 		.forward(request, response);
 		
 	}
+	
+	//ID중복확인
 	private void confirmId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String mbId = request.getParameter("mbId");
-		
 		Member member =	memberService.selectMemberById(mbId);
-
-
-		if(member != null) {
-			response.getWriter().print("fail");
-		}else {
-			
+		if(member.getMbId() == null) {
 			response.getWriter().print("success");
-			
+		}else {
+			response.getWriter().print("fail");
 		}
 	}
+	
+	//닉네임 중복 확인
 	private void confirmnick(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String mbnick = request.getParameter("mbnick");
-		
 		Member member =	memberService.selectMemberBynick(mbnick);
-
-
-		if(member != null) {
-			response.getWriter().print("fail");
-		}else {
-			
+		if(member.getMbNick() == null) {
 			response.getWriter().print("success");
-			
+		}else {
+			response.getWriter().print("fail");
 		}
 	}
 	
@@ -160,8 +147,8 @@ public class MemberController extends HttpServlet {
 		String mbId = request.getParameter("id");
 		String mbpassword = request.getParameter("pw");
 		Member member = memberService.memberAuthenticate(mbId, mbpassword);
-		
-		if(member != null) {
+
+		if(member.getMbId() != null) {
 			//세션에 회원 정보 저장
 			request.getSession().setAttribute("user", member);
 			request.setAttribute("msg", "정상적으로 로그인 되었습니다.");
@@ -175,9 +162,52 @@ public class MemberController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
 			.forward(request, response);
 		}
-		
-		
 	}
+	
+	//회원정보 수정
+	private void modifyImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String updatePw = request.getParameter("pw");
+		String updateNickName = request.getParameter("nick");
+		
+		//1.session에서 회원아이디 코드 꺼낸다
+		Member member = (Member) request.getSession().getAttribute("user");
+		String memberId = member.getMbId();
+		
+		memberService.updatePwNick(memberId, updatePw, updateNickName);
+		
+		request.setAttribute("msg", "정상적으로 수정되었습니다");
+		request.setAttribute("url", "/member/mypage");
+		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+		.forward(request, response);
+	}
+	
+	//회원 탈퇴(탈퇴 처리 전에 그룹소속되었는지 확인)
+	private void withdrawal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String wpw = request.getParameter("wpw");
+		Member member = (Member) request.getSession().getAttribute("user");
+		String pw = member.getMbPassword();
+		String memberId = member.getMbId();
+		boolean flag = groupService.checkGroup(memberId);
+		
+		if(pw.equals(wpw) && flag) {
+			//탈퇴처리
+			memberService.updateLeaveDate(memberId);
+			request.getSession().removeAttribute("user");
+			request.setAttribute("msg", "탈퇴 처리되었습니다");
+			request.setAttribute("url", "/index");
+			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+			.forward(request, response);
+		}else {
+			//탈퇴 x
+			request.setAttribute("msg", "비밀번호가 일치하지 않습니다");
+			request.setAttribute("url", "/member/mypage");
+			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+			.forward(request, response);
+		}
+
+	}
+	
+
 	/*
 private void kakaologin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

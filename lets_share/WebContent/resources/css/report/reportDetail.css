@@ -1,0 +1,81 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+h2{
+	font-size: 2vw;
+}
+pre{
+	white-space: pre-line;
+}
+.wrapper{
+	display:flex;
+	justify-content: center;
+}
+.section{
+	width: 75%;
+	height: 100%;
+}
+.wrap_title{
+	border-bottom :1px solid;
+	
+}
+
+.content_body{
+	padding: 2%;
+}
+
+.content{
+	border-top: 1px solid #d8dce3;
+}
+
+.content_header{
+	padding: 2% 2%;
+}
+
+.content_header h3{
+	display:inline-block;
+	font-size: 2vw;
+}
+
+.date{
+	float: right;
+}
+.content_writer{
+	
+}
+.content_body{
+	padding: 2%;
+    background: #f7f8fc;
+    border-top: 1px solid #d8dce3;
+    border-bottom: 1px solid #d8dce3;
+    min-height:150px;
+    overflow:auto;
+}
+.reply_header{
+	padding: 2% 2%;
+}
+
+.reply_header h3{
+	display:inline-block;
+	font-size: 2vw;
+}
+
+.state{
+	float: right;
+}
+
+.reply_body{
+	padding: 2%;
+    background: #f7f8fc;
+    border-bottom: 1px solid #d8dce3;
+}
+.wrap_btn{
+	display: flex;
+	margin-top: 1%;
+	text-align: center;
+	font-size:1vw;
+	justify-content: flex-end;
+}
+.wrap_btn button{
+	margin-left:2%;
+}

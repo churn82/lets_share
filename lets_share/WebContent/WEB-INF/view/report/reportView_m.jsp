@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/include/head.jsp" %>
-<!-- 사용자가 자신의 신고내역을 목록으로 확인할 수 있는 페이지입니다. -->
-<!-- 접근권한 : 사용자 -->
+<!-- 관리자가 모든 사용자의 신고내역을 목록으로 볼 수 있는 페이지입니다. -->
+<!-- 접근권한 : 관리자 -->
 <head>
 		<title>Let's Share</title>
 		<meta charset="utf-8" />
@@ -40,13 +40,13 @@
 			<!-- Main -->
 				<div class="wrapper style1">
 					<div class="section">
-						<div class="wrap_title"><h2>내 신고내역</h2></div>
+						<div class="wrap_title"><h2>신고내역 관리</h2></div>
 						<ul class="tab_menu">
 							<li class="n_menu">
-								<a href="/report/reportList?list=all">전체 신고내역</a>
+								<a href="/report/reportView?list=unreplied">미처리 신고내역</a>
 							</li>
 							<li class="e_menu">
-								<a href="/report/reportList?list=replied">처리된 신고내역</a>
+								<a href="/report/reportView?list=all">전체 신고내역</a>
 							</li>
 						</ul>
 				
@@ -104,13 +104,7 @@
 							<a class="page_btn" href="">2</a>
 							<a class="page_btn" href="">3</a>
 							<a class="page_btn" href="">4</a>
-						</div>
-					
-					<!-- 글쓰기 버튼 -->
-					<div class="write_btn">
-						<button id="write" onclick="changeWriter()">신고하기</button>				
-					</div>						
-				
+						</div>					
 					</div>
 				</div>
 

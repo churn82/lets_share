@@ -615,4 +615,26 @@ public class GroupDao {
 		}
 		return res;
 	}
+
+	//=========================그룹에 등록된 사람 있는지 확인=========================
+	public boolean checkGroup(Connection conn, String memberId) {
+		boolean flag = true;
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = "SELECT * FROM SH_MATCHING WHERE MB_ID = ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, memberId);
+			rset = pstm.executeQuery();
+			while(rset.next()) {
+				flag = false;
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.MR05, e);
+		} finally {
+			jdt.close(rset, pstm);
+		}
+		return flag;
+	}
+	
 }
