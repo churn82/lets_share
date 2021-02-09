@@ -252,6 +252,8 @@ private void kakaologin(HttpServletRequest request, HttpServletResponse response
 		member.setMbemail(mbemail);
 		
 		int res = memberService.insertMember(member);
+		
+		//request.getSession().setAttribute("persistUser", member);
 		memberService.Emailsend(member);
 		
 		

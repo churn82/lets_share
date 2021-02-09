@@ -24,7 +24,7 @@ public void sendEmail(String to, String subject, String htmlText) {
 		
 		//1. smtp 통신을 위한 Session 객체 생성
 		
-		PasswordAuthentication pa = new PasswordAuthentication("tlfpehd@naver.com","zkdhtm!2");
+		PasswordAuthentication pa = new PasswordAuthentication("tlfpehd@naver.com","zkdhtm!23");
 		
 		//Session session = Session.getDefaultInstance(props,authentication);
 		
@@ -54,7 +54,7 @@ public void sendEmail(String to, String subject, String htmlText) {
 	public Session getSession() {
 		//1. smtp 통신을 위한 Session 객체 생성
 		
-				PasswordAuthentication pa = new PasswordAuthentication(Code.EMAIL.desc,"zkdhtm!2");
+				PasswordAuthentication pa = new PasswordAuthentication(Code.EMAIL.desc,"zkdhtm!23");
 				
 				//Session session = Session.getDefaultInstance(props,authentication);
 				
