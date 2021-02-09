@@ -348,7 +348,7 @@ public class NoticeDao {
 				return null;
 			}
 			
-			totalPage = totalContent / noticeList.
+			//totalPage = totalContent / noticeList.
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
