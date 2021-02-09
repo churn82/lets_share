@@ -99,11 +99,30 @@
 	font-size:1vw;
 	display:flex;
 	align-items:center;
+	margin-right: 44%;
 }
 #leave_btn{
-	margin-right:50%;
+	margin-right:5%;
 }
 #cancel_btn{
 	margin-right:1%;
+}
+
+/* 탈퇴 */
+#ex1{
+	font-family: 'Noto Sans KR', sans-serif;
+}
+#ex1 div{
+    font-size: 0.7em;
+    margin-top: 1vh;
+    display: flex;
+}
+
+#ex1 div > input{
+	margin: auto;
+}
+
+#ex1 input{
+	margin-top: 1vh;
 }
 

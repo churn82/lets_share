@@ -52,16 +52,21 @@ public class AuthFilter implements Filter {
 						.forward(request, response);
 					}
 				}
+			case "member" :
+				switch(uriArr[2]) {
+				case "mypage" :
+					if(session.getAttribute("user") == null) {
+						throw new ToAlertException(ErrorCode.AUTH01);
+					}
+				case "modify" :
+					if(session.getAttribute("user") == null) {
+						throw new ToAlertException(ErrorCode.AUTH01);
+					}
+				}
 			}
 		}
 		chain.doFilter(request, response);
 	}	
-
-
-		
-	
-	
-
 	/**
 	 * @see Filter#init(FilterConfig)
 	 */
