@@ -67,7 +67,7 @@
 						<option value="event">이벤트</option>
 					</select>
 				</div>
-				<button class="write_btn" type="submit" onclick="goNoticeList()">작성</button>
+				<button class="write_btn" type="submit">작성</button>
 			</div>
 			
 			<!-- 목록버튼 -->
