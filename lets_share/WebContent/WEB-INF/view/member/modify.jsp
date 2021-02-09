@@ -68,7 +68,7 @@
 						</div>
 						<div class="nickname infobox">
 							<span class="name">닉네임</span>
-							<input type="text" id="nick" name="nick" placeholder="${sessionScope.user.mbNick}" class="value">
+							<input type="text" id="nick" name="nick" placeholder="${sessionScope.user.mbnick}" class="value">
 							<button type="button" onclick="nickCheck()">중복확인</button>
 							<span class="vaild_info" id="nickCheck"></span>							
 						</div>

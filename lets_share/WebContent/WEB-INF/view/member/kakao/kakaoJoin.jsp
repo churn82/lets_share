@@ -42,29 +42,32 @@
 						<a href="">KaKao 회원가입</a>
 					</div>
 					<div class="formBox">
-						<form action="">
+						<form action="${context}/Kakao/joinImpl" id="form_join">
 							<div class="line1">
 								<div class="label"><div>ID : </div></div>
-								<div class="input"><input type="text" name="" id="" style="padding: 10px;  font-size: 0.8em;" value="${kakaoId}" readonly></div>
+								<div class="input"><input type="text" name="kakaoId" id="kakaoId" style="padding: 10px;  font-size: 0.8em;" value="${kakaoId}" readonly></div>
 							</div>
 							<div class="line1">
 								<div class="label"><div>E-mail : </div></div>
-								<div class="input"><input type="text" name="" id="" style="padding: 10px;  font-size: 0.8em;" value="${email}" readonly></div>
+								<div class="input"><input type="text" name="email" id="email" style="padding: 10px;  font-size: 0.8em;" value="${email}" readonly></div>
 							</div>
 							<div class="line1">
 								<div class="label"><div>이름 : </div></div>
-								<div class="input"><input type="text" name="" id="" style="padding: 10px; font-size: 0.8em;" placeholder="본인의 이름을 입력해주세요"></div>
+								<div class="input"><input type="text" name="name" id="name" style="padding: 10px; font-size: 0.8em;" placeholder="본인의 이름을 입력해주세요"></div>
 							</div>
 							<div class="line1">
 								<div class="label"><div>닉네임 : </div></div>
-								<div class="input"><input type="text" name="" id="" style="padding: 10px; font-size: 0.8em;" value="${nickname}" readonly ></div>
+								<div class="input"><input type="text" name="nickname" id="nickname" style="padding: 10px; font-size: 0.8em;" value="${nickname}" readonly ></div>
 							</div>
 							<div class="line1">
 								<div class="label"><div>전화 번호 : </div></div>
-								<div class="input"><input type="text" name="" id="" style="padding: 10px;  font-size: 0.8em;" placeholder="전화번호"></div>
+								<div class="input"><input type="text" name="tel" id="tel" style="padding: 10px;  font-size: 0.8em;" placeholder="전화번호"></div>
 							</div>
-							<div class="line1">
+							<div class="line1" id="nameAlert">
 								* 본인의 이름을 입력해야 결제시 입금 확인이 가능합니다
+							</div>
+							<div class="line1" id="telAlert">
+								* 전화 번호를 입력하셔야 서비스 pw를 받아 이용하실 수 있습니다
 							</div>
 							<div class="buttonBox">
 								<input type="submit" name="" id="" value="가입하기">
@@ -140,34 +143,18 @@
 		
 			//가입하기 버튼 클릭시  (수정완료)
 			document.querySelector('#form_join').addEventListener('submit',(e)=>{
-				let password = pw.value;
-				let regExp = /^(?!.*[ㄱ-힣])(?=.*\W)(?=.*\d)(?=.*[a-zA-Z])(?=.{8,})/;
-
-				//-> 중복검사했는지 확인
-				if(!idCheckFlg){
+				let nameAlert = document.querySelector("#nameAlert");
+				let telAlert = document.querySelector("#telAlert");
+				if(document.querySelector("#name").value == ""){
 					e.preventDefault();
-					alert("아이디 중복검사를 하지 않으셨습니다.");
-					id.focus();
+					nameAlert.style.color = 'red';
 				}
-				
-				//-> 비밀번호 2개가 동일한지 확인
-				if(document.querySelector("#pw").value != document.querySelector("#pw2").value){
+				if(document.querySelector("#tel").value == ""){
 					e.preventDefault();
-					alert("비밀번호가 일치하지 않습니다.");
-					document.querySelector("#pw").value = '';
-					document.querySelector("#pw2").value = '';
-					document.querySelector("#pw").focus();
-				}
-		
-				//-> 비밀번호 양식에 맞는지 확인
-				if(!(regExp.test(password))){
-					//form의 데이터 전송을 막음
-					e.preventDefault();
-					confirm_pw.innerHTML = '비밀번호는 숫자,영문자,특수문자 조합의 8글자 이상인 문자열입니다.';
-					document.querySelector("#pw").value = '';
-					document.querySelector("#pw2").value = '';
+					telAlert.style.color = 'red';
 				}
 			});
+					
 		</script>
 	</body>
 </html>

@@ -41,6 +41,7 @@ public class KakaoController extends HttpServlet {
 		String[] uriArr = request.getRequestURI().split("/");
 		switch (uriArr[uriArr.length-1]) {
 		case  "oauth" : kakaoReceiveInform(request, response); break;
+		case  "joinImpl" : joinImpl(request, response); break;
 		default:
 			response.setStatus(404);
 			break;
@@ -89,7 +90,6 @@ public class KakaoController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/view/member/kakao/kakaoJoin.jsp")
 			.forward(request, response);
 			
-			
 		}else if(member.getMbId().equals(kakaoData.get("kakaoId"))){
 			//5-2. Kakao로 로그인한적 있음 세션주자 걔 찾아서
 			request.getSession().setAttribute("user", member);
@@ -100,7 +100,26 @@ public class KakaoController extends HttpServlet {
 		}
 	}
 	
-
+	protected void joinImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		Member member = new Member();
+		member.setMbId(request.getParameter("kakaoId"));
+		member.setMbpassword("kakao");
+		member.setMbemail(request.getParameter("email"));
+		member.setMbName(request.getParameter("name"));
+		member.setMbnick(request.getParameter("nickname"));
+		member.setMbtel(request.getParameter("tel"));
+		
+		int res = memberService.insertMember(member);
+		
+		request.setAttribute("msg", "정상적으로 카카오 회원가입 되었습니다");
+		Member user = memberService.selectMemberById(member.getMbId());
+		request.getSession().setAttribute("user", user);
+		request.setAttribute("url", "/index");
+		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+		.forward(request, response);
+		
+	}
 	
 	//AccesToken으로 반환받은 사용자 정보에서 Id, email, nickname만 map에 담아 가져오는 함수
 	public Map<String, String> parseUserData (String userString){

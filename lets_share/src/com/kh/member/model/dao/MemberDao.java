@@ -211,30 +211,30 @@ public class MemberDao {
 		return memberList;
 	}
 
+	//SH_MEMBER 테이블에 INSERT해주는 메서드
 	public int insertMember(Connection conn, Member member){
-		
 		int res = 0;
 		PreparedStatement pstm = null;
 		
 		try {
-			String query = "INSERT INTO SH_MEMBER(MB_ID, MB_PASSWORD,MB_NICK, MB_EMAIL, MB_TEL) "
-					+"values(?,?,?,?,?)";
+			String query = "INSERT INTO SH_MEMBER(MB_ID, MB_PASSWORD, MB_NICK, MB_EMAIL, MB_TEL, MB_NAME) "
+					+"VALUES(?,?,?,?,?,?)";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, member.getMbId());
 			pstm.setString(2,member.getMbpassword());
 			pstm.setString(3, member.getMbnick());
 			pstm.setString(4, member.getMbemail());
 			pstm.setString(5, member.getMbtel());
-			
+			pstm.setString(6, member.getMbName());
 			res = pstm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.IM01,e);
 		}finally {
 			jdt.close(pstm);
 		}
-		
 		return res;
 	}
+	
 //카카오
 /*
 public int insertMemberkakao(Connection conn, Member member){
