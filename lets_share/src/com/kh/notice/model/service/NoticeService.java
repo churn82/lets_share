@@ -63,7 +63,7 @@ public class NoticeService {
 			jdt.commit(conn);
 			
 		}catch(DataAccessException e){
-			throw new ToAlertException(e.error);
+		//	throw new ToAlertException(e.error);
 		}finally {
 			jdt.close(conn);
 		}		

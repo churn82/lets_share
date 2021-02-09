@@ -103,7 +103,7 @@ public class NoticeDao {
 		String query = "update sh_notice set "
 				+"notice_title=?, "
 				+"notice_content=?, "
-				+"notice_date=sysdate, "
+				+"notice_date=sysdate "
 				+"where notice_no=?";
 		try {
 			pstm = conn.prepareStatement(query);

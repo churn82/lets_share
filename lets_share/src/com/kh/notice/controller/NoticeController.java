@@ -200,7 +200,7 @@ public class NoticeController extends HttpServlet {
 		//view에서 사용자 값 가져오기
 		String title = request.getParameter("title"); 
 		String contents = request.getParameter("contents");
-		
+		System.out.println(title);
 		
 		//수정된 값을 VO에 저장하기
 		Notice notice = new Notice();
@@ -211,8 +211,8 @@ public class NoticeController extends HttpServlet {
 		//저장한 vo를 service단을 통해 dao로 전달
 		noticeService.updateRequest(notice);
 		
-		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
-		.forward(request, response);	
+		//request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
+		//.forward(request, response);	
 	}
 
 	//삭제

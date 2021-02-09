@@ -66,9 +66,9 @@
 						<option value="event">이벤트</option>
 					</select>
 				</div>
-				<span><a href="/notice/updateRequest?noticeNo=${requestScope.noticeNo}">수정</a></span>
+				<button type="submit">수정</button>
 			</div>
-			
+			<input type="hidden" value='${requestScope.noticeNo}' name='noticeNo'/>
 			<!-- 목록버튼 -->
 			<div class="list_btn">
 				<button>목록</button>
