@@ -111,7 +111,6 @@ public class NoticeDao {
 			pstm.setString(2, notice.getNoticeContent());
 			pstm.setInt(3, notice.getNoticeNo());
 			res = pstm.executeUpdate();
-			System.out.println(res);
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.UB01, e);
 		}finally {

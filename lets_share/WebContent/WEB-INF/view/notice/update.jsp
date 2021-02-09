@@ -66,12 +66,12 @@
 						<option value="event">이벤트</option>
 					</select>
 				</div>
-				<button type="submit">수정</button>
+				<button type="submit" onclick='goList()'>수정</button>
 			</div>
 			<input type="hidden" value='${requestScope.noticeNo}' name='noticeNo'/>
 			<!-- 목록버튼 -->
 			<div class="list_btn">
-				<button>목록</button>
+				<button onclick='goList()'>목록</button>
 			</div>
 			</form>
 		</div>
@@ -100,10 +100,8 @@
 			
 		<script type="text/javascript">
 			function goList(){
-				location.href="/notice/updateRequest";
-				
+				location.href="/notice/noticeList";
 			}
-		
 		
 		</script>
 
