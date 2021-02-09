@@ -105,8 +105,8 @@ public class MemberController extends HttpServlet {
 		
 		Member member = new Member();
 		member.setMbId(mbId);
-		member.setMbPassword(mbpassword);
-		member.setMbNick(mbnick);
+		member.setMbpassword(mbpassword);
+		member.setMbnick(mbnick);
 		member.setMbtel(mbtel);
 		member.setMbemail(mbemail);
 		
@@ -134,7 +134,7 @@ public class MemberController extends HttpServlet {
 		
 		String mbnick = request.getParameter("mbnick");
 		Member member =	memberService.selectMemberBynick(mbnick);
-		if(member.getMbNick() == null) {
+		if(member.getMbnick() == null) {
 			response.getWriter().print("success");
 		}else {
 			response.getWriter().print("fail");
@@ -185,7 +185,7 @@ public class MemberController extends HttpServlet {
 	private void withdrawal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String wpw = request.getParameter("wpw");
 		Member member = (Member) request.getSession().getAttribute("user");
-		String pw = member.getMbPassword();
+		String pw = member.getMbpassword();
 		String memberId = member.getMbId();
 		boolean flag = groupService.checkGroup(memberId);
 		
@@ -246,8 +246,8 @@ private void kakaologin(HttpServletRequest request, HttpServletResponse response
 		
 		Member member = new Member();
 		member.setMbId(mbId);
-		member.setMbPassword(mbpassword);
-		member.setMbNick(mbnick);
+		member.setMbpassword(mbpassword);
+		member.setMbnick(mbnick);
 		member.setMbtel(mbtel);
 		member.setMbemail(mbemail);
 		
@@ -256,8 +256,7 @@ private void kakaologin(HttpServletRequest request, HttpServletResponse response
 		//request.getSession().setAttribute("persistUser", member);
 		memberService.Emailsend(member);
 		
-		
-		
+	
 		request.setAttribute("msg", "회원가입 완료를 위한 이메일이 발송되었습니다.");
 		request.setAttribute("url", "/index");
 		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")

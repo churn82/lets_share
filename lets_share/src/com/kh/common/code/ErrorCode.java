@@ -30,8 +30,9 @@ public enum ErrorCode {
 	AUTH01("접근 권한이 없는 페이지 입니다."),
 	AUTH02("인증 기간이 만료 되었습니다"),
 	MAIL01("이메일 발송 중 에러가 발생하였습니다"),
-	HTTP01("Http 통신 중 에러가 방생하였습니다"),
-	CD_404("존재하지 않는 경로 입니다");
+	HTTP01("Http 통신 중 에러가 발생하였습니다"),
+	CD_404("존재하지 않는 경로 입니다"),
+	KAKAO01("카카오 로그인 중 에러가 발생하였습니다.");
 	
 	public String errMsg;
 	public String url = "/index";
