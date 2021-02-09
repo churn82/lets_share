@@ -3,41 +3,35 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/include/head.jsp" %>
 <head>
-		<title>Let's Share</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="/resources/css/member/login.css" />
-		<link rel="stylesheet" href="/resources/css/main.css" />
-		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
+	<title>Let's Share</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="/resources/css/member/login.css" />
+	<link rel="stylesheet" href="/resources/css/main.css" />
+	<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
 </head>
 	<body class="no-sidebar is-preload">
 		<div id="page-wrapper">
-
 			<!-- Header -->
-				<div id="header">
-
-					<!-- Inner -->
-						<div class="inner">
-							<header>
-								<h1><a href="index.html" id="logo">Let's Share</a></h1>
-							</header>
-						</div>
-
-					<!-- Nav -->
-						<nav id="nav">
-							<ul>
-								<li><a href="index.html">Home</a></li>
-								<li><a href="#">구매자 모집</a></li>
-								<li><a href="left-sidebar.html">구매 참여</a></li>
-								<li><a href="right-sidebar.html">신고 게시판</a></li>
-								<li><a href="no-sidebar.html">공지 사항</a></li>
-							</ul>
-						</nav>
-
-				</div>
-
+			<div id="header">
+				<!-- Inner -->
+				<div class="inner">
+					<header>
+						<h1><a href="index.html" id="logo">Let's Share</a></h1>
+					</header>
+				</div>			
+				<!-- Nav -->	
+				<nav id="nav">
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="#">구매자 모집</a></li>
+						<li><a href="left-sidebar.html">구매 참여</a></li>
+						<li><a href="right-sidebar.html">신고 게시판</a></li>
+						<li><a href="no-sidebar.html">공지 사항</a></li>
+					</ul>
+				</nav>
+			</div>
 			<!-- Main -->
-				
 				<div class="wrapper style1">
 				<div class="login">
 					<h1 class="login_title">로그인</h1>
@@ -47,57 +41,9 @@
 							<input type="password" name="pw" id="pw" placeholder="비밀번호">
 							<span class="valid_info"></span>
 							<button onclick="login()">로그인</button>
-							<a  href="javascript:kakaoLogin();">
-							<img src="../resources/images/member/kakao_login_medium_narrow.png"/>
+							<a href="https://kauth.kakao.com/oauth/authorize?client_id=8a92e5d7d3324acd050fd30b648b921b&redirect_uri=http://localhost:9090/Kakao/oauth&response_type=code">
+								<img src="../resources/images/member/kakao_login_medium_narrow.png"/>
 							</a>
-							<script src="https://developers.kakao.com/sdk/js/kakao.js" type="text/javascript"></script>
-							<script type="text/javascript">
-
-// 02-04 카카오 로그인 
-// REST API 키로 실행했을경우 Redirect URI요청 오류 KOE006 
-// Redirect URI 새로 등록하거나 파라미터 redirect_uri값으로 사용
-
-Kakao.init("c00b90880a6e893af3a5479df4ddfbad"); //javascript 키
-
-// REST API 키 . Kakao.init("16bad05a568179ca88616c88a39210ad");
-
-function kakaoLogin() {
-
-	Kakao.Auth.login({
-		scope:'profile , account_email',
-		success: function(authObj) {
-			console.log(authObj);
-			Kakao.API.request({
-				url:'/v2/user/me',
-				success: function(res){
-					console.log(res);
-					
-					alert(JSON.stringify(res));
-					
-					
-					var userID = res.id;
-					var userEmail = res.kakao_account.email;
-					var userNickName = res.properties.nickname;
-					
-					console.log(userID);
-					console.log(userEmail);
-					console.log(userNickName);
-					
-					console.log(authObj.access_token);
-					
-					
-					
-				},
-				fail: (err) => {
-					console.error(err)	
-				}
-			});
-		}
-	
-	});
-
-}
-</script>
 						</form>
 						<div class="optionbox">
 							<label><span>아이디 저장</span><input type="checkbox"></label>
@@ -107,14 +53,11 @@ function kakaoLogin() {
 					</div>
 				</div>
 				</div>
-
 			<!-- Footer -->
-				<div id="footer">
-					<div style="text-align: center;">Copyright © 1998-2021 KH Information Educational Institute All Right Reserved</div>
-				</div>
-
+			<div id="footer">
+				<div style="text-align: center;">Copyright © 1998-2021 KH Information Educational Institute All Right Reserved</div>
+			</div>
 		</div>
-
 		<!-- Scripts -->
 			<script src="/resources/js/jquery.min.js"></script>
 			<script src="/resources/js/jquery.dropotron.min.js"></script>
@@ -124,6 +67,39 @@ function kakaoLogin() {
 			<script src="/resources/js/breakpoints.min.js"></script>
 			<script src="/resources/js/util.js"></script>
 			<script src="/resources/js/main.js"></script>
+			<script src="https://developers.kakao.com/sdk/js/kakao.js" type="text/javascript"></script>
+			<script type="text/javascript">
+				// 02-04 카카오 로그인 
+				// REST API 키로 실행했을경우 Redirect URI요청 오류 KOE006 
+				// Redirect URI 새로 등록하거나 파라미터 redirect_uri값으로 사용
+				Kakao.init("c00b90880a6e893af3a5479df4ddfbad"); //javascript 키
+				// REST API 키 . Kakao.init("16bad05a568179ca88616c88a39210ad");
+				function kakaoLogin() {
 
+					Kakao.Auth.login({
+						scope:'profile , account_email',
+						success: function(authObj) {
+							console.log(authObj);
+							Kakao.API.request({
+								url:'/v2/user/me',
+								success: function(res){
+									console.log(res);									
+									alert(JSON.stringify(res));
+									var userID = res.id;
+									var userEmail = res.kakao_account.email;
+									var userNickName = res.properties.nickname;
+									console.log(userID);
+									console.log(userEmail);
+									console.log(userNickName);
+									console.log(authObj.access_token);
+								},
+								fail: (err) => {
+									console.error(err)	
+								}
+							});
+						}
+					});
+				}
+		</script>
 	</body>
 </html>
