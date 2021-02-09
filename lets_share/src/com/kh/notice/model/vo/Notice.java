@@ -12,6 +12,7 @@ public class Notice {
 	private int noticeView;			//조회수
 	private String noticeType;		//타입(notice/event)
 	private String mbId;			//id
+	private Date noticeDelete;
 	
 	public Notice() {
 		
@@ -87,13 +88,27 @@ public class Notice {
 		this.mbId = mbId;
 	}
 
+	
+
+	public Date getNoticeDelete() {
+		return noticeDelete;
+	}
+
+
+	public void setNoticeDelete(Date noticeDelete) {
+		this.noticeDelete = noticeDelete;
+	}
+
 
 	@Override
 	public String toString() {
 		return "Notice [noticeNo=" + noticeNo + ", noticeTitle=" + noticeTitle + ", noticeContent=" + noticeContent
 				+ ", noticeDate=" + noticeDate + ", noticeView=" + noticeView + ", noticeType=" + noticeType + ", mbId="
-				+ mbId + "]";
+				+ mbId + ", noticeDelete=" + noticeDelete + "]";
 	}
+
+
+	
 
 	
 	

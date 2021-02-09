@@ -86,16 +86,19 @@
 						<button onclick="goList()">목록</button>
 					</div>
 					
-					<!-- 수정 버튼 -->
+					<!-- 수정 버튼 
                   <c:if test="${sessionScope.user.mbId != null && sessionScope.user.mbId eq 'admin'}">
                   <div class="update_btn">
-                           <button><a href="/notice/update?noticeNo=${requestScope.noticeNo}">수정</button>
-                           <input type="submit"><a href="">삭제</a></input>
+                           <span><a href="/notice/beforeUpdate?noticeNo=${requestScope.noticeNo}">수정</a></span>
+                           <span><a id="remove">삭제</a></span>
                         </div>   
                	</c:if>
-					
-					  
-				
+               	-->
+					<div class="update_btn">
+                           <span><a href="/notice/beforeUpdate?noticeNo=${requestScope.noticeNo}">수정</a></span>
+                           <span><a onclick="return confirm('삭제하시겠습니까?')" href="/notice/delete?noticeNo=${requestScope.noticeNo}">삭제</a></span>
+                        </div> 
+									
 				</div>
 		
 		</div>			
@@ -120,6 +123,27 @@
 			<script src="/resources/js/breakpoints.min.js"></script>
 			<script src="/resources/js/util.js"></script>
 			<script src="/resources/js/main.js"></script>
+
+	<script type="text/javascript">
+		function goList(){
+			location.href="/notice/eventList";
+			
+		}
+	
+	
+		
+		
+			
+			
+		}
+		
+		
+		
+	
+	</script>
+	
+
+
 
 	</body>
 </html>

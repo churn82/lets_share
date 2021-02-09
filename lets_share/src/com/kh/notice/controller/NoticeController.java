@@ -49,15 +49,14 @@ public class NoticeController extends HttpServlet {
 			goEventDetail(request,response); break;
 		case "writer" :
 			goWriter(request,response); break;
-		//case "update" :
-			//goUpdate(request, response); break;
-
 		case "writerImpl" :
 			writeImpl(request, response); break;
 		case "beforeUpdate" :
 			beforeUpdate(request, response); break;
 		case "updateRequest" :
 			updateRequest(request, response); break;	
+		case "delete" :
+			delete(request, response); break;	
 		default : response.setStatus(404); break;
 		}
 		
@@ -163,8 +162,10 @@ public class NoticeController extends HttpServlet {
 		//저장한 vo를 service단을 통해 dao로 전달
 		noticeService.insertNoticeBoard(notice);
 		
-		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
-		.forward(request, response);	
+		//request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
+		//.forward(request, response);	
+		
+		response.sendRedirect("noticeList");
 	}
 	
 	
@@ -212,6 +213,20 @@ public class NoticeController extends HttpServlet {
 		.forward(request, response);	
 	}
 
+	//삭제
+	protected void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+			
+		
+		//저장한 vo를 service단을 통해 dao로 전달
+		noticeService.deleteEventBoard(noticeNo);
+		
+		response.sendRedirect("eventList");
+		
+		
+	}
+	
+	
 	
 	
 	

@@ -92,9 +92,9 @@ public class NoticeService {
 	public int deleteEventBoard(int noticeNo) {
 		Connection conn = jdt.getConnection();
 		int rs = 0;
-		
 		try {
 			rs = noticeDao.deleteEventBoard(conn, noticeNo);
+			System.out.println("service: "+noticeNo);
 			jdt.commit(conn);
 		}catch (DataAccessException e) {
 			jdt.rollback(conn);
