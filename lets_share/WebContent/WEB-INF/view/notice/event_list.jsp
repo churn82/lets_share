@@ -119,20 +119,18 @@
 				</div>
 				
 				<!-- 글쓰기 버튼 -->
-				<c:if test="${sessionScope.user.userId}equals adimin">
+				<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mbId eq 'admin'}">
 					<div class="write_btn">
-						<input type="button" id="write" onclick="writeAdmin(${sessionScope.user.userId})" value="글쓰기"/>		
-								
-					</div>
-				
-				</c:if>	
+						<button id="write" onclick="changeWriter()">글쓰기</button>				
+					</div>	
+				</c:if>
 					
-				
-				
-				<!-- 글쓰기 버튼 -->
-				<div class="write_btn">
-					<button id="write" onclick="changeWriter()">글쓰기</button>				
-				</div>						
+					<script type="text/javascript">
+						function changeWriter(){
+							location.href="writer";
+						}
+					</script>
+										
 			
 		<!--  관리자 로그인 승현-->
         <c:if test="${sessionScope.sessionID !=null && sessionScope.MB_LEVEL=='MB10'}">

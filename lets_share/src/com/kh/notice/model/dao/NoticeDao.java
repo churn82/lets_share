@@ -152,25 +152,22 @@ public class NoticeDao {
 		public int deleteEventBoard(Connection conn, int noticeNo) {
 			int res = 0;
 			PreparedStatement pstm = null;
-			String sql = "update sh_notice set notice_delete=sysdate where notice_No = ? ";
+			String sql = "update sh_notice set notice_delete=sysdate where notice_no = ?";
 			
 			try {
 				pstm = conn.prepareStatement(sql);
 				pstm.setInt(1, noticeNo);
-				
+				res = pstm.executeUpdate();
 			} catch (SQLException e) {
 				throw new DataAccessException(ErrorCode.DB01, e);
 			}finally {
-				jdt.close(pstm);
+				jdt.close(pstm,conn);
 			}
 
 			return res;
 			
 		}
 		
-	
-	
-	
 
 	//공지 테이블 상세페이지
 	public Notice selectNoticeDetail(Connection conn, int noticeNo){
@@ -268,7 +265,6 @@ public class NoticeDao {
 		
 	}
 	
-	
 	//이벤트 목록 조회(번호,제목,작성자,작성날짜,조회수)
 		public ArrayList<Notice> selectEventList(Connection conn) {
 			
@@ -329,15 +325,34 @@ public class NoticeDao {
 	public int[] paging(int page) {
 		int pageArr[] = null;
 		
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+			
+		return pageArr;
 		
+	}
+	
+	//공지 게시글의 전체 수를 리턴하는 메서드
+	public int getAllCount(Connection conn) {
+		int count = 0;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		
-		
-		return pageArr;
-		
-		
+		String sql = "select count(*) from sh_notice where notice_type='notice' ";
+		try {
+			pstm = conn.prepareStatement(sql);
+			rs = pstm.executeQuery();
+			
+			
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.SB01, e);
+		}
+		return count;
 	}
+	
+	
+	
 	
 	
 	
