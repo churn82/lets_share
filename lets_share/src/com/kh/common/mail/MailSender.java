@@ -20,68 +20,54 @@ import com.kh.common.code.ErrorCode;
 import com.kh.common.exception.ToAlertException;
 
 public class MailSender {
-public void sendEmail(String to, String subject, String htmlText) {
-		
-		//1. smtp 통신을 위한 Session 객체 생성
-		
-		PasswordAuthentication pa = new PasswordAuthentication("tlfpehd@naver.com","zkdhtm!23");
-		
-		//Session session = Session.getDefaultInstance(props,authentication);
-		
 	
-		//2. 메세지 작성
-		 try {
-		        MimeMessage msg = new MimeMessage(getSession());
-		        
-		        msg.setFrom(new InternetAddress(Code.EMAIL.desc));
-		        msg.setRecipients(Message.RecipientType.TO,
-		                          to);
-		        msg.setSubject(subject);
-		        msg.setSentDate(new Date());
-		        msg.setContent(getMultipart(htmlText));  //massage의 바디에 추가   
-		
-		        Transport.send(msg);        //전송 
-		        
-	
-		        
-		  
-		    } catch (MessagingException mex) {
-		       throw new ToAlertException(ErrorCode.MAIL01,mex);
-		    }
-		
+	public void sendEmail(String to, String subject, String htmlText){	
+	    try {
+	        MimeMessage msg = new MimeMessage(getSession());
+	        msg.setFrom(new InternetAddress(Code.EMAIL.desc));
+	        msg.setRecipients(Message.RecipientType.TO, to);
+	        msg.setSubject(subject);
+	        msg.setSentDate(new Date());
+	        msg.setContent(getMultipart(htmlText)); //message Body에 추가
+	        Transport.send(msg); //전송
+	    } catch (MessagingException mex) {
+	        throw new ToAlertException(ErrorCode.MAIL01,mex);
+	    }
 	}
 	
-	public Session getSession() {
-		//1. smtp 통신을 위한 Session 객체 생성
+	public Session getSession() { //세션 만드는 메서드
 		
-				PasswordAuthentication pa = new PasswordAuthentication(Code.EMAIL.desc,"zkdhtm!23");
+		//1. SMTP통신을 위한 Session객체 생성
+		// 인증 정보 저장
+		PasswordAuthentication pa = new PasswordAuthentication(Code.EMAIL.desc, "zkdhtm!23");
 				
-				//Session session = Session.getDefaultInstance(props,authentication);
+		//1-2. 통신할 SMTP 서버 설정 작성
+		Properties prop = new Properties();
+		prop.put("mail.smtp.host", "smtp.naver.com"); //네이버에서 요청한 주소와 포트번호 넣어준다
+		prop.put("mail.smtp.port", 587);
+		prop.put("mail.smtp.starttls.enable", "true");
+		prop.put("mail.smtp.auth", "true");
 				
-				//2. 통신할 smtp서버 설정 작성
-				Properties prop = new Properties();
-				prop.put("mail.smtp.host","smtp.naver.com");
-				prop.put("mail.smtp.port", 587 );
-				prop.put("mail.smtp.starttls.enable", "true");
-				prop.put("mail.smtp.auth", "true");
-				
-				Session session = Session.getDefaultInstance(prop, new Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication() {
-						return pa;
-					}
-				});
-				return session;
+		Session session = Session.getDefaultInstance(prop, new Authenticator() {
+			//익명 클래스
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return pa;
+				}
+		});
+		
+		return session;
 	}
+	
 	private Multipart getMultipart(String htmlText) throws MessagingException {
-
-        
-        Multipart mp = new MimeMultipart();
+		Multipart mp = new MimeMultipart();
         MimeBodyPart htmlPart = new MimeBodyPart();
+        
         //보내고 싶은 html 코드 작성
-        //contentType 작성
         htmlPart.setContent(htmlText, "text/html; charset=UTF-8");
+        
         //Multipart 객체에 추가
         mp.addBodyPart(htmlPart);
+        
         return mp;
 	}
 	

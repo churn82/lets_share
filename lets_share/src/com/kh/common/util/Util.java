@@ -73,9 +73,8 @@ public class Util {
       try {
          for(String key : params.keySet()) {
             //아스키코드로 표현 가능하게끔 인코딩
-            res += "&" + URLEncoder.encode(key,"UTF-8") + "=" +URLEncoder.encode(params.get(key), "UTF-8");
+        	 res += "&" + URLEncoder.encode(key, "UTF-8") + "=" + URLEncoder.encode(params.get(key), "UTF-8");
          }
-         
          if(res.length() > 0) {
             res = res.substring(1);
          }

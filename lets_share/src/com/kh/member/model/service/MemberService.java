@@ -129,12 +129,12 @@ public class MemberService {
 	      params.put("mbId", member.getMbId());
 	      
 	      htmlText = http.post(url, headers, http.urlEncodedForm(params));
-	       new MailSender().sendEmail(member.getMbemail(),subject,htmlText);
-	       
+	      new MailSender().sendEmail(member.getMbemail(),subject,htmlText); 
 	  
 	   }
 
 	
+	// 테이블에 멤버정보 INSERT하는 메서드(정상)
 	public int insertMember(Member member){
 		Connection conn = jdt.getConnection();
 		int res = 0;

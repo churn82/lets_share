@@ -211,11 +211,10 @@ public class MemberDao {
 		return memberList;
 	}
 
-	//SH_MEMBER 테이블에 INSERT해주는 메서드
+	//SH_MEMBER 테이블에 INSERT해주는 메서드 
 	public int insertMember(Connection conn, Member member){
 		int res = 0;
 		PreparedStatement pstm = null;
-		
 		try {
 			String query = "INSERT INTO SH_MEMBER(MB_ID, MB_PASSWORD, MB_NICK, MB_EMAIL, MB_TEL, MB_NAME) "
 					+"VALUES(?,?,?,?,?,?)";
