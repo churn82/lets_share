@@ -109,18 +109,10 @@
 					</tbody>				
 				</table>
 			
-			<%-- request객체의 저장된 파라미터의 접근 가능하게 --%>
+			
+			
 			</div>
-				<c:set var="page" value="${(param.p = null)?1:param.p}" />
-				<c:set var="startNum" value="${page-(page-1)%5}" />
-				<c:set var="lastNum" value="23"/> <%--임의로 lastNum 설정함 --%>
-				
-				<c:if test="${startNum>1}">
-					<a href="/notice/eventList?p=${startNum-1}" class="">이전</a>
-				</c:if>
-				<c:if test="${startNum<=1}">
-					<span class="" onclick="alert('이전 페이지가 없습니다.');"></span>
-				</c:if>
+		
 				
 				<%-- 게시판 페이지 번호 --%>
 				<ul class="paging">
@@ -130,14 +122,7 @@
 				</ul>
 				
 				
-				<c:if test="${startNum+lastNum}">
-					<a href="/notice/eventList?p=${startNum+i}" class="">다음</a>
-				</c:if>
 				
-				<%-- 더이상 다음페이지가 없을 때 --%>
-				<c:if test="${startNum+5>=lastNum}">
-					<span class="" onclick="alert('다음 페이지가 없습니다.');"></span>
-				</c:if>
 				
 				<%-- 글쓰기 버튼 --%>
 				<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mbId eq 'admin'}">

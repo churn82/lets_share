@@ -200,7 +200,7 @@ public class NoticeDao {
 		ResultSet rs = null;
 		
 		try {
-			String sql = "select * from sh_notice where notice_type='notice' order by notice_no desc";
+			String sql = "select * from sh_notice where notice_type='notice' and notice_delete is null order by notice_no desc";
 			pstm = conn.prepareStatement(sql);
 			rs = pstm.executeQuery();
 			
