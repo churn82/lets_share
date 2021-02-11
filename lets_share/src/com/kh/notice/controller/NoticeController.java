@@ -93,14 +93,17 @@ public class NoticeController extends HttpServlet {
 	
 	//이벤트 목록
 	protected void goEventList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Notice notice = new Notice();
 		
-		HttpSession session = request.getSession();
-		String id = (String)session.getAttribute("id");
+		int allCount = notice.getNoticeAllCount();
+		int page = allCount/15;
 		
 		ArrayList<Notice> noticeList = null;
 		noticeList = noticeService.selectEventList();
 		
 		request.setAttribute("noticeList", noticeList);
+		request.setAttribute("allCount", allCount);
+		request.setAttribute("p", page);
 		
 		request.getRequestDispatcher("/WEB-INF/view/notice/event_list.jsp")
 		.forward(request, response);
@@ -268,7 +271,7 @@ public class NoticeController extends HttpServlet {
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 			
 		//저장한 vo를 service단을 통해 dao로 전달
-		noticeService.deleteEventBoard(noticeNo);//notice로 바꿔야 함
+		noticeService.deleteNoticeBoard(noticeNo);//notice로 바꿔야 함
 		
 		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
 		  .forward(request, response);
