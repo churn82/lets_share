@@ -18,15 +18,37 @@
 		//사용자 자신을 제외한 그룹원들의 만기일 기록
 		let memberIdArr = [];
     	let memberExpArr = [];
+    	let groupLastDay;
+    	let myStartDay;
+    	let myExpDay;
     </script>
+    <!-- JSTL을 통해 미리 필요한 데이터를 가져온다. -->
+    <!-- 1. 그룹 멤버의 만기일을 가져와서 배열에 저장 -->
     <c:forEach var="member" items="${matchingList}">
-   		<c:if test="${member.getExDate() != null}">
+   		<c:if test="${member.getExDate() != null and member.getMemberId() != sessionScope.user.getMbId()}">
     		<script>
     			memberIdArr.push("${member.getMemberId()}");
     			memberExpArr.push("${member.getExDate()}");
     		</script>
    		</c:if>
     </c:forEach>
+    <!-- 2. 그룹의 해제일이 존재한다면, 그룹 해제일을 저장 -->
+    <c:if test="${group.getLastDay() != null}">
+    	<script>
+    		groupLastDay = "${group.getLastDay()}";
+    	</script>
+    </c:if>
+    <!-- 3. 내가 그룹장이 아니라면, 나의 사용 시작일, 만기일을 저장 -->
+    <c:forEach var="groupMember" items="${matchingList}">
+		<c:if test="${groupMember.getMemberId() == sessionScope.user.getMbId()}">
+			<c:if test="${group.getMemberId()!=sessionScope.user.getMbId()}">
+				<script>
+					myStartDay = "${groupMember.getStDate()}";
+					myExpDay = "${groupMember.getExDate()}";
+				</script>
+			</c:if>
+		</c:if>
+	</c:forEach>
     <script>
     	document.addEventListener('DOMContentLoaded', function() {
     		var today = new Date(); //오늘 날짜 지정
@@ -51,6 +73,7 @@
         	calendar.setOption('contentHeight','auto');
     		
     		/* 캘린더 일정표시 */
+    		//1. 각 멤버의 만기일
    			memberIdArr.forEach((e,i)=>{
    				calendar.addEventSource([{
    					title : e + " 만기일",
@@ -58,7 +81,23 @@
    					color : "purple"
    				}]);
    			});
-    		
+    		//2. 그룹 해산일
+    		if(groupLastDay){
+    			calendar.addEventSource([{
+    				title : "그룹 헤산",
+    				start : groupLastDay,
+    				color : "red"
+    			}]);
+    		}
+    		//내 시작~만기
+    		if (myStartDay && myExpDay){
+    			calendar.addEventSource([{
+    				title : "서비스 이용가능",
+    				start : myStartDay,
+    				end : myExpDay,
+    				color : "skyblue"
+    			}]);
+    		}
         	/* 캘린더 언어 지정, 캘린더 출력  */
             calendar.setOption('locale','kr');
             calendar.render();
