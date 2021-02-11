@@ -108,17 +108,23 @@
 					
 					</tbody>				
 				</table>
-
+			
+			
+			
 			</div>
-				<!-- 게시판 페이지 번호 -->
-				<div class="paging">
-					<a class="page_btn" href="">1</a>
-					<a class="page_btn" href="">2</a>
-					<a class="page_btn" href="">3</a>
-					<a class="page_btn" href="">4</a>
-				</div>
+		
 				
-				<!-- 글쓰기 버튼 -->
+				<%-- 게시판 페이지 번호 --%>
+				<ul class="paging">
+					<c:forEach var="i" begin="0" end="4">
+						<li><a class="page_btn" href="/notice/eventList?=${startNum+i}">${1+i}</a></li>
+					</c:forEach>
+				</ul>
+				
+				
+				
+				
+				<%-- 글쓰기 버튼 --%>
 				<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mbId eq 'admin'}">
 					<div class="write_btn">
 						<button id="write" onclick="changeWriter()">글쓰기</button>				

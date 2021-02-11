@@ -11,8 +11,9 @@ public class Notice {
 	private Date noticeDate;		//날짜
 	private int noticeView;			//조회수
 	private String noticeType;		//타입(notice/event)
-	private String mbId;			//id
 	private Date noticeDelete;
+	private int noticeAllCount;
+	private int noticePage;
 	
 	public Notice() {
 		
@@ -79,16 +80,6 @@ public class Notice {
 	}
 
 
-	public String getMbId() {
-		return mbId;
-	}
-
-
-	public void setMbId(String mbId) {
-		this.mbId = mbId;
-	}
-
-	
 
 	public Date getNoticeDelete() {
 		return noticeDelete;
@@ -100,13 +91,35 @@ public class Notice {
 	}
 
 
+	public int getNoticeAllCount() {
+		return noticeAllCount;
+	}
+
+
+	public void setNoticeAllCount(int noticeAllCount) {
+		this.noticeAllCount = noticeAllCount;
+	}
+
+
+	public int getNoticePage() {
+		return noticePage;
+	}
+
+
+	public void setNoticePage(int noticePage) {
+		this.noticePage = noticePage;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Notice [noticeNo=" + noticeNo + ", noticeTitle=" + noticeTitle + ", noticeContent=" + noticeContent
-				+ ", noticeDate=" + noticeDate + ", noticeView=" + noticeView + ", noticeType=" + noticeType + ", mbId="
-				+ mbId + ", noticeDelete=" + noticeDelete + "]";
+				+ ", noticeDate=" + noticeDate + ", noticeView=" + noticeView + ", noticeType=" + noticeType
+				+ ", noticeDelete=" + noticeDelete + ", noticeAllCount=" + noticeAllCount + ", noticePage=" + noticePage
+				+ "]";
 	}
 
+	
 
 	
 

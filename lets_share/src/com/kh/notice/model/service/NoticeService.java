@@ -89,7 +89,7 @@ public class NoticeService {
 		return res;
 	}
 	
-	/*
+	//공지 삭제
 	public int deleteNoticeBoard(int noticeNo) {
 		Connection conn = jdt.getConnection();
 		int rs = 0;
@@ -105,7 +105,7 @@ public class NoticeService {
 		
 		return rs;
 	}
-	*/
+	
 	
 	//이벤트 삭제 기능
 	public int deleteEventBoard(int noticeNo) {
@@ -113,7 +113,6 @@ public class NoticeService {
 		int rs = 0;
 		try {
 			rs = noticeDao.deleteEventBoard(conn, noticeNo);
-			System.out.println("service: "+noticeNo);
 			jdt.commit(conn);
 		}catch (DataAccessException e) {
 			jdt.rollback(conn);
@@ -153,8 +152,6 @@ public class NoticeService {
 			return notice;
 		}
 	
-	
-	
 	//공지사항 목록
 	public ArrayList<Notice> selectNoticeList(){
 		
@@ -174,7 +171,6 @@ public class NoticeService {
 		
 		return noticeList;
 	}
-	
 	
 	
 	//이벤트 목록
@@ -197,33 +193,35 @@ public class NoticeService {
 		return noticeList;
 	}
 	
-	
-	
-	/*
-	//SH_GRADE 테이블에서 MB_LEVEL를 가져오는 함수
-	public String getLevel(String mbId) {
-		String level = null;
+	//공지 전체 갯 수
+	public Notice getAllCount() {
+		Notice notice = null;
 		Connection conn = jdt.getConnection();
 		try {
+			notice = noticeDao.getAllCount(conn);
+			jdt.commit(conn);
 			
 		}catch(DataAccessException e){
-			jdt.rollback(conn);
 			throw new ToAlertException(e.error);
 		}finally {
 			jdt.close(conn);
-		}
-		return level;
+		}		
+		return notice;
 	}
-	*/
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//조회수
+	public int hitCounter(int noticeNo) {
+		Connection conn = jdt.getConnection();
+		int rs = 0;
+		try {
+			rs = noticeDao.hitCounter(conn, noticeNo);
+			jdt.commit(conn);
+		}catch (DataAccessException e) {
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
+		return rs;
+	}
 	
 }

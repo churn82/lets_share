@@ -115,33 +115,27 @@ public class NoticeDao {
 		
 	}
 	
-	
-	
-	/*
-	
+
 	//공지게시판 삭제 기능
 	public int deleteNoticeBoard(Connection conn, int noticeNo) {
-		
 		int res = 0;
 		PreparedStatement pstm = null;
-		
+		String sql = "update sh_notice set notice_delete=sysdate where notice_no = ?";
 		try {
-			//쿼리 수정해야 함
-			String sql = "delete form sh_notice where notice_no = ? ";
 			pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, noticeNo);
-			
+			res = pstm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.DB01, e);
 		}finally {
-			jdt.close(pstm);
+			jdt.close(pstm,conn);
 		}
 
 		return res;
 		
 	}
-	*/
 	
+	  
 	//이벤트 게시판 삭제 기능
 		public int deleteEventBoard(Connection conn, int noticeNo) {
 			int res = 0;
@@ -206,7 +200,7 @@ public class NoticeDao {
 		ResultSet rs = null;
 		
 		try {
-			String sql = "select * from sh_notice where notice_type='notice' order by notice_no desc";
+			String sql = "select * from sh_notice where notice_type='notice' and notice_delete is null order by notice_no desc";
 			pstm = conn.prepareStatement(sql);
 			rs = pstm.executeQuery();
 			
@@ -289,92 +283,45 @@ public class NoticeDao {
 			return noticeList;
 		}
 	
-	
-	/*
-	
-	//등급테이블에서 MB_LEVEL가 관리자와 개발자인 ID를 가져오는
-	public String getManagerId(Connection conn, String mbId) {
-		String managerId = null;
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		String query = "SELECT MB_ID FROM SH_MEMBER WHERE MB_LEVEL IN('MB10','MB11') = ?";
-		
-		try {
-			pstm = conn.prepareStatement(query);
-			pstm.setString(1,mbId);
-			rs = pstm.executeQuery();
-			while(rs.next()) {
-				managerId = rs.getString(1);
-			}
-		} catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.MI02, e);
-		}
-		
-		return managerId;
-	}
-	
-*/
-	//첫번째 : 요청온 페이지가 왔을 때 아래쪽 페이지 번호들이 출력되는 페이지 목록의 범위를 지정
-	//두번째 : 페이지 번호를 눌렀을 때 해당 페이지의 속하는 게시물의 목록을 뽑아내야 한다 (이 부분은 db 쿼리로 수행)
-		
-	//전체 페이지 수 = (전체 게시물 수 / 한 페이지에 출력할 수 ) + 1 (나머지가 있을 경우)	
-	
-	//한 화면에 보여줄 리스트 갯 수
-	public static final int pageList = 10;
-	//페이징 범위의 갯수
-	public static final int pagingCount = 10;
-	
-	
-	//페이지 범위 구하기
-	//"select count(*) from sh_notice";
-	public int[] paging(int page) {
-		int totalContent = 0;
-		int totalPage = 0;
-		int pageArr[] = null;
-		
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		String sql = "select count(*) from sh_notice where notice_type='notice' ";
-		
-		try {
-			rs = pstm.executeQuery();
-			
-			while(rs.next()) {
-				totalContent += rs.getInt(1);
-			}
-			
-			if(totalContent == 0) {
-				return null;
-			}
-			
-			//totalPage = totalContent / noticeList.
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		return pageArr;
-		
-	}
-	
 	//공지 게시글의 전체 수를 리턴하는 메서드
-	public int getAllCount(Connection conn) {
-		int count = 0;
+	public Notice getAllCount(Connection conn) {
+		Notice notice = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		
-		String sql = "select count(*) from sh_notice where notice_type='notice' ";
+		String sql = "select count(*) from sh_notice where notice_type='notice' and notice_delete is null ";
+		
 		try {
 			pstm = conn.prepareStatement(sql);
 			rs = pstm.executeQuery();
-			
+			notice = new Notice();
+			notice.setNoticeAllCount(rs.getInt("notice_all_count"));
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.SB01, e);
+		}finally {
+			jdt.close(pstm);
+			jdt.close(rs);
 		}
-		return count;
+		return notice;
 	}
+	
+		//조회수
+		public int hitCounter(Connection conn, int noticeNo) {
+			int rs = 0;
+			PreparedStatement pstm = null;
+			String sql = "update sh_notice set notice_view = notice_view+1 where notice_no = ?";
+			
+			try {
+				pstm = conn.prepareStatement(sql);
+				pstm.setInt(1, noticeNo);
+				rs = pstm.executeUpdate();
+			} catch (SQLException e) {
+				throw new DataAccessException(ErrorCode.DB01, e);
+			}finally {
+				jdt.close(pstm);
+			}
+			return rs;
+		}
 	
 	
 	
