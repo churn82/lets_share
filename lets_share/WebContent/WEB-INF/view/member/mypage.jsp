@@ -55,7 +55,7 @@
 							</tr>
 							<tr>
 								<td>${sessionScope.user.mbId}</td>
-								<td>${sessionScope.user.mbNick}</td>
+								<td>${sessionScope.user.mbnick}</td>
 								<td>${sessionScope.user.mbtel}</td>
 								<td>${gradeName}</td>
 								<td>${sessionScope.user.mbRegisterDate}</td>

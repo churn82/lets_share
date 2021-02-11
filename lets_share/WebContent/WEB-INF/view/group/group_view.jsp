@@ -14,56 +14,56 @@
 	<link href='../../../resources/css/cal_lib/main.css' rel='stylesheet' />
     <script src='../../../resources/css/cal_lib/main.js'></script>
     <script>
+    /* 표시할 날짜 지정 */
+		//사용자 자신을 제외한 그룹원들의 만기일 기록
+		let memberIdArr = [];
+    	let memberExpArr = [];
+    </script>
+    <c:forEach var="member" items="${matchingList}">
+   		<c:if test="${member.getExDate() != null}">
+    		<script>
+    			memberIdArr.push("${member.getMemberId()}");
+    			memberExpArr.push("${member.getExDate()}");
+    		</script>
+   		</c:if>
+    </c:forEach>
+    <script>
     	document.addEventListener('DOMContentLoaded', function() {
+    		var today = new Date(); //오늘 날짜 지정
     		/* 날짜 지정  */
-    		var today = new Date(); 
-    		today.setDate(1); //달력은 이번달 초부터 다음달 말까지 표시해준다.
+    		var firstDay = new Date(); 
+    		firstDay.setDate(1); //캘린더 표시의 첫 날짜 : 이번달 1일
     		var endday = new Date(today.getFullYear(),today.getMonth()+2,0);
-    		endday.setDate(endday.getDate()+1);
-    		/* 결제일, 입금일 지정 !!(el사용하여 입력) */
-    		var payDay = '2021-02-17';
-    		var prepayDay = '2021-02-14';
-    		/* 사용 가능한 날짜 지정 !!(el사용하여 입력) */
-    		var accessableDay = '2021-03-14';
+    		endday.setDate(endday.getDate()+1); //캘린더 표시의 마지막 날짜 : 다음달 말일
+    		
     		/* 캘린더 생성 */
     		var calendarEl = document.getElementById('calendar');
     		var calendar = new FullCalendar.Calendar(calendarEl, {
     			initialView: 'dayGridMonth',
     			validRange: {
-       	        	start: today,
+       	        	start: firstDay,
        	        	end: endday
        	    	},
-       	    	events: [
-       	    		{
-       	    			id: 'payDate',
-       	    			title: '결제일',
-       	    			start: payDay,
-       	    			color:'red'
-       	    		},
-       	    		{
-       	    			id: 'prepayDay',
-       	    			title: '입금일',
-       	    			start: prepayDay,
-       	    			color: 'red'
-       	    		},
-       	    		{
-       	    			id: 'accessableDay',
-       	    			start: prepayDay,
-       	    			end: accessableDay,
-       	    			backgroundColor:'#00fff2',
-       	    			overlap:false,
-       	    			display:'background'
-       	    		}
-       	    	],
-    			
+       	    	displayEventTime:false,
+       	    	showNonCurrentDates:false
 			});
-    	/* 캘린더 크기 지정 */
-    	calendar.setOption('contentHeight','auto');
-    	/* 캘린더 언어 지정, 캘린더 출력  */
-        calendar.setOption('locale','kr');
-        calendar.render();
-      });
-    </script>
+    		/* 캘린더 크기 지정 */
+        	calendar.setOption('contentHeight','auto');
+    		
+    		/* 캘린더 일정표시 */
+   			memberIdArr.forEach((e,i)=>{
+   				calendar.addEventSource([{
+   					title : e + " 만기일",
+   					start : memberExpArr[i],
+   					color : "purple"
+   				}]);
+   			});
+    		
+        	/* 캘린더 언어 지정, 캘린더 출력  */
+            calendar.setOption('locale','kr');
+            calendar.render();
+    	});
+    	</script>
 </head>
 	<body class="no-sidebar is-preload">
 		<div id="page-wrapper">
@@ -120,10 +120,6 @@
 				<div class="calendar_box">
 					<div id="calendar"></div>
 				</div>
-				<div class="calendar_box">
-					<div id="tip_msg"><div id="color-box"></div>는 서비스를 이용 가능한 기간입니다.</div>
-				</div>
-				
 				<!-- 그룹원 테이블 -->
 				<c:if test="${!matchingList.isEmpty()}"> 
 					<div class="memberTitle">

@@ -38,7 +38,7 @@
 			<!-- Main -->
 			<!-- 가입시 인증, 비밀번호 찾기 공통으로 사용//상황에 따라 다른 텍스트 -->
 				<div class="wrapper style1">
-					<div class="emailauth">
+					<div class="emailauth1">
 						<h1 class="emailauth_title">인증 이메일이 발송되었습니다.</h1>
 						<div class="emailauth_content">60분 이내에 발신된 메일의 링크를 클릭하세요.</div>
 					</div>

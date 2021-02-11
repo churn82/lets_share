@@ -39,7 +39,7 @@
 			
 	<div class="content_wrap">
 		<div class="content">
-			<form action="/notice/updateRequest" id="update" name="update" method="post">
+			<form action="/notice/updateRequest" id="update" name="${requestScope.noticeNo}" method="post">
 				<div class="form form_title">
 					<div class="title_wrap">
 						<div class="form_space">제목</div>
@@ -66,12 +66,12 @@
 						<option value="event">이벤트</option>
 					</select>
 				</div>
-				<button class="write_btn" type="submit" onclick="goNoticeList()">수정</button>
+				<button type="submit" onclick='goList()'>수정</button>
 			</div>
-			
+			<input type="hidden" value='${requestScope.noticeNo}' name='noticeNo'/>
 			<!-- 목록버튼 -->
 			<div class="list_btn">
-				<button>목록</button>
+				<button onclick='goList()'>목록</button>
 			</div>
 			</form>
 		</div>
@@ -101,9 +101,7 @@
 		<script type="text/javascript">
 			function goList(){
 				location.href="/notice/noticeList";
-				
 			}
-		
 		
 		</script>
 

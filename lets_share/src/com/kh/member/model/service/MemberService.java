@@ -129,18 +129,15 @@ public class MemberService {
 	      params.put("mbId", member.getMbId());
 	      
 	      htmlText = http.post(url, headers, http.urlEncodedForm(params));
-	       new MailSender().sendEmail(member.getMbemail(),subject,htmlText);
-	       
+	      new MailSender().sendEmail(member.getMbemail(),subject,htmlText); 
 	  
 	   }
 
 	
+	// 테이블에 멤버정보 INSERT하는 메서드(정상)
 	public int insertMember(Member member){
-		//Transaction관리를 Service단에서 처리하기 위해 Connection을 
-		//Service의 메서드에서 생성
 		Connection conn = jdt.getConnection();
 		int res = 0;
-		
 		try {
 			 res = memberDao.insertMember(conn, member);
 			 jdt.commit(conn);
@@ -151,6 +148,7 @@ public class MemberService {
 		}
 		return res;	
 	}
+	
 	public int updateMember(Member member){
 		Connection conn = jdt.getConnection();
 		int res = 0;

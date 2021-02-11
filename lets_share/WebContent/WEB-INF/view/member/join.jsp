@@ -52,7 +52,7 @@
 				</div>
 				<div class="member_info">
 					<h1 class="member_info_title">회원 정보 입력</h1>
-					<form action="${context}/member/joinimpl" method="post" id="form_join" class="member_info_form">
+					<form action="${context}/member/mailauth" method="post" id="form_join" class="member_info_form">
 						<div class="wrap_line3">
 							<span>아이디</span>
 							<input type="text" name="id" id="ida"placeholder="아이디를 입력하세요">

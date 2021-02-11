@@ -66,6 +66,8 @@ public class NoticeController extends HttpServlet {
 		case "mypage" :
 			mypage(request, response); break;
 		default : response.setStatus(404); break;
+		
+		
 		}
 		
 
@@ -234,11 +236,11 @@ public class NoticeController extends HttpServlet {
 	//수정요청
 	protected void updateRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-		
+		System.out.println("controller : "+noticeNo);
 		//view에서 사용자 값 가져오기
 		String title = request.getParameter("title"); 
 		String contents = request.getParameter("contents");
-		
+		System.out.println(title);
 		
 		//수정된 값을 VO에 저장하기
 		Notice notice = new Notice();
@@ -249,8 +251,8 @@ public class NoticeController extends HttpServlet {
 		//저장한 vo를 service단을 통해 dao로 전달
 		noticeService.updateRequest(notice);
 		
-		request.getRequestDispatcher("/WEB-INF/view/notice/update.jsp")
-		.forward(request, response);	
+		//request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
+		//.forward(request, response);	
 	}
 
 	//이벤트게시글 삭제

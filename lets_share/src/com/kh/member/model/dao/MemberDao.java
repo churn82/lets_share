@@ -36,14 +36,15 @@ public class MemberDao {
 			rset = pstm.executeQuery();
 			if(rset.next()) {
 				member.setMbId(rset.getString(1));
-				member.setMbPassword(rset.getString(2));
-				member.setMbNick(rset.getString(3));
+				member.setMbpassword(rset.getString(2));
+				member.setMbnick(rset.getString(3));
 				member.setMbtel(rset.getString(4));
 				member.setMbemail(rset.getString(5));
 				member.setMbpoint(rset.getInt(6));
 				member.setMblevel(rset.getString(7));
 				member.setMbRegisterDate(rset.getDate(8));
 				member.setMbLeaveDate(rset.getDate(9));
+				member.setMbName(rset.getString(10));
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.SM01,e);	
@@ -68,9 +69,9 @@ public class MemberDao {
 			
 			rset = pstm.executeQuery();
 			if(rset.next()) {
-				member.setMbkakaoId(rset.getString(1));
-				member.setMbkakaonick(rset.getString(2));
-				member.setMbkakaoemail(rset.getString(3));
+//				member.setMbkakaoId(rset.getString(1));
+//				member.setMbkakaonick(rset.getString(2));
+//				member.setMbkakaoemail(rset.getString(3));
 			
 			}
 		} catch (SQLException e) {
@@ -92,14 +93,15 @@ public class MemberDao {
 			rset = pstm.executeQuery();
 			if(rset.next()) {
 				member.setMbId(rset.getString(1));
-				member.setMbPassword(rset.getString(2));
-				member.setMbNick(rset.getString(3));
+				member.setMbpassword(rset.getString(2));
+				member.setMbnick(rset.getString(3));
 				member.setMbtel(rset.getString(4));
 				member.setMbemail(rset.getString(5));
 				member.setMbpoint(rset.getInt(6));
 				member.setMblevel(rset.getString(7));
 				member.setMbRegisterDate(rset.getDate(8));
 				member.setMbLeaveDate(rset.getDate(9));
+				member.setMbName(rset.getString(10));
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.SM01,e);	
@@ -123,13 +125,16 @@ public class MemberDao {
 		
 		if(rset.next()) {
 			member = new Member();
-			member.setMbId(rset.getString("mb_id"));
-			member.setMbPassword(rset.getString("mb_password"));
-			member.setMbNick(rset.getString("mb_nick"));
-			member.setMbtel(rset.getString("mb_tel"));
-			member.setMbemail(rset.getString("mb_email"));
-			member.setMbRegisterDate(rset.getDate("mb_registerDate"));
-			member.setMblevel(rset.getString("mb_level"));
+			member.setMbId(rset.getString(1));
+			member.setMbpassword(rset.getString(2));
+			member.setMbnick(rset.getString(3));
+			member.setMbtel(rset.getString(4));
+			member.setMbemail(rset.getString(5));
+			member.setMbpoint(rset.getInt(6));
+			member.setMblevel(rset.getString(7));
+			member.setMbRegisterDate(rset.getDate(8));
+			member.setMbLeaveDate(rset.getDate(9));
+			member.setMbName(rset.getString(10));
 		}
 	} catch (SQLException e) {
 		throw new DataAccessException(ErrorCode.SM01,e);	
@@ -152,14 +157,15 @@ public class MemberDao {
 			rset = pstm.executeQuery();
 			if(rset.next()) {
 				member.setMbId(rset.getString(1));
-				member.setMbPassword(rset.getString(2));
-				member.setMbNick(rset.getString(3));
+				member.setMbpassword(rset.getString(2));
+				member.setMbnick(rset.getString(3));
 				member.setMbtel(rset.getString(4));
 				member.setMbemail(rset.getString(5));
 				member.setMbpoint(rset.getInt(6));
 				member.setMblevel(rset.getString(7));
 				member.setMbRegisterDate(rset.getDate(8));
 				member.setMbLeaveDate(rset.getDate(9));
+				member.setMbName(rset.getString(10));
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.SM01,e);	
@@ -182,15 +188,16 @@ public class MemberDao {
 			
 			while(rset.next()) {
 				Member member = new Member();
-				member.setMbId(rset.getString("mb_id"));
-				member.setMbPassword(rset.getString("mb_password"));
-				member.setMbNick(rset.getString("mb_nick"));
-				member.setMbtel(rset.getString("mb_tel"));
-				member.setMbemail(rset.getString("mb_email"));
-				member.setMbpoint(rset.getInt("mb_point"));
-				member.setMblevel(rset.getString("mb_level"));
-				member.setMbRegisterDate(rset.getDate("mb_register_date"));
-				member.setMbLeaveDate(rset.getDate("mb_leave_date"));
+				member.setMbId(rset.getString(1));
+				member.setMbpassword(rset.getString(2));
+				member.setMbnick(rset.getString(3));
+				member.setMbtel(rset.getString(4));
+				member.setMbemail(rset.getString(5));
+				member.setMbpoint(rset.getInt(6));
+				member.setMblevel(rset.getString(7));
+				member.setMbRegisterDate(rset.getDate(8));
+				member.setMbLeaveDate(rset.getDate(9));
+				member.setMbName(rset.getString(10));
 			
 				memberList.add(member);
 			}
@@ -204,30 +211,29 @@ public class MemberDao {
 		return memberList;
 	}
 
+	//SH_MEMBER 테이블에 INSERT해주는 메서드 
 	public int insertMember(Connection conn, Member member){
-		
 		int res = 0;
 		PreparedStatement pstm = null;
-		
 		try {
-			String query = "INSERT INTO SH_MEMBER(MB_ID, MB_PASSWORD,MB_NICK, MB_EMAIL, MB_TEL) "
-					+"values(?,?,?,?,?)";
+			String query = "INSERT INTO SH_MEMBER(MB_ID, MB_PASSWORD, MB_NICK, MB_EMAIL, MB_TEL, MB_NAME) "
+					+"VALUES(?,?,?,?,?,?)";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, member.getMbId());
-			pstm.setString(2,member.getMbPassword());
-			pstm.setString(3, member.getMbNick());
+			pstm.setString(2,member.getMbpassword());
+			pstm.setString(3, member.getMbnick());
 			pstm.setString(4, member.getMbemail());
 			pstm.setString(5, member.getMbtel());
-			
+			pstm.setString(6, member.getMbName());
 			res = pstm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.IM01,e);
 		}finally {
 			jdt.close(pstm);
 		}
-		
 		return res;
 	}
+	
 //카카오
 /*
 public int insertMemberkakao(Connection conn, Member member){
@@ -290,7 +296,7 @@ public int insertMember(Connection conn, Member member){
 		try {
 			String query = "update sh_member set mb_password = ? where mb_id = ?";
 			pstm = conn.prepareStatement(query);
-			pstm.setString(1, member.getMbPassword());
+			pstm.setString(1, member.getMbpassword());
 			pstm.setString(2, member.getMbId());
 			res = pstm.executeUpdate();
 		} catch (SQLException e) {
@@ -334,12 +340,16 @@ public int insertMember(Connection conn, Member member){
 			
 			while(rset.next()) {
 				Member member = new Member();
-				member.setMbId(rset.getString("mb_id"));
-				member.setMbPassword(rset.getString("mb_password"));
-				member.setMbNick(rset.getString("mb_nick"));
-				member.setMbtel(rset.getString("mb_tel"));
-				member.setMbemail(rset.getString("mb_email"));
-				member.setMbLeaveDate(rset.getDate("mb_leave_date"));
+				member.setMbId(rset.getString(1));
+				member.setMbpassword(rset.getString(2));
+				member.setMbnick(rset.getString(3));
+				member.setMbtel(rset.getString(4));
+				member.setMbemail(rset.getString(5));
+				member.setMbpoint(rset.getInt(6));
+				member.setMblevel(rset.getString(7));
+				member.setMbRegisterDate(rset.getDate(8));
+				member.setMbLeaveDate(rset.getDate(9));
+				member.setMbName(rset.getString(10));
 				memberList.add(member);
 			}
 		} catch (SQLException e){
@@ -408,5 +418,6 @@ public int insertMember(Connection conn, Member member){
 		}
 		return res;
 	}
+
 
 }

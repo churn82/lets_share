@@ -13,67 +13,16 @@ public class Member {
 	private String mblevel;
 	private Date mbRegisterDate;
 	private Date mbLeaveDate;
-	//카카오
-	private String mbkakaoId;
-	private String mbkakaopw;
-	private String mbkakaonick;
-	private String mbkakaoemail;
+	private String mbName;
 	
-	public String getMbkakaoId() {
-		return mbkakaoId;
-	}
-
-	public void setMbkakaoId(String mbkakaoId) {
-		this.mbkakaoId = mbkakaoId;
-	}
-
-	public String getMbkakaopw() {
-		return mbkakaopw;
-	}
-
-	public void setMbkakaopw(String mbkakaopw) {
-		this.mbkakaopw = mbkakaopw;
-	}
-
-	public String getMbkakaonick() {
-		return mbkakaonick;
-	}
-
-	public void setMbkakaonick(String mbkakaonick) {
-		this.mbkakaonick = mbkakaonick;
-	}
-
-	public String getMbkakaoemail() {
-		return mbkakaoemail;
-	}
-
-	public void setMbkakaoemail(String mbkakaoemail) {
-		this.mbkakaoemail = mbkakaoemail;
-	}
-
+	
 	public Member() {
 		
 	}
-	/*
-	public Member(String mbId, String mbpassword, String mbnick, String mbtel, String mbemail, int mbpoint,
-			String mblevel, Date mbRegisterDate, Date mbLeaveDate) {
-		
-		super();
-		this.mbId = mbId;
-		this.mbpassword = mbpassword;
-		this.mbnick = mbnick;
-		this.mbtel = mbtel;
-		this.mbemail = mbemail;
-		this.mbpoint = mbpoint;
-		this.mblevel = mblevel;
-		this.mbRegisterDate = mbRegisterDate;
-		this.mbLeaveDate = mbLeaveDate;
-	}
-	*/
+
 	
 	public Member(String mbId, String mbpassword, String mbnick, String mbtel, String mbemail, int mbpoint,
-			String mblevel, Date mbRegisterDate, Date mbLeaveDate, String mbkakaoId, String mbkakaopw,
-			String mbkakaonick, String mbkakaoemail) {
+			String mblevel, Date mbRegisterDate, Date mbLeaveDate, String mbName) {
 		super();
 		this.mbId = mbId;
 		this.mbpassword = mbpassword;
@@ -84,28 +33,24 @@ public class Member {
 		this.mblevel = mblevel;
 		this.mbRegisterDate = mbRegisterDate;
 		this.mbLeaveDate = mbLeaveDate;
-		this.mbkakaoId = mbkakaoId;
-		this.mbkakaopw = mbkakaopw;
-		this.mbkakaonick = mbkakaonick;
-		this.mbkakaoemail = mbkakaoemail;
+		this.mbName = mbName;
 	}
-
 	public String getMbId() {
 		return mbId;
 	}
 	public void setMbId(String mbId) {
 		this.mbId = mbId;
 	}
-	public String getMbPassword() {
+	public String getMbpassword() {
 		return mbpassword;
 	}
-	public void setMbPassword(String mbPassword) {
-		this.mbpassword = mbPassword;
+	public void setMbpassword(String mbpassword) {
+		this.mbpassword = mbpassword;
 	}
-	public String getMbNick() {
+	public String getMbnick() {
 		return mbnick;
 	}
-	public void setMbNick(String mbnick) {
+	public void setMbnick(String mbnick) {
 		this.mbnick = mbnick;
 	}
 	public String getMbtel() {
@@ -144,12 +89,20 @@ public class Member {
 	public void setMbLeaveDate(Date mbLeaveDate) {
 		this.mbLeaveDate = mbLeaveDate;
 	}
+	public String getMbName() {
+		return mbName;
+	}
+	public void setMbName(String mbName) {
+		this.mbName = mbName;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Member [mbId=" + mbId + ", mbpassword=" + mbpassword + ", mbnick=" + mbnick + ", mbtel=" + mbtel
 				+ ", mbemail=" + mbemail + ", mbpoint=" + mbpoint + ", mblevel=" + mblevel + ", mbRegisterDate="
-				+ mbRegisterDate + ", mbLeaveDate=" + mbLeaveDate + ", mbkakaoId=" + mbkakaoId + ", mbkakaopw="
-				+ mbkakaopw + ", mbkakaonick=" + mbkakaonick + ", mbkakaoemail=" + mbkakaoemail + "]";
+				+ mbRegisterDate + ", mbLeaveDate=" + mbLeaveDate + ", mbName=" + mbName + "]";
 	}
+	
 	
 }
