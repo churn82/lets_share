@@ -305,7 +305,23 @@ public class NoticeDao {
 		return notice;
 	}
 	
-
+		//조회수
+		public int hitCounter(Connection conn, int noticeNo) {
+			int rs = 0;
+			PreparedStatement pstm = null;
+			String sql = "update sh_notice set notice_view = notice_view+1 where notice_no = ?";
+			
+			try {
+				pstm = conn.prepareStatement(sql);
+				pstm.setInt(1, noticeNo);
+				rs = pstm.executeUpdate();
+			} catch (SQLException e) {
+				throw new DataAccessException(ErrorCode.DB01, e);
+			}finally {
+				jdt.close(pstm);
+			}
+			return rs;
+		}
 	
 	
 	

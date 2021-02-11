@@ -209,4 +209,19 @@ public class NoticeService {
 		return notice;
 	}
 	
+	//조회수
+	public int hitCounter(int noticeNo) {
+		Connection conn = jdt.getConnection();
+		int rs = 0;
+		try {
+			rs = noticeDao.hitCounter(conn, noticeNo);
+			jdt.commit(conn);
+		}catch (DataAccessException e) {
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
+		return rs;
+	}
+	
 }
