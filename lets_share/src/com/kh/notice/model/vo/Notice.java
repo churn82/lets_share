@@ -13,7 +13,6 @@ public class Notice {
 	private String noticeType;		//타입(notice/event)
 	private Date noticeDelete;
 	private int noticeAllCount;
-	private int noticePage;
 	
 	public Notice() {
 		
@@ -101,22 +100,13 @@ public class Notice {
 	}
 
 
-	public int getNoticePage() {
-		return noticePage;
-	}
-
-
-	public void setNoticePage(int noticePage) {
-		this.noticePage = noticePage;
-	}
 
 
 	@Override
 	public String toString() {
 		return "Notice [noticeNo=" + noticeNo + ", noticeTitle=" + noticeTitle + ", noticeContent=" + noticeContent
 				+ ", noticeDate=" + noticeDate + ", noticeView=" + noticeView + ", noticeType=" + noticeType
-				+ ", noticeDelete=" + noticeDelete + ", noticeAllCount=" + noticeAllCount + ", noticePage=" + noticePage
-				+ "]";
+				+ ", noticeDelete=" + noticeDelete + ", noticeAllCount=" + noticeAllCount + ", noticePage=" + "]";
 	}
 
 	

@@ -68,8 +68,12 @@ public class NoticeController extends HttpServlet {
 		//paging
 		Notice notice = new Notice();
 		int allCount = notice.getNoticeAllCount();
-		int page = allCount/15;
-		request.setAttribute("allCount", allCount);
+		int page = allCount/10;
+		
+				System.out.println("allCount : " + allCount); //these are not saving thru dao i guess
+				System.out.println("page : " + page);
+		
+		request.setAttribute("allCount", allCount); //전체글의갯수인데 나중에 봐서 필요없으면 삭제하자
 		request.setAttribute("p", page);
 		
 		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")

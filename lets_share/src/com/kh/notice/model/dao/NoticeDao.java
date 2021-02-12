@@ -22,9 +22,10 @@ public class NoticeDao {
 	public int insertNoticeBoard(Connection conn, Notice notice) {
 		int res = 0;
 		String sql = "insert into sh_notice "
-				+ "(NOTICE_NO,NOTICE_TITLE,NOTICE_CONTENT,NOTICE_DATE,NOTICE_TYPE) "
-				+ "values(sc_notice_no.nextval,?,?,sysdate,'notice')";
+				+ "(NOTICE_NO,NOTICE_TITLE,NOTICE_CONTENT,NOTICE_DATE,NOTICE_TYPE,NOTICE_ALL_COUNT) "
+				+ "values(sc_notice_no.nextval,?,?,sysdate,'notice',+1)";
 		PreparedStatement pstm = null;
+		
 		
 		try {
 			pstm = conn.prepareStatement(sql);
@@ -283,27 +284,30 @@ public class NoticeDao {
 		return noticeList;
 	}
 	
-	//공지 게시글의 전체 수를 리턴하는 메서드
+	//============필요없는데혹시몰라서주석처리===========
+	/*//공지 게시글의 전체 수를 리턴하는 메서드
 	public Notice getAllCount(Connection conn) {
 		Notice notice = null;
-		PreparedStatement pstm = null;
+		PreparedStatement pstm = null; //pstm필요없지만 일반 stmt는 close메소드 없으니까 그냥 pstm으로
 		ResultSet rs = null;
-		
-		String sql = "select count(*) from sh_notice where notice_type='notice' and notice_delete is null ";
-		
+		String sql = "select count(*) from sh_notice "
+				+ "where notice_type='notice' and notice_delete is null ";
 		try {
 			pstm = conn.prepareStatement(sql);
 			rs = pstm.executeQuery();
-			notice = new Notice();
-			notice.setNoticeAllCount(rs.getInt("notice_all_count"));
+			
+			if(rs.next()) {
+				notice = new Notice();
+				notice.setNoticeAllCount(rs.getInt("notice_all_count"));
+				
+			}
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.SB01, e);
 		}finally {
-			jdt.close(pstm);
-			jdt.close(rs);
+			jdt.close(rs, pstm);
 		}
 		return notice;
-	}
+	}*/
 	
 	//조회수
 	public int hitCounter(Connection conn, int noticeNo) {

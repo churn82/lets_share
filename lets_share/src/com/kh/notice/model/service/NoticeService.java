@@ -193,7 +193,7 @@ public class NoticeService {
 		return noticeList;
 	}
 	
-	//공지 전체 갯수
+	/*//공지 전체 갯수
 	public Notice getAllCount() {
 		Notice notice = null;
 		Connection conn = jdt.getConnection();
@@ -207,7 +207,7 @@ public class NoticeService {
 			jdt.close(conn);
 		}		
 		return notice;
-	}
+	}*/
 	
 	//조회수
 	public int hitCounter(int noticeNo) {

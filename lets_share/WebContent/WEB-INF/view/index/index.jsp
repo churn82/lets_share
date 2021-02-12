@@ -43,7 +43,7 @@
 								<li><a href="#">구매자 모집</a></li>
 								<li><a href="left-sidebar.html">구매 참여</a></li>
 								<li><a href="right-sidebar.html">신고 게시판</a></li>
-								<li><a href="no-sidebar.html">공지 사항</a></li>
+								<li><a href="/notice/noticeList?p=1">공지 사항</a></li>
 							</ul>
 						</nav>
 
