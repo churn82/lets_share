@@ -1,81 +1,79 @@
-@charset "UTF-8";
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
-body{
-	min-height:1000px;
-	min-width:1200px;
+.contetnBox{
+    padding-top: 20px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding-bottom: 20px;
+    width: 30vw;
+    margin: auto;
 }
-.wrapper{
-	padding:2% 2% 2% 2%;
-	font-family: 'Noto Sans KR', sans-serif;
-	display:flex;
-	justify-content: center;
-}
-.login{
-	width:70%;
-	display:flex;
-	flex-direction: column;
-	align-items: center;
-}
-.login_title{
-	font-weight: bold;
-	font-size:3.5vw;
-	margin-bottom: 1.5%;
-	align-self:flex-start;
-}
-.loginbox{
-	width:100%;
-	display:flex;
-	justify-content: space-between;
-	border:thin solid;
-	padding: 5%;
-}
-.loginbox *{
-	font-size:1.5vw;
-}
-.loginform{
-	display:flex;
-	flex-wrap:wrap;
-	width:50%;
-	height:30vw;
-	flex-direction:column;
-	justify-content: space-around;
+.titleBox{
+    font-size : 2em;
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 2vh;
+    margin-bottom: 5vh;
 }
 
-.loginform>*{
-	width:100%;
-	height:20%
+
+.formBox{
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: center;
 }
-.loginform>button{
-	font-size: 2vw;
+
+.inputBox{
+    width: 90%;
+    /* border : 1px solid black; */
+    margin-bottom: 3vh;
+    display: flex;
+    justify-content: center;
 }
-.optionbox{
-	display:flex;
-	flex-wrap:wrap;
-	width:50%;
-	height:30vw;
-	flex-direction:column;
-	justify-content:space-around;
-	
+
+.inputBox > a{
+    display: flex;
 }
-.optionbox>*{
-	width:100%;
-	height:20%;
-	align-items:center;
-	display:flex;
-	justify-content: center;
+a > img {
+    margin: auto;
 }
-.optionbox>label{
-	margin-left:5%;
-	justify-content:left;
-	align-items:center;
+
+.inputBox > button {
+    width: 300px;
+    height: 45px;
 }
-.optionbox input{
-	 width:20px !important;
-	 height:20px !important; 
-	 background-color:lightgray !important;
+
+#loginInp{
+    height: 5vh;
 }
-#register_btn{
-	font-size:2vw;
-	font-weight:bold;
+#pwInp{
+    height: 5vh;
 }
+
+
+@media screen and (max-width: 800px){
+    .contetnBox{
+        padding-top: 20px;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        padding-bottom: 20px;
+        width: 80vw;
+        margin: auto;
+    }
+}
+
+
+@media all and (min-width:801px) and (max-width:1023px) {
+    .contetnBox{
+        padding-top: 20px;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        padding-bottom: 20px;
+        width: 40vw;
+        margin: auto;
+    }
+}
+
+
+
+
+
 

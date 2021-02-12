@@ -32,27 +32,31 @@
 				</nav>
 			</div>
 			<!-- Main -->
-				<div class="wrapper style1">
-				<div class="login">
-					<h1 class="login_title">로그인</h1>
-					<div class="loginbox">
-						<form action="/member/loginimpl" method="post" class="loginform">
-							<input type="text" name="id" id="id" placeholder="아이디">
-							<input type="password" name="pw" id="pw" placeholder="비밀번호">
-							<span class="valid_info"></span>
-							<button onclick="login()">로그인</button>
-							<a href="https://kauth.kakao.com/oauth/authorize?client_id=8a92e5d7d3324acd050fd30b648b921b&redirect_uri=http://localhost:9090/Kakao/oauth&response_type=code">
-								<img src="../resources/images/member/kakao_login_medium_narrow.png"/>
-							</a>
-						</form>
-						<div class="optionbox">
-							<label><span>아이디 저장</span><input type="checkbox"></label>
-							<span></span>
-							<span id="register_btn">회원가입</span>
-						</div>
+			<div class="wrapper style1">
+				<div class="contetnBox">
+					<div class="titleBox">
+						<a href="">Let's Share 로그인</a>
 					</div>
+					<form action="/member/loginimpl" method="post", class="loginform">
+						<div class="formBox">
+                            <div class="inputBox" id="loginInp">
+                                <input type="text" name="id" id="id" placeholder="아이디">
+                            </div>
+                            <div class="inputBox" id="pwInp">
+                                <input type="password" name="pw" id="pw" placeholder="비밀번호">
+                            </div>
+                            <div class="inputBox">
+                                <button onclick="login()">로그인</button>
+                            </div>
+                            <div class="inputBox">
+                                <a href="https://kauth.kakao.com/oauth/authorize?client_id=8a92e5d7d3324acd050fd30b648b921b&redirect_uri=http://localhost:9090/Kakao/oauth&response_type=code">
+									<img src="../resources/images/member/kakao_login_medium_wide.png" alt="">
+								</a>
+                            </div>
+						</div>
+					</form>
 				</div>
-				</div>
+			</div>
 			<!-- Footer -->
 			<div id="footer">
 				<div style="text-align: center;">Copyright © 1998-2021 KH Information Educational Institute All Right Reserved</div>
@@ -68,38 +72,6 @@
 			<script src="/resources/js/util.js"></script>
 			<script src="/resources/js/main.js"></script>
 			<script src="https://developers.kakao.com/sdk/js/kakao.js" type="text/javascript"></script>
-			<script type="text/javascript">
-				// 02-04 카카오 로그인 
-				// REST API 키로 실행했을경우 Redirect URI요청 오류 KOE006 
-				// Redirect URI 새로 등록하거나 파라미터 redirect_uri값으로 사용
-				Kakao.init("c00b90880a6e893af3a5479df4ddfbad"); //javascript 키
-				// REST API 키 . Kakao.init("16bad05a568179ca88616c88a39210ad");
-				function kakaoLogin() {
-
-					Kakao.Auth.login({
-						scope:'profile , account_email',
-						success: function(authObj) {
-							console.log(authObj);
-							Kakao.API.request({
-								url:'/v2/user/me',
-								success: function(res){
-									console.log(res);									
-									alert(JSON.stringify(res));
-									var userID = res.id;
-									var userEmail = res.kakao_account.email;
-									var userNickName = res.properties.nickname;
-									console.log(userID);
-									console.log(userEmail);
-									console.log(userNickName);
-									console.log(authObj.access_token);
-								},
-								fail: (err) => {
-									console.error(err)	
-								}
-							});
-						}
-					});
-				}
-		</script>
+			<script type="text/javascript"></script>
 	</body>
 </html>
