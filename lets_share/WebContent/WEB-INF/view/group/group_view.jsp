@@ -23,7 +23,7 @@
     	let myExpDay;
     </script>
     <!-- JSTL을 통해 미리 필요한 데이터를 가져온다. -->
-    <!-- 1. 그룹 멤버의 만기일을 가져와서 배열에 저장 -->
+    <!-- 1. 내가 아닌 그룹 멤버의 만기일을 가져와서 배열에 저장 -->
     <c:forEach var="member" items="${matchingList}">
    		<c:if test="${member.getExDate() != null and member.getMemberId() != sessionScope.user.getMbId()}">
     		<script>
@@ -39,16 +39,16 @@
     	</script>
     </c:if>
     <!-- 3. 내가 그룹장이 아니라면, 나의 사용 시작일, 만기일을 저장 -->
-    <c:forEach var="groupMember" items="${matchingList}">
-		<c:if test="${groupMember.getMemberId() == sessionScope.user.getMbId()}">
-			<c:if test="${group.getMemberId()!=sessionScope.user.getMbId()}">
+    <c:if test="${group.getMemberId()!=sessionScope.user.getMbId()}">
+    	<c:forEach var="groupMember" items="${matchingList}">
+			<c:if test="${groupMember.getMemberId() == sessionScope.user.getMbId()}">
 				<script>
 					myStartDay = "${groupMember.getStDate()}";
 					myExpDay = "${groupMember.getExDate()}";
 				</script>
 			</c:if>
-		</c:if>
-	</c:forEach>
+		</c:forEach>
+	</c:if>
     <script>
     	document.addEventListener('DOMContentLoaded', function() {
     		var today = new Date(); //오늘 날짜 지정
@@ -84,7 +84,7 @@
     		//2. 그룹 해산일
     		if(groupLastDay){
     			calendar.addEventSource([{
-    				title : "그룹 헤산",
+    				title : "그룹 해산",
     				start : groupLastDay,
     				color : "red"
     			}]);
@@ -92,10 +92,12 @@
     		//내 시작~만기
     		if (myStartDay && myExpDay){
     			calendar.addEventSource([{
-    				title : "서비스 이용가능",
+    				title : "서비스 이용 가능",
     				start : myStartDay,
     				end : myExpDay,
-    				color : "skyblue"
+    				textColor:'green',
+   	    			backgroundColor:'#00fff2',
+   	    			borderColor:'lightgray'
     			}]);
     		}
         	/* 캘린더 언어 지정, 캘린더 출력  */
