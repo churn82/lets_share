@@ -637,4 +637,26 @@ public class GroupDao {
 		return flag;
 	}
 	
+	
+	//=========================소속 그룹 아이디 리스트 형태로 가져오기=========================
+	public ArrayList<Integer> getgroupIdList(Connection conn, String userId){
+		ArrayList<Integer> groupIdList = new ArrayList<Integer>();
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = "SELECT GROUP_ID FROM SH_MATCHING WHERE MB_ID = ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, userId);
+			rset = pstm.executeQuery();
+			while(rset.next()) {
+				int groupId = rset.getInt(1);
+				groupIdList.add(groupId);
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.SG01, e);
+		} finally {
+			jdt.close(rset,pstm);
+		}
+		return groupIdList;
+	}
 }

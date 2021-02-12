@@ -57,7 +57,7 @@
 		</ul>
 		
 		<div class="tab_content">
-			<div id="search_bar">
+			<form id="search_bar">
 				<select id="search_sel" name="select">
 					<option value="sel_all">전체  ▼ </option>
 					<option value="sel_title">제목</option>
@@ -65,7 +65,7 @@
 				</select>
 				<input type="text" class="searchText" name="searchText" placeholder="검색어를 입력하세요.">
 				<button class="search_btn" onclick="searchList">조회</button>
-			</div>
+			</form>
 	
 			<div class="table_wrap">
 				<table class="tb_list">
@@ -163,6 +163,7 @@
 				<div class="write_btn">
 					<button id="write" onclick="changeWriter()">글쓰기</button>				
 				</div>						
+					
 			<%--  관리자 로그인 승현님 --%>
 	        <c:if test="${sessionScope.sessionID !=null && sessionScope.MB_LEVEL=='MB10'}">
 	            <button id="memberViewBtn" class="btn btn-warning" onclick="changeView(5)">회원보기</button>
