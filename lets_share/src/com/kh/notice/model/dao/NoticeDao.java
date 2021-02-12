@@ -31,7 +31,6 @@ public class NoticeDao {
 			pstm.setString(1, notice.getNoticeTitle());
 			pstm.setString(2, notice.getNoticeContent());
 			res = pstm.executeUpdate();
-			System.out.println(res);
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.IB01, e);
 		}finally {

@@ -54,15 +54,15 @@
 		</ul>
 		
 		<div class="tab_content">
-			<div id="search_bar">
+			<form id="search_bar">
 				<select id="search_sel" name="select">
 					<option value="sel_all">전체  ▼ </option>
 					<option value="sel_title">제목</option>
 					<option value="sel_content">내용</option>
 				</select>
 				<input type="text" class="searchText" name="searchText" placeholder="검색어를 입력하세요.">
-				<button class="search_btn" onclick="searchList">조회</button>
-			</div>
+				<input type="submit" class="search_btn" onclick="searchList" value="검색"/>
+			</form>
 	
 			<div class="table_wrap">
 				<table class="tb_list">
