@@ -63,8 +63,14 @@ public class NoticeController extends HttpServlet {
 		
 		ArrayList<Notice> noticeList = null;
 		noticeList = noticeService.selectNoticeList();
-		
 		request.setAttribute("noticeList", noticeList);
+		
+		//paging
+		Notice notice = new Notice();
+		int allCount = notice.getNoticeAllCount();
+		int page = allCount/15;
+		request.setAttribute("allCount", allCount);
+		request.setAttribute("p", page);
 		
 		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
 		.forward(request, response);
@@ -74,7 +80,6 @@ public class NoticeController extends HttpServlet {
 	//이벤트 목록
 	protected void goEventList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Notice notice = new Notice();
-		
 		int allCount = notice.getNoticeAllCount();
 		int page = allCount/15;
 		
@@ -183,11 +188,7 @@ public class NoticeController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/notice/event_list.jsp")
 		.forward(request, response);	
 		
-		
 	}
-	
-	
-	
 	
 	//수정전 
 	protected void beforeUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -242,7 +243,6 @@ public class NoticeController extends HttpServlet {
 		
 		request.getRequestDispatcher("/WEB-INF/view/notice/event_list.jsp")
 		  .forward(request, response);
-		
 		
 	}
 	

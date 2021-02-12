@@ -193,7 +193,7 @@ public class NoticeService {
 		return noticeList;
 	}
 	
-	//공지 전체 갯 수
+	//공지 전체 갯수
 	public Notice getAllCount() {
 		Notice notice = null;
 		Connection conn = jdt.getConnection();

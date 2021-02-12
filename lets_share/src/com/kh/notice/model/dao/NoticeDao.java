@@ -254,34 +254,34 @@ public class NoticeDao {
 	}
 	
 	//이벤트 목록 조회(번호,제목,작성자,작성날짜,조회수)
-		public ArrayList<Notice> selectEventList(Connection conn) {
-			
-			ArrayList<Notice> noticeList = new ArrayList<>();
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			
-			try {
-				String sql = "select * from sh_notice where notice_type='event' and notice_delete is null order by notice_no desc";
-				pstm = conn.prepareStatement(sql);
-				rs = pstm.executeQuery();
-				
-				while(rs.next()) {
-					Notice notice = new Notice();
-					notice.setNoticeNo(rs.getInt("notice_no"));
-					notice.setNoticeTitle(rs.getString("notice_title"));
-					notice.setNoticeDate(rs.getDate("notice_date"));
-					notice.setNoticeView(rs.getInt("notice_view"));
-					noticeList.add(notice);
-				}
-				
-			} catch (SQLException e) {
-				throw new DataAccessException(ErrorCode.SB01, e);
-			}finally {
-				jdt.close(rs,pstm);
-			}
+	public ArrayList<Notice> selectEventList(Connection conn) {
 		
-			return noticeList;
+		ArrayList<Notice> noticeList = new ArrayList<>();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		
+		try {
+			String sql = "select * from sh_notice where notice_type='event' and notice_delete is null order by notice_no desc";
+			pstm = conn.prepareStatement(sql);
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				Notice notice = new Notice();
+				notice.setNoticeNo(rs.getInt("notice_no"));
+				notice.setNoticeTitle(rs.getString("notice_title"));
+				notice.setNoticeDate(rs.getDate("notice_date"));
+				notice.setNoticeView(rs.getInt("notice_view"));
+				noticeList.add(notice);
+			}
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.SB01, e);
+		}finally {
+			jdt.close(rs,pstm);
 		}
+	
+		return noticeList;
+	}
 	
 	//공지 게시글의 전체 수를 리턴하는 메서드
 	public Notice getAllCount(Connection conn) {
@@ -305,24 +305,24 @@ public class NoticeDao {
 		return notice;
 	}
 	
-		//조회수
-		public int hitCounter(Connection conn, int noticeNo) {
-			int rs = 0;
-			PreparedStatement pstm = null;
-			String sql = "update sh_notice set notice_view = notice_view+1 where notice_no = ?";
-			
-			try {
-				pstm = conn.prepareStatement(sql);
-				pstm.setInt(1, noticeNo);
-				rs = pstm.executeUpdate();
-			} catch (SQLException e) {
-				throw new DataAccessException(ErrorCode.DB01, e);
-			}finally {
-				jdt.close(pstm);
-			}
-			return rs;
+	//조회수
+	public int hitCounter(Connection conn, int noticeNo) {
+		int rs = 0;
+		PreparedStatement pstm = null;
+		String sql = "update sh_notice set notice_view = notice_view+1 where notice_no = ?";
+		
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, noticeNo);
+			rs = pstm.executeUpdate();
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.DB01, e);
+		}finally {
+			jdt.close(pstm);
 		}
-	
+		return rs;
+	}
+
 	
 	
 	
