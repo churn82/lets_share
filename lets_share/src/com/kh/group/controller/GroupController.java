@@ -48,6 +48,8 @@ public class GroupController extends HttpServlet {
 		case "PwChange" : PwChange(request, response); break;
 		case "out" : outGroup(request, response); break;
 		case "close" : closeGroup(request, response); break;
+		case "viewlist" : goViewList(request, response); break;
+		
 		default : 
 			response.setStatus(404);
 			break;
@@ -62,39 +64,32 @@ public class GroupController extends HttpServlet {
 		.forward(request, response);
 	}
 	
-	// Session에서 회원정보를 가지고 회원이 소속된 그룹의 Group_view를 그려준다
+	// group_view_list에서 클릭한 groupId의 그룹뷰를 보여준다
 	protected void goView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//1.세션에서 userId를 가져온다
-		Member member = (Member) request.getSession().getAttribute("user");
-		String userId = member.getMbId();
+		String groupSId = request.getParameter("groupId");
+		int groupId = Integer.parseInt(groupSId);
+		System.out.println(groupId);
 		
-		//2. userId가 속한 그룹의 grouoId를 가져온다
-		int groupId = 0;
-		groupId = groupService.getGroupId(userId);
+		//3. SH_STAND_BY 그룹에 대기중인 인원의 데이터를 Arraylist로 가져온다 ()
+		ArrayList<GroupStandBy> standByList = groupService.getStandByList(groupId);
+		request.setAttribute("standByList", standByList);
 		
-		if(groupId == 0) {
-			System.out.println("속한 그룹이 없습니다");
-		}else {
-			//3. SH_STAND_BY 그룹에 대기중인 인원의 데이터를 Arraylist로 가져온다 ()
-			ArrayList<GroupStandBy> standByList = groupService.getStandByList(groupId);
-			request.setAttribute("standByList", standByList);
-			
-			//4. SH_MATCHING 그룹원 데이터를 Arraylist로 가져온다
-			ArrayList<GroupMatching> matchingList = groupService.getMatching(groupId);
-			request.setAttribute("matchingList", matchingList);
-			
-			//5. SH_GROUP 데이터를 가져온다
-			Group group = groupService.getGroup(groupId);
-			request.setAttribute("group", group);
-			
-			//6. SH_SER_CODE 정보를 가져온다 
-			int servicePerDay = groupService.getServicePerDay(group.getServiceCode());
-			request.setAttribute("servicePerDay", servicePerDay);
-		}
+		//4. SH_MATCHING 그룹원 데이터를 Arraylist로 가져온다
+		ArrayList<GroupMatching> matchingList = groupService.getMatching(groupId);
+		request.setAttribute("matchingList", matchingList);
+		
+		//5. SH_GROUP 데이터를 가져온다
+		Group group = groupService.getGroup(groupId);
+		request.setAttribute("group", group);
+		
+		//6. SH_SER_CODE 정보를 가져온다 
+		int servicePerDay = groupService.getServicePerDay(group.getServiceCode());
+		request.setAttribute("servicePerDay", servicePerDay);
 		
 		request.getRequestDispatcher("/WEB-INF/view/group/group_view.jsp")
 		.forward(request, response);
+		
 	}
 	
 	// group_search.jsp 페이지 로드
@@ -404,4 +399,33 @@ public class GroupController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 		}
 	}
+	
+	//속한 모임 리스트 보여줌
+	protected void goViewList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//1.세션에서 userId를 가져온다
+		Member member = (Member) request.getSession().getAttribute("user");
+		String userId = member.getMbId();
+		
+		//2.userId가 속해있는 그룹정보 를 arraylist로 가져온다.
+		ArrayList<Integer> groupIdList = groupService.getgroupIdList(userId);
+		System.out.println(groupIdList.toString());
+		
+		//3.가져온 ID리스트로 groupList로 만들어줌 
+		ArrayList<Group> groupList = new ArrayList<Group>();
+		if(groupIdList.isEmpty()) {
+			System.out.println("속한 그룹이 없습니다");
+		}else {
+			for (Integer groupId : groupIdList) {
+				groupList.add(groupService.getGroup(groupId));
+			}
+		}
+		
+		//4. gropuList 보내줌
+		request.setAttribute("groupList", groupList);
+		request.getRequestDispatcher("/WEB-INF/view/group/group_view_list.jsp")
+		.forward(request, response);
+		
+	}
+	
 }

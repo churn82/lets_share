@@ -3,112 +3,74 @@ package com.kh.report.model.vo;
 import java.sql.Date;
 
 public class Report {
-
-	private int reportIdx;
-	private String mbId;
-	private int groupIdx;
-	private String reportContent;
-	private Date reportDate;
-	private String reportReply;
-	private String reportClearYn;
-	private String reportTitle;
 	
+	private int reportIdx;
+	private String memberId;
+	private int groupId;
+	private String content;
+	private Date regdate;
+	private String reply;
+	private int clear;
+	private String title;
 	
 	public Report() {
 		
 	}
-
-
+	
+	
 	public int getReportIdx() {
 		return reportIdx;
 	}
-
-
 	public void setReportIdx(int reportIdx) {
 		this.reportIdx = reportIdx;
 	}
-
-
-	public String getMbId() {
-		return mbId;
+	public String getMemberId() {
+		return memberId;
 	}
-
-
-	public void setMbId(String mbId) {
-		this.mbId = mbId;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
-
-
-	public int getGroupIdx() {
-		return groupIdx;
+	public int getGroupId() {
+		return groupId;
 	}
-
-
-	public void setGroupIdx(int groupIdx) {
-		this.groupIdx = groupIdx;
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
 	}
-
-
-	public String getReportContent() {
-		return reportContent;
+	public String getContent() {
+		return content;
 	}
-
-
-	public void setReportContent(String reportContent) {
-		this.reportContent = reportContent;
+	public void setContent(String content) {
+		this.content = content;
 	}
-
-
-	public Date getReportDate() {
-		return reportDate;
+	public Date getRegdate() {
+		return regdate;
 	}
-
-
-	public void setReportDate(Date reportDate) {
-		this.reportDate = reportDate;
+	public void setRegdate(Date regdate) {
+		this.regdate = regdate;
 	}
-
-
-	public String getReportReply() {
-		return reportReply;
+	public String getReply() {
+		return reply;
 	}
-
-
-	public void setReportReply(String reportReply) {
-		this.reportReply = reportReply;
+	public void setReply(String reply) {
+		this.reply = reply;
 	}
-
-
-	public String getReportClearYn() {
-		return reportClearYn;
+	public int getClear() {
+		return clear;
 	}
-
-
-	public void setReportClearYn(String reportClearYn) {
-		this.reportClearYn = reportClearYn;
+	public void setClear(int clear) {
+		this.clear = clear;
 	}
-
-
-	public String getReportTitle() {
-		return reportTitle;
+	public String getTitle() {
+		return title;
 	}
-
-
-	public void setReportTitle(String reportTitle) {
-		this.reportTitle = reportTitle;
+	public void setTitle(String title) {
+		this.title = title;
 	}
-
-
 	@Override
 	public String toString() {
-		return "Report [reportIdx=" + reportIdx + ", mbId=" + mbId + ", groupIdx=" + groupIdx + ", reportContent="
-				+ reportContent + ", reportDate=" + reportDate + ", reportReply=" + reportReply + ", reportClearYn="
-				+ reportClearYn + ", reportTitle=" + reportTitle + "]";
+		return "Report [reportIdx=" + reportIdx + ", memberId=" + memberId + ", groupId=" + groupId + ", content="
+				+ content + ", regdate=" + regdate + ", reply=" + reply + ", clear=" + clear + ", title=" + title + "]";
 	}
-
-	
-
-	
 	
 	
 	

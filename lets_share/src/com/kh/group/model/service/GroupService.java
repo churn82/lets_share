@@ -412,6 +412,20 @@ public class GroupService {
 		return flag;
 	}
 
-
+	//=========================소속 그룹 아이디 리스트 형태로 가져오기=========================
+	public ArrayList<Integer> getgroupIdList(String userId){
+		Connection conn = jdt.getConnection();
+		ArrayList<Integer> groupIdList = null;
+		try {
+			groupIdList = groupDao.getgroupIdList(conn, userId);
+			jdt.commit(conn);
+		} catch(DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}finally {
+			jdt.close(conn);
+		}
+		return groupIdList;
+	}
 }
 
