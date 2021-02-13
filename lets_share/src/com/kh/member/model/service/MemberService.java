@@ -37,22 +37,8 @@ public class MemberService {
 		}
 		return member;
 	}
-	//카카오
-	public Member memberAuthenticatekakao(String mbkakaoId){	
-		Member member = null;
-		Connection conn = jdt.getConnection();	
-		try {
-			member = memberDao.memberAuthenticatekakao(conn, mbkakaoId);
-			jdt.commit(conn);
-		} catch (DataAccessException e) {
-			jdt.rollback(conn);
-			throw new ToAlertException(e.error);
-		}finally {
-			jdt.close(conn);
-		}
-		return member;
-	}
-	
+
+	//회원등급 가져오기
 	public Member selectMemberBylevel(String mbId){	
 		Connection conn = jdt.getConnection();
 	      Member member = null;
@@ -98,7 +84,7 @@ public class MemberService {
 		return member;
 	}
 	
-		
+	//가입일 조회	
 	public List<Member> selectMemberByRegdate(Date begin, Date end){
 		  Connection conn = jdt.getConnection();
 	      List<Member> memberList = null;
@@ -110,9 +96,9 @@ public class MemberService {
 	      }
 	      return memberList;
 	   }
-	
+	//이메일 인증 
 	 public void Emailsend(Member member) {
-		  //POST방식으로 통신해보기
+		 
 	      String subject = "회원가입을 완료해주세요!";
 	      String htmlText = "";
 	      
@@ -148,7 +134,7 @@ public class MemberService {
 		}
 		return res;	
 	}
-	
+	// 테이블에 멤버정보 UPDATE
 	public int updateMember(Member member){
 		Connection conn = jdt.getConnection();
 		int res = 0;
@@ -166,6 +152,7 @@ public class MemberService {
 		
 		return res;
 	}
+	//테이블에 멤버정보 삭제
 	public int deleteMember(String mbId){
 		Connection conn = jdt.getConnection();
 		
