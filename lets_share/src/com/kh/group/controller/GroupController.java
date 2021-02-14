@@ -87,6 +87,7 @@ public class GroupController extends HttpServlet {
 		int servicePerDay = groupService.getServicePerDay(group.getServiceCode());
 		request.setAttribute("servicePerDay", servicePerDay);
 		
+		
 		request.getRequestDispatcher("/WEB-INF/view/group/group_view.jsp")
 		.forward(request, response);
 		
@@ -137,10 +138,12 @@ public class GroupController extends HttpServlet {
 		group.setSharePw(service_pw);
 		group.setGroupPayDate(groupPayDate);
 		
+		String memeberName = member.getMbName();
+		
 		// 1. SH_GROUP 테이블에 데이터 입력
 		// 2. SH_MATCHING 테이블에 데이터 입력
 		// 3. 프로시저 PL_UPDATE_MEMBER_CNT(SC_GROUP_ID.CURRVAL) 실행  => 3가지 쿼리 동시에 진행
-		groupService.insertGroup(group);
+		groupService.insertGroup(group, memeberName);
 		
 		request.setAttribute("msg", "모임을 정상적으로 등록하였습니다.");
 		request.setAttribute("url", "/group/search");
@@ -170,21 +173,23 @@ public class GroupController extends HttpServlet {
 		String groupSId = request.getParameter("groupId");
 		int groupId = Integer.parseInt(groupSId);
 		String memberId = request.getParameter("userId");
+		Member member = memberService.selectMemberById(memberId);
+		String memberName = member.getMbName();
 		Group group = groupService.getGroup(groupId);
 		if(group.getMemberCnt()<group.getMemberCntWish()) { 
 			//그룹장이 지정한 수보다 멤버수가 적다면 
 			// 1. 그룹 매칭 테이블에 정보 넣어주기
 			// 2. 그룹 대기 테이블에서 정보 삭제해주기
 			// 3. PL_UPDATE_MEMBER_CNT 프로시저 호출  => 프로시저를 하나 만들어주자(PL_APPROVAL_GROUP)
-			groupService.approval(groupId, memberId);
+			groupService.approval(groupId, memberId, memberName);
 			request.setAttribute("msg", "가입 승인이 완료되었습니다.");
-			request.setAttribute("url", "/group/view");
+			request.setAttribute("url", "/group/view?groupId="+groupId);
 			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 			
 		}else if(group.getMemberCnt()>=group.getMemberCntWish()){
 			//그룹장이 지정한 수보다 멤버수가 많다면
 			request.setAttribute("msg", "그룹에 더 이상 자리가 없습니다, 관리자에게 문의 주세요");
-			request.setAttribute("url", "/group/view");
+			request.setAttribute("url", "/group/view?groupId="+groupId);
 			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
 			.forward(request, response);
 		}
@@ -198,7 +203,7 @@ public class GroupController extends HttpServlet {
 		int res = groupService.refuse(groupId, memberId);
 		if(res==1) {
 			request.setAttribute("msg", "정상적으로 거절되었습니다");
-			request.setAttribute("url", "/group/view");
+			request.setAttribute("url", "/group/view?groupId="+groupId);
 			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
 			.forward(request, response);
 		}
@@ -221,7 +226,7 @@ public class GroupController extends HttpServlet {
 		int res = groupService.updatePayDate(memberId, groupId, payDate);
 		
 		if(res==1) {
-			//2. member에서 전화번호 가져온 후 (servicePerDay * payDate)원 계좌정보 입금 요망 sms 
+			//2-1. member에서 전화번호 가져온 후 (servicePerDay * payDate)원 계좌정보 입금 요망 sms 
 			int sum = payDate * servicePerDay;
 			//Member member = memberService.selectMemberById(memberId);
 			Group group = groupService.getGroup(groupId);
@@ -231,10 +236,10 @@ public class GroupController extends HttpServlet {
 			String content = "Let's Share 입니다. \n["+accountInfo+"] \n결제금액 : "+sum+"원";
 			
 			SMS sms = new SMS();
-			//sms.sendSMS(to, content);
+			sms.sendSMS(to, content);
 		}
 		request.setAttribute("msg", "정상적으로 입금신청 되었습니다.");
-		request.setAttribute("url", "/group/view");
+		request.setAttribute("url", "/group/view?groupId="+groupId);
 		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
 		.forward(request, response);
 		
@@ -270,11 +275,11 @@ public class GroupController extends HttpServlet {
 		String to = member.getMbtel(); // 전송할 전화번호
 		String content = "Let's Share 입니다.\n입금이 확인되어 ID,PW 안내드립니다.\n아이디 : "+shareID+"\n비밀번호 :"+sharePW; 
 		SMS sms = new SMS();
-		//sms.sendSMS(to, content);
+		sms.sendSMS(to, content);
 		
 		//5.view페이지 리로드
 		request.setAttribute("msg", "정상적으로 입금 확인되었습니다.");
-		request.setAttribute("url", "/group/view");
+		request.setAttribute("url", "/group/view?groupId="+groupId);
 		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
 		.forward(request, response);
 		
@@ -299,12 +304,14 @@ public class GroupController extends HttpServlet {
 			//3-1.만기일이 없음 
 			System.out.println("만기일 없음");
 			request.setAttribute("msg", "서비스 ID,PW를 열람할 권한이 없습니다.\n결제를 진행하십시오.");
-			request.setAttribute("url", "/group/view");
+			request.setAttribute("url", "/group/view?groupId="+groupId);
+			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 		}else {
 			if(today.after(exDate)) {
 				//3-2. 만기일 지났음
 				request.setAttribute("msg", "서비스 ID,PW를 열람할 권한이 없습니다.\n결제를 진행하십시오.");
-				request.setAttribute("url", "/group/view");
+				request.setAttribute("url", "/group/view?groupId="+groupId);
+				request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 			}else {
 				//3-3. 만기일 안지남 문자 보내자
 				//Member member = memberService.selectMemberById(memberId);
@@ -314,12 +321,13 @@ public class GroupController extends HttpServlet {
 				String to = member.getMbtel(); // 전송할 전화번호
 				String content = "Let's Share 입니다.\nID,PW 안내드립니다.\n아이디 : "+shareID+"\n비밀번호 :"+sharePW; 
 				SMS sms = new SMS();
-				//sms.sendSMS(to, content);
+				sms.sendSMS(to, content);
 				request.setAttribute("msg", "회원님의 전화번호로 ID,PW를 보내드렸습니다.");
-				request.setAttribute("url", "/group/view");
+				request.setAttribute("url", "/group/view?groupId="+groupId);
+				request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 			}
 		}
-		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
+		
 	}
 
 	//서비스 PW 변경 (sms주석처리)
@@ -337,27 +345,30 @@ public class GroupController extends HttpServlet {
 		
 		//2-2. 세션에서 아이디를 가져오자 (그룹장의 아이디) [임시]
 		HttpSession session = request.getSession();
-		String userId = (String) session.getAttribute("userId");
+		Member groupLeader =  (Member)session.getAttribute("user");
+		String groupLeaderId = groupLeader.getMbId();
 		
 		//2-3. 반복문을 돌며 문자 보내주자 단! 그룹장에게는 문자보내지 않도록 && Ex date가 지나지 않은 사람들만
 		Date today = new Date(System.currentTimeMillis());
 		for (GroupMatching groupMatching : groupMatchings) {
 			if(groupMatching.getExDate() != null) { //null이 아니고
 				if(!today.after(groupMatching.getExDate())) { //지나지 않았다면
-					SMS sms = new SMS();
-					Member member = memberService.selectMemberById(groupMatching.getMemberId());
-					Group group = groupService.getGroup(groupId);
-					String sharePW = group.getSharePw();
-					String to = member.getMbtel(); // 전송할 전화번호
-					String content = "Let's Share 입니다.\n서비스 비밀 번호가 변경되어 알림 드립니다.\n비밀번호 : "+sharePW;	
-					//sms.sendSMS(to, content);				
+					if(!groupMatching.getMemberId().equals(groupLeaderId)) {
+						SMS sms = new SMS();
+						Member member = memberService.selectMemberById(groupMatching.getMemberId());
+						Group group = groupService.getGroup(groupId);
+						String sharePW = group.getSharePw();
+						String to = member.getMbtel(); // 전송할 전화번호
+						String content = "Let's Share 입니다.\n서비스 비밀 번호가 변경되어 알림 드립니다.\n비밀번호 : "+sharePW;	
+						sms.sendSMS(to, content);	
+					}			
 				}
 			}
 		}
 		
 		//3. 다시 view 페이지로 리로드
 		request.setAttribute("msg", "정상적으로 변경되었습니다.");
-		request.setAttribute("url", "/group/view");
+		request.setAttribute("url", "/group/view?groupId="+groupId);
 		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 	}
 
@@ -390,12 +401,12 @@ public class GroupController extends HttpServlet {
 			//2.  MAX(EX_DATE) 지남 => 해지 설정 해주자
 			groupService.updateCloseDate(groupId, closeDate);
 			request.setAttribute("msg", "정상적으로 그룹 해지 신청되었습니다.");
-			request.setAttribute("url", "/group/view");
+			request.setAttribute("url", "/group/view?groupId="+groupId);
 			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 		}else {
 			//3.  MAX(EX_DATE) 지나지 않음 
 			request.setAttribute("msg", "그룹원 서비스 이용 만기일이 모두 지나야 해지 하실 수 있습니다.       그룹원 최종 만기일 : "+maxExDate);
-			request.setAttribute("url", "/group/view");
+			request.setAttribute("url", "/group/view?groupId="+groupId);
 			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
 		}
 	}

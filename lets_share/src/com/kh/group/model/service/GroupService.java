@@ -35,11 +35,11 @@ public class GroupService {
 	}
 	
 	// =========================그룹을 생성하는 함수========================= 
-	public int insertGroup(Group group) { 
+	public int insertGroup(Group group, String memeberName) { 
 		Connection conn = jdt.getConnection();
 		int res = 0;
 		try {
-			res = groupDao.insertGroup(conn, group);
+			res = groupDao.insertGroup(conn, group, memeberName);
 			jdt.commit(conn);
 		} catch(DataAccessException e) {
 			jdt.rollback(conn);
@@ -173,11 +173,11 @@ public class GroupService {
 	}
 
 	//=========================그룹 가입 승인 함수=========================
-	public int approval(int groupId, String memberId) { 
+	public int approval(int groupId, String memberId, String memberName) { 
 		Connection conn = jdt.getConnection();
 		int res = 0;
 		try {
-			res = groupDao.approval(conn, groupId, memberId);
+			res = groupDao.approval(conn, groupId, memberId, memberName);
 			jdt.commit(conn);
 		} catch(DataAccessException e) {
 			jdt.rollback(conn);
