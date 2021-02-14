@@ -32,10 +32,10 @@ h2{
 .title_wrap{
 	display: flex;
 }
-
 .form_space{
 	padding: 10px 0;
 }
+
 .form_content textarea{
 	resize:none;
 }

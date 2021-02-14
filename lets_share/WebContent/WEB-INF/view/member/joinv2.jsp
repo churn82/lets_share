@@ -253,7 +253,7 @@
 			}
 		
 		
-			//가입하기 버튼 클릭시  -> 테스트해볼게요 자바단으로 잘넘어오나
+			//가입하기 버튼 클릭시  
 			document.querySelector('#form_join').addEventListener('submit',(e)=>{
 				let password = document.querySelector("#password").value;
 				let regExp = /^(?!.*[ㄱ-힣])(?=.*\W)(?=.*\d)(?=.*[a-zA-Z])(?=.{8,})/;

@@ -4,12 +4,13 @@
 <!-- 사용자가 자신의 신고내역을 목록으로 확인할 수 있는 페이지입니다. -->
 <!-- 접근권한 : 사용자 -->
 <head>
-		<title>Let's Share</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="/resources/css/report/reportList.css" />
-		<link rel="stylesheet" href="/resources/css/main.css" />
-		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
+	<title>Let's Share</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="/resources/css/report/reportList.css" />
+	<link rel="stylesheet" href="/resources/css/main.css" />
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+	<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
 </head>
 	<body class="no-sidebar is-preload">
 		<div id="page-wrapper">
@@ -35,7 +36,7 @@
 			<!-- Main -->
 			<div class="wrapper style1">
 				<div class="section">
-					<div class="wrap_title"><h2>처리된 신고 내역</h2></div>
+					<div class="wrap_title"><h2>처리 완료 신고 내역</h2></div>
 					<ul class="tab_menu">
 						<li class="e_menu">
 							<a href="/report/listAll">전체 신고내역</a>
@@ -47,13 +48,14 @@
 			
 					<div class="tab_content">
 						<div id="search_bar">
-							<select id="search_sel" name="select">
-								<option value="sel_all">전체  ▼ </option>
-								<option value="sel_title">제목</option>
-								<option value="sel_content">내용</option>
-							</select>
-							<input type="text" class="searchText" name="searchText" placeholder="검색어를 입력하세요.">
-							<button class="search_btn" onclick="searchList">조회</button>
+							<form method="GET" action="${context}/report/listClear" class="searchForm">
+								<select id="search_sel" name="select">
+									<option value="REPORT_TITLE">제목 ▼</option>
+									<option value="REPORT_CONTENT">내용</option>
+								</select>
+								<input type="text" class="searchText" name="searchText" placeholder="검색어를 입력하세요.">
+								<button class="search_btn" type="submit">조회</button>
+							</form>
 						</div>
 					</div>
 					
@@ -69,41 +71,82 @@
 								</tr>
 							</thead>
 							<tbody>
-							<!-- <c:forEach var="reportList" items="${reportList}"> -->
+							<c:forEach var="report" items="${reportList}">
 									<tr class="table_head">
 										<td class="reportNo">
-											신고 번호
+											${report.reportIdx}
 										</td>
 										<td class="title">
-			                      		  <a href="/report/reportDetail?reportNo=${reportList.reportNo}">
-			                        	  	신고 제목
-			                        		</a>
+			                      		  <a href="/report/detail?reportIdx=${report.reportIdx}">
+			                        	  	${report.title}
+			                        	  </a>
 			                     		</td>
 										<td class="writer">
-											작성자
+											${report.memberId}
 										</td>
 										<td class="date">
-											신고 게시일
+											${report.regdate}
 										</td>
 										<td class="state">
-											처리상태
+											<c:if test="${report.clear == 0}">
+												처리중
+											</c:if>
+											<c:if test="${report.clear == 1}">
+												처리 완료
+											</c:if>		
 										</td>
 									</tr>
-							<!-- </c:forEach> -->
+							</c:forEach>
 							</tbody>				
 						</table>
 					</div>
+
 					<!-- 게시판 페이지 번호 -->
-					<div class="paging">
-						<a class="page_btn" href="">1</a>
-						<a class="page_btn" href="">2</a>
-						<a class="page_btn" href="">3</a>
-						<a class="page_btn" href="">4</a>
-					</div>
-				
+					<c:choose>
+						<c:when test='${select==""}'>
+							<div class="paging">
+								<a class="page_btn" href="/report/listClear?page=${firstPage-1}" style="background-color: white; color:black">&lt;</a>
+								<c:forEach var="page" items="${pageList}">
+								<c:choose>
+									<c:when test = "${page==currentPage}">
+										<a class="page_btn" href="/report/listClear?page=${page}" style="background-color: #FF9900">
+											${page}
+										</a>
+									</c:when>
+									<c:otherwise>
+										<a class="page_btn" href="/report/listClear?page=${page}">
+											${page}
+										</a>
+									</c:otherwise>
+								</c:choose>
+								</c:forEach>
+								<a class="page_btn" href="/report/listClear?page=${lastPage+1}" style="background-color: white; color:black">&gt;</a>
+							</div>		
+						</c:when>
+						<c:otherwise>
+							<div class="paging">
+								<a class="page_btn" href="/report/listClear?select=${select}&searchText=${searchText}&page=${firstPage-1}" style="background-color: white; color:black">&lt;</a>
+								<c:forEach var="page" items="${pageList}">
+								<c:choose>
+									<c:when test = "${page==currentPage}">
+										<a class="page_btn" href="/report/listClear?select=${select}&searchText=${searchText}&page=${page}" style="background-color: #FF9900">
+											${page}
+										</a>
+									</c:when>
+									<c:otherwise>
+										<a class="page_btn" href="/report/listClear?select=${select}&searchText=${searchText}&page=${page}">
+											${page}
+										</a>
+									</c:otherwise>
+								</c:choose>
+								</c:forEach>
+								<a class="page_btn" href="/report/listClear?select=${select}&searchText=${searchText}&page=${lastPage+1}" style="background-color: white; color:black">&gt;</a>
+							</div>
+						</c:otherwise>
+					</c:choose>
 				<!-- 글쓰기 버튼 -->
 				<div class="write_btn">
-					<button id="write" onclick="changeWriter()">신고하기</button>				
+					<button id="write" onclick="report()">신고하기</button>				
 				</div>						
 			
 				</div>
@@ -123,6 +166,10 @@
 		<script src="/resources/js/breakpoints.min.js"></script>
 		<script src="/resources/js/util.js"></script>
 		<script src="/resources/js/main.js"></script>
-
+		<script type="text/javascript">
+			let report = () => {
+				location.href="/report/form";
+			}
+		</script>
 	</body>
 </html>

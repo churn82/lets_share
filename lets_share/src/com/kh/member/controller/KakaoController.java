@@ -57,7 +57,7 @@ public class KakaoController extends HttpServlet {
 		
 		//1. 카카오에서 주는 인가 코드 받기 => 사용자가 카카오 계정으로 로그인 완료시 코드가 발급된다
 		String code = request.getParameter("code");
-		
+		System.out.println(code);
 		//2. 발급 받은 코드를 body에 넣어 POST 방식으로 AccessToken, refreshToken 발급받는다 
 		//   -> 이 토큰으로 사용자 정보에 접근할 수 있다.
 		final String TOKENURL = "https://kauth.kakao.com/oauth/token";
