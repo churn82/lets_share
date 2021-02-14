@@ -171,7 +171,7 @@
 							<thead>
 								<tr align="center" bgcolor="white">
 									<th>ID</th>
-									<th>그룹 가입일</th>
+									<th>이름</th>
 									<th>서비스 이용 시작</th>
 									<th>서비스 이용 마감</th>
 									<th>입금 확인 버튼</th>
@@ -181,7 +181,7 @@
 								<c:forEach var="groupMember" items="${matchingList}">
 									<tr align="center">
 										<td>${groupMember.getMemberId()}</td>
-										<td>${groupMember.getRegDate()}</td>
+										<td>${groupMember.getMemberName()}</td>
 										<td>${groupMember.getStDate()}</td>
 										<td>${groupMember.getExDate()}</td>
 										<td>
