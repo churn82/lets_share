@@ -52,6 +52,7 @@ h2{
 	background-color: #d8dce3;
 }
 
+
 #search_bar{
 	display: flex;
 	justify-content: space-between;
@@ -59,12 +60,18 @@ h2{
 	align-content: center;
 }
 
+.searchForm{
+	width : 100%;
+	display: flex;
+	justify-content: space-between;
+	text-align: center;
+}
+
 /* 드롭다운 */
 #search_sel{
 	font-size: 1vw;
 	width: 10%;
-	border: 1px solid;
-	border-color:lightgray;
+	border: 1px solid #d8dce3;
 	text-align-last: center;
 }
 
@@ -72,8 +79,7 @@ h2{
 .searchText{
 	font-size: 1vw;
 	width: 60%;
-	border-style: none;
-	border-bottom: 1px solid;
+	border-style: none none solid none;
 	text-indent: 15px;
 }
 

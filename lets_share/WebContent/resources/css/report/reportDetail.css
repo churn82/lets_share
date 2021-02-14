@@ -75,6 +75,7 @@ pre{
 	text-align: center;
 	font-size:1vw;
 	justify-content: flex-end;
+	margin-bottom : 1%;
 }
 .wrap_btn button{
 	margin-left:2%;

@@ -63,7 +63,22 @@ public class AuthFilter implements Filter {
 						throw new ToAlertException(ErrorCode.AUTH01);
 					}
 				}
+			case "report" :
+				switch(uriArr[2]) {
+				case "detail" :
+					if(session.getAttribute("user") == null) {
+						throw new ToAlertException(ErrorCode.AUTH01);
+					}
+				case "form" :
+					if(session.getAttribute("user") == null) {
+						throw new ToAlertException(ErrorCode.AUTH01);
+					}
+				}
 			}
+			
+			
+			
+				
 		}
 		chain.doFilter(request, response);
 	}	
