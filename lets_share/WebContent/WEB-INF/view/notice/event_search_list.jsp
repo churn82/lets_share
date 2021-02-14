@@ -42,7 +42,7 @@
 <!-- <div class="wrapper style1"> -->
 	<div id="main">
 		<div class="section">
-		<h2>이벤트</h2>
+		<h2>이벤트 eventSearchList</h2>
 			
 		<ul class="tab_menu">
 			<li class="n_menu">
@@ -60,18 +60,9 @@
 					<option value="2">제목</option>
 					<option value="3">내용</option>
 				</select>
-				<script type="text/javascript">
-				function search(){
-					location.href="eventSearchList";
-				}
-				</script>
-				
-				
 				<input type="text" class="searchText" name="keyword" value="" placeholder="검색어를 입력하세요.">
-				<span onclick="search()"><input type="submit" class="search_btn" value="검색" /></span>
-				
-			    
-			    
+				<input type="submit" class="search_btn" value="검색" onclick="search()"/>
+			
 			
 			</form>
 	
@@ -113,7 +104,6 @@
 					function changeWriter(){
 						location.href="eventWriter";	//writer에서 바꿈
 					}
-					
 					</script>
 					</c:forEach>
 						
@@ -143,10 +133,17 @@
 					</div>	
 				</c:if>
 					
-					
+					<script type="text/javascript">
+						function changeWriter(){
+							location.href="eventWriter";	//writer에서 바꿈
+						}
+					</script>
 										
 			
-	
+		<!--  관리자 로그인 승현-->
+        <c:if test="${sessionScope.sessionID !=null && sessionScope.MB_LEVEL=='MB10'}">
+            <button id="memberViewBtn" class="btn btn-warning" onclick="changeView(5)">회원보기</button>
+        </c:if>
 				
 				
 			</div>

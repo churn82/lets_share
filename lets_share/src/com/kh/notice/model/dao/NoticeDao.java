@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.kh.common.code.ErrorCode;
 import com.kh.common.exception.DataAccessException;
 import com.kh.common.template.JDBCTemplate;
@@ -40,7 +43,7 @@ public class NoticeDao {
 		return res;
 	}
 	
-	
+	//"select * from sh_notice where notice_type='event' and notice_delete is null and notice_title like '%'?'%' order by notice_no desc";
 	//이벤트게시글 등록
 	public int insertEventBoard(Connection conn, Notice notice) {
 		int res = 0;
@@ -327,7 +330,44 @@ public class NoticeDao {
 	}
 
 	
-	
+	public ArrayList<Notice> selectKeyword(Connection conn, int noticeCategory, String noticeKeyword){
+		ArrayList<Notice> keywordList = new ArrayList<>();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		String sql = null;
+			try {
+					//전체
+					if(noticeCategory == 1) {
+						sql = "select * from sh_notice where (notice_title like '%" +noticeKeyword+"%' or notice_content like '%" +noticeKeyword+"%') and notice_delete is null and notice_type = 'event'";
+						pstm = conn.prepareStatement(sql);
+					//제목
+					}else if(noticeCategory == 2) {	
+						sql = "select * from sh_notice where notice_title like '%" +noticeKeyword+"%' and notice_delete is null and notice_type = 'event'";
+						pstm = conn.prepareStatement(sql);
+						//내용
+					}else if(noticeCategory == 3) {
+						sql = "select * from sh_notice where notice_content like '%" +noticeKeyword+"%' and notice_delete is null and notice_type = 'event'";
+						pstm = conn.prepareStatement(sql);
+					}
+					
+					rs = pstm.executeQuery();				
+				
+				while(rs.next()) {
+					Notice notice = new Notice();
+					notice.setNoticeNo(rs.getInt("notice_no"));
+		            notice.setNoticeTitle(rs.getString("notice_title"));
+		            notice.setNoticeDate(rs.getDate("notice_date"));
+		            notice.setNoticeView(rs.getInt("notice_view"));
+		            keywordList.add(notice);
+				}
+				
+			} catch (SQLException e) {
+				throw new DataAccessException(ErrorCode.AUTH01, e); //수정해야함
+			}finally {
+				jdt.close(rs,pstm);
+			}
+		return keywordList;
+	}
 	
 	
 	

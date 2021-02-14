@@ -51,6 +51,8 @@ public class NoticeController extends HttpServlet {
 			deleteNotice(request, response); break;
 		case "mypage" :
 			mypage(request, response); break;
+		case "eventSearchList" :
+			eventSearchList(request, response);break;
 		default : response.setStatus(404); break;
 		}
 	}
@@ -83,20 +85,36 @@ public class NoticeController extends HttpServlet {
 	
 	//이벤트 목록
 	protected void goEventList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Notice notice = new Notice();
-		int allCount = notice.getNoticeAllCount();
-		int page = allCount/15;
-		
+		//이벤트 목록
 		ArrayList<Notice> noticeList = null;
 		noticeList = noticeService.selectEventList();
-		
 		request.setAttribute("noticeList", noticeList);
-		request.setAttribute("allCount", allCount);
-		request.setAttribute("p", page);
+		
 		
 		request.getRequestDispatcher("/WEB-INF/view/notice/event_list.jsp")
 		.forward(request, response);
 	}
+	//검색결과목록
+	protected void eventSearchList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//뷰에서 요청을 받아 dao에 넘기기
+		if(request.getParameter("search")!=null) {
+			int category = Integer.parseInt(request.getParameter("search"));
+			String keyword = request.getParameter("keyword");
+			noticeService.selectKeyword(category, keyword);
+			
+			//받아온 데이터 뷰단에 그려주기
+			ArrayList<Notice> keywordList = noticeService.selectKeyword(category, keyword);
+			request.setAttribute("noticeList", keywordList);
+			
+		}	
+			//검색한 정보를 session에 실어 상태유지
+			//request.getSession().setAttribute("category", category);
+			//request.getSession().setAttribute("keyword", keyword);
+		
+		request.getRequestDispatcher("/WEB-INF/view/notice/event_search_list.jsp")
+		.forward(request, response);
+	}
+	
 	
 	//공지 상세페이지
 	protected void goNoticeDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
