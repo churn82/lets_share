@@ -214,5 +214,9 @@ public class MemberService {
 		return res;
 	}
 
+	public ArrayList<Member> memberList() {
+		return null;
+		//return memberDao.selectMemberList();
+	}
 }
 

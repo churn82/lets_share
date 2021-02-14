@@ -1,6 +1,10 @@
 package com.kh.member.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kh.common.sms.SMS;
 import com.kh.group.model.service.GroupService;
+import com.kh.member.model.dao.MemberDao;
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.Member;
 
@@ -19,6 +24,7 @@ public class MemberController extends HttpServlet {
 	
 	MemberService memberService = new MemberService();
 	GroupService groupService = new GroupService();
+	
     
     public MemberController() {
         super();
@@ -47,6 +53,8 @@ public class MemberController extends HttpServlet {
 			case "confirmAuthCode" : confirmAuthCode(request, response); break;
 			//case "kakaologin" : kakaologin(request,response); break;
 			case "admin" : admin(request,response); break;
+			
+			
 			default : System.out.println("오류");
 		}
 	} 
@@ -81,8 +89,27 @@ public class MemberController extends HttpServlet {
 		.forward(request, response);
 	}
 	private void admin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//ActionForward forward = new ActionForward();
+		
+		//회원정보 가져온다.
+		MemberDao dao = MemberDao.getInstance();
+		//List<Member> Memberlist = dao.MemberList();
+		//MemberListForm.jsp에 회원정보를 전달하기 위해 request에 Member 세팅
+		//request.setAttribute("memberList",list);
+		
+		//request를 유지해야 하므로 setRedirect(false)로 지정
+		//forward.setRedirect(false);
+		// forward.setNextPath("MemberListForm.");
+		
+		//return forward
 		request.getRequestDispatcher("/WEB-INF/view/member/admin.jsp")
 		.forward(request, response);
+		//RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/member/admin.jsp");
+		//dispatcher.forward(request, response);
+			
+		
+		
 	}
 	
 	//마이페이지

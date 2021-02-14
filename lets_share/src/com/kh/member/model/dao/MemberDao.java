@@ -305,6 +305,47 @@ public class MemberDao {
 		}
 		return res;
 	}
+	//컨트롤러 테스트
+	public static MemberDao getInstance() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+public  ArrayList<Member> MemberList(Connection conn){
+		
+		ArrayList<Member> memberList = new ArrayList<Member>();
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		
+		try {
+			String query = "select * from sh_member";
+			pstm = conn.prepareStatement(query);
+			rset = pstm.executeQuery();
+			
+			while(rset.next()) {
+				Member member = new Member();
+				member.setMbId(rset.getString(1));
+				member.setMbpassword(rset.getString(2));
+				member.setMbnick(rset.getString(3));
+				member.setMbtel(rset.getString(4));
+				member.setMbemail(rset.getString(5));
+				member.setMbpoint(rset.getInt(6));
+				member.setMblevel(rset.getString(7));
+				member.setMbRegisterDate(rset.getDate(8));
+				member.setMbLeaveDate(rset.getDate(9));
+				member.setMbName(rset.getString(10));
+			
+				memberList.add(member);
+			}
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.SM01,e);	
+		}finally {
+			jdt.close(rset,pstm);
+		}
+		
+		return memberList;
+	}
+	
 
 
 }
