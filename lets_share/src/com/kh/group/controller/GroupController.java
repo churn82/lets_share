@@ -49,6 +49,7 @@ public class GroupController extends HttpServlet {
 		case "out" : outGroup(request, response); break;
 		case "close" : closeGroup(request, response); break;
 		case "viewlist" : goViewList(request, response); break;
+		case "autoMatching" : autoMatching(request, response); break;
 		
 		default : 
 			response.setStatus(404);
@@ -82,6 +83,7 @@ public class GroupController extends HttpServlet {
 		//5. SH_GROUP 데이터를 가져온다
 		Group group = groupService.getGroup(groupId);
 		request.setAttribute("group", group);
+		System.out.println(group.getAutoDate());
 		
 		//6. SH_SER_CODE 정보를 가져온다 
 		int servicePerDay = groupService.getServicePerDay(group.getServiceCode());
@@ -124,9 +126,7 @@ public class GroupController extends HttpServlet {
 		String service = request.getParameter("service");
 		String service_id = request.getParameter("service_id");
 		String service_pw = request.getParameter("service_pw");
-		String date = request.getParameter("date");
-		int groupPayDate = Integer.parseInt(date);
-		
+		int memberCntWish = Integer.parseInt(request.getParameter("groupMemberCnt"));
 		
 		Member member = (Member) request.getSession().getAttribute("user");
 		Group group = new Group();
@@ -136,7 +136,8 @@ public class GroupController extends HttpServlet {
 		group.setShareId(service_id);
 		group.setSharePw(service_pw);
 		group.setSharePw(service_pw);
-		group.setGroupPayDate(groupPayDate);
+		group.setMemberCntWish(memberCntWish);
+
 		
 		String memeberName = member.getMbName();
 		
@@ -420,7 +421,6 @@ public class GroupController extends HttpServlet {
 		
 		//2.userId가 속해있는 그룹정보 를 arraylist로 가져온다.
 		ArrayList<Integer> groupIdList = groupService.getgroupIdList(userId);
-		System.out.println(groupIdList.toString());
 		
 		//3.가져온 ID리스트로 groupList로 만들어줌 
 		ArrayList<Group> groupList = new ArrayList<Group>();
@@ -438,5 +438,23 @@ public class GroupController extends HttpServlet {
 		.forward(request, response);
 		
 	}
-	
+
+	//자동 매칭 등록
+	protected void autoMatching(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+				
+		int groupId = Integer.parseInt(request.getParameter("groupId"));
+		int res = 0;
+		
+		if(request.getParameter("reg").equals("1")) {
+			res = groupService.updateAutoDate(groupId, "sysdate");
+			
+		}else if(request.getParameter("reg").equals("0")) {
+			res = groupService.updateAutoDate(groupId, "null");
+		}
+		
+		request.setAttribute("msg", "정상적으로 변경되었습니다.");
+		request.setAttribute("url", "/group/view?groupId="+groupId);
+		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
+
+	}
 }

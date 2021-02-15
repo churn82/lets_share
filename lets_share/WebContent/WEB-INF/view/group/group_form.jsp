@@ -66,32 +66,24 @@
 									</div>
 								</div>
 								<div class="slide">
-									<div class="title"><a>Step2 .계좌 정보 및 결제일을 선택 하세요</a></div>
+									<div class="title"><a>Step2 .계좌 정보 및 원하는 그룹원 수를 선택하세요</a></div>
 									<div class="bank_box">
 										<div class="bank_icon"><a href="#ex1" rel="modal:open" id="bank_btn">은행 선택</a></div>
 										<input type="text" class="bank_account" id="bank_account" name="bank_account" 
 										placeholder=" 예금주명 and 계좌 '-' 빼고 입력해 주세요" style="width: 70%;">
 									</div>
-									<div class="calendar">
-										<div class="line">
-											<div class="date" id="1">1</div><div class="date" id="2">2</div><div class="date" id="3">3</div><div class="date" id="4">4</div>
-											<div class="date" id="5">5</div><div class="date" id="6">6</div><div class="date" id="7">7</div>
-										</div>
-										<div class="line">
-											<div class="date" id="8">8</div><div class="date" id="9">9</div><div class="date" id="10">10</div><div class="date" id="11">11</div>
-											<div class="date" id="12">12</div><div class="date" id="13">13</div><div class="date" id="14">14</div>
-										</div>
-										<div class="line">
-											<div class="date" id="15">15</div><div class="date" id="16">16</div><div class="date" id="17">17</div><div class="date" id="18">18</div>
-											<div class="date" id="19">19</div><div class="date" id="20">20</div><div class="date" id="21">21</div>
-										</div>
-										<div class="line">
-											<div class="date" id="22">22</div><div class="date" id="23">23</div><div class="date" id="24">24</div><div class="date" id="25">25</div>
-											<div class="date" id="26">26</div><div class="date" id="27">27</div><div class="date" id="28">28</div>
-										</div>
-										<div class="line">
-											<div class="date" id="29">29</div><div class="date" id="30">30</div><div class="date" id="31">31</div>
-										</div>
+									<div class="bank_box">
+										<div class="bank_icon">그룹원 수</div>
+										<select id="groupMemberCnt" name="groupMemberCnt">
+											<option value="4">4▼</option>
+											<option value="3">3</option>
+											<option value="2">2</option>
+											<option value="1">1</option>
+										</select>
+									</div>
+									<div class="warningBox">
+										<div> *계좌 정보는 정확히 입력해주세요</div>
+										<div> *원하시는 그룹원 수는 본인 포함 최대 4명까지 등록 가능합니다.</div>
 									</div>
 								</div>
 								<div class="slide">
@@ -199,7 +191,7 @@
 			document.querySelectorAll(".bank").forEach((node)=>{
 				node.addEventListener("click", (e)=>{
 					document.querySelector("#bank").value = e.target.id;
-					document.querySelector("#bank_real").value = e.targer.id;
+					document.querySelector("#bank_real").value = e.target.id;
 				})
 			})
 			document.querySelector("#confirm_btn").addEventListener("click",(e)=>{
