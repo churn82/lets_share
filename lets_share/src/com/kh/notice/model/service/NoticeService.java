@@ -4,7 +4,6 @@ package com.kh.notice.model.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.kh.common.exception.DataAccessException;
 import com.kh.common.exception.ToAlertException;
 import com.kh.common.template.JDBCTemplate;
@@ -51,14 +50,10 @@ public class NoticeService {
 		return rs;
 	}
 	
-	
-	
 	//게시글 수정전
 	public Notice beforeUpdate(int noticeNo) {
-
 		Connection conn = jdt.getConnection();
 		Notice notice = null;
-		
 		try {
 			notice = noticeDao.beforeUpdate(conn,noticeNo);
 			jdt.commit(conn);
@@ -69,7 +64,6 @@ public class NoticeService {
 		finally {
 			jdt.close(conn);
 		}
-		
 		return notice;
 	}
 	
@@ -77,7 +71,6 @@ public class NoticeService {
 	public int updateRequest(Notice notice) {
 		int res = 0;
 		Connection conn = jdt.getConnection();
-		
 		try {
 			res = noticeDao.updateRequest(conn, notice);
 			jdt.commit(conn);
@@ -94,7 +87,6 @@ public class NoticeService {
 	public int deleteNoticeBoard(int noticeNo) {
 		Connection conn = jdt.getConnection();
 		int rs = 0;
-		
 		try {
 			rs = noticeDao.deleteNoticeBoard(conn, noticeNo);
 			jdt.commit(conn);
@@ -103,10 +95,8 @@ public class NoticeService {
 		}finally {
 			jdt.close(conn);
 		}
-		
 		return rs;
 	}
-	
 	
 	//이벤트 삭제 기능
 	public int deleteEventBoard(int noticeNo) {
@@ -120,22 +110,18 @@ public class NoticeService {
 		}finally {
 			jdt.close(conn);
 		}
-		
 		return rs;
 	}
-	
 	
 	//공지 상세페이지
 	public Notice selectNoticeDetail(int noticeNo){
 		Connection conn = jdt.getConnection();
 		Notice notice = null;
-		
 		try {
 			notice = noticeDao.selectNoticeDetail(conn, noticeNo);
 		}finally {
 			jdt.close(conn);
 		}
-		
 		return notice;
 	}
 	
@@ -143,22 +129,18 @@ public class NoticeService {
 		public Notice selectEventDetail(int noticeNo){
 			Connection conn = jdt.getConnection();
 			Notice notice = null;
-			
 			try {
 				notice = noticeDao.selectEventDetail(conn, noticeNo);
 			}finally {
 				jdt.close(conn);
 			}
-			
 			return notice;
 		}
 	
 	//공지사항 목록
 	public ArrayList<Notice> selectNoticeList(){
-		
 		Connection conn = jdt.getConnection();
 		ArrayList<Notice> noticeList = null;
-		
 		try {
 			noticeList = noticeDao.selectNoticeList(conn);
 			jdt.commit(conn);
@@ -169,17 +151,13 @@ public class NoticeService {
 		finally {
 			jdt.close(conn);
 		}
-		
 		return noticeList;
 	}
 	
-	
 	//이벤트 목록
 	public ArrayList<Notice> selectEventList(){
-		
 		Connection conn = jdt.getConnection();
 		ArrayList<Notice> noticeList = null;
-		
 		try {
 			noticeList = noticeDao.selectEventList(conn);
 			jdt.commit(conn);
@@ -190,7 +168,6 @@ public class NoticeService {
 		finally {
 			jdt.close(conn);
 		}
-		
 		return noticeList;
 	}
 	
@@ -226,10 +203,8 @@ public class NoticeService {
 	
 	//모든 신고 내역을 (페이징해서) 가져오는 메서드
 	public ArrayList<Notice> getNoticeList(int start, int end){
-		
 		Connection conn = jdt.getConnection();
 		ArrayList<Notice> noticeList = null;
-		
 		try {
 			noticeList = noticeDao.getNoticeList(conn, start, end);
 			jdt.commit(conn);

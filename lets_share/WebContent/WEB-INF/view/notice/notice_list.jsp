@@ -59,9 +59,8 @@
 		<div class="tab_content">
 			<form id="search_bar">
 				<select id="search_sel" name="select">
-					<option value="sel_all">전체  ▼ </option>
-					<option value="sel_title">제목</option>
-					<option value="sel_content">내용</option>
+					<option value="NOTICE_TITLE">제목</option>
+					<option value="NOTICE_CONTENT">내용</option>
 				</select>
 				<input type="text" class="searchText" name="searchText" placeholder="검색어를 입력하세요.">
 				<button class="search_btn" onclick="searchList">조회</button>
