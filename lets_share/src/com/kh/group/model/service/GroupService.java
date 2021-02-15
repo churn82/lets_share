@@ -427,5 +427,21 @@ public class GroupService {
 		}
 		return groupIdList;
 	}
+	
+	//========================자동 매칭 등록, 해지========================
+	public int updateAutoDate(int groupId, String text) {
+		int res = 0;
+		Connection conn = jdt.getConnection();
+		try {
+			res = groupDao.updateAutoDate(conn, groupId, text);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error); 
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
 }
 
