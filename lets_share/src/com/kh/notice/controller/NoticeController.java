@@ -9,11 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.kh.notice.model.dao.NoticeDao;
 import com.kh.notice.model.service.NoticeService;
 import com.kh.notice.model.vo.Notice;
-import com.kh.report.model.vo.Report;
 
 @WebServlet("/notice/*")
 public class NoticeController extends HttpServlet {
@@ -154,10 +151,23 @@ public class NoticeController extends HttpServlet {
 		noticeList = noticeService.selectEventList();
 		request.setAttribute("noticeList", noticeList);
 		
+		///////////////////////////////////////////////////
+		//2. 사용할 변수들 초기화
+		int start = 0, end = 0;
+		int firstPage = 0, lastPage = 0;
+		ArrayList<Integer> pageList = null;
+		int allNoticeCnt = 0 , allPageCnt = 0;
+		String select = "", searchText = "";
 		
+		select = request.getParameter("select");
+		searchText = request.getParameter("searchText");
+		
+		allNoticeCnt = noticeService.getNoticeCnt(select, searchText);
+	
 		request.getRequestDispatcher("/WEB-INF/view/notice/event_list.jsp")
 		.forward(request, response);
 	}
+
 	
 	
 	//공지 상세페이지

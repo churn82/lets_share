@@ -201,55 +201,57 @@ public class NoticeService {
 		return rs;
 	}
 	
-	//모든 신고 내역을 (페이징해서) 가져오는 메서드
-	public ArrayList<Notice> getNoticeList(int start, int end){
-		Connection conn = jdt.getConnection();
-		ArrayList<Notice> noticeList = null;
-		try {
-			noticeList = noticeDao.getNoticeList(conn, start, end);
-			jdt.commit(conn);
-		} catch (DataAccessException e){
-			jdt.rollback(conn);
-			throw new ToAlertException(e.error, e);
-		}finally {
-			jdt.close(conn);
-		}
-		return noticeList;
-	}
-	
-	
-	//[검색]한 모든 신고내역 개수 가져오는 메서드
-	public int getNoticeCnt(String select, String searchText) {
-		Connection conn = jdt.getConnection();
-		int allNoticeCnt = 0;
-		try {
-			allNoticeCnt = noticeDao.getNoticeCnt(conn, select, searchText);
-			jdt.commit(conn);
-		} catch (DataAccessException e){
-			jdt.rollback(conn);
-			throw new ToAlertException(e.error, e);
-		}finally {
-			jdt.close(conn);
-		}
-		return allNoticeCnt;
-	}
+	 //모든 신고 내역을 (페이징해서) 가져오는 메서드
+	   public ArrayList<Notice> getNoticeList(int start, int end){
+	      
+	      Connection conn = jdt.getConnection();
+	      ArrayList<Notice> noticeList = null;
+	      
+	      try {
+	         noticeList = noticeDao.getNoticeList(conn, start, end);
+	         jdt.commit(conn);
+	      } catch (DataAccessException e){
+	         jdt.rollback(conn);
+	         throw new ToAlertException(e.error, e);
+	      }finally {
+	         jdt.close(conn);
+	      }
+	      return noticeList;
+	   }
+	   
+	   
+	   //[검색]한 모든 신고내역 개수 가져오는 메서드
+	   public int getNoticeCnt(String select, String searchText) {
+	      Connection conn = jdt.getConnection();
+	      int allNoticeCnt = 0;
+	      try {
+	         allNoticeCnt = noticeDao.getNoticeCnt(conn, select, searchText);
+	         jdt.commit(conn);
+	      } catch (DataAccessException e){
+	         jdt.rollback(conn);
+	         throw new ToAlertException(e.error, e);
+	      }finally {
+	         jdt.close(conn);
+	      }
+	      return allNoticeCnt;
+	   }
 
-	//[검색]한 모든 신고 내역을 (페이징해서) 가져오는 메서드
-	public ArrayList<Notice> getNoticeList(int start, int end, String select, String searchText){
-		Connection conn = jdt.getConnection();
-		ArrayList<Notice> noticeList = null;
-		try {
-			noticeList = noticeDao.getNoticeList(conn, start, end, select, searchText);
-			jdt.commit(conn);
-		} catch (DataAccessException e){
-			jdt.rollback(conn);
-			throw new ToAlertException(e.error, e);
-		}finally {
-			jdt.close(conn);
-		}
-		return noticeList;
-	}
-		
+	   //[검색]한 모든 신고 내역을 (페이징해서) 가져오는 메서드
+	   public ArrayList<Notice> getNoticeList(int start, int end, String select, String searchText){
+	      Connection conn = jdt.getConnection();
+	      ArrayList<Notice> noticeList = null;
+	      try {
+	         noticeList = noticeDao.getNoticeList(conn, start, end, select, searchText);
+	         jdt.commit(conn);
+	      } catch (DataAccessException e){
+	         jdt.rollback(conn);
+	         throw new ToAlertException(e.error, e);
+	      }finally {
+	         jdt.close(conn);
+	      }
+	      return noticeList;
+	   }
+
 	
 	
 }
