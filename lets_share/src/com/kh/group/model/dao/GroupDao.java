@@ -92,29 +92,34 @@ public class GroupDao {
 		return res;
 	}
 	
-	// =========================그룹 정보를 Arraylist에 담아 가져오는 함수=========================
-	public ArrayList<Group> getGroupList(Connection conn){
+	// =========================그룹 정보를 (페이징해서) Arraylist에 담아 가져오는 함수=========================
+	public ArrayList<Group> getGroupList(Connection conn, int start, int end){
 		ArrayList<Group> groupList = new ArrayList<Group>();
-		String query = "SELECT * FROM SH_GROUP WHERE GROUP_PPL_NUMBER < 4 ORDER BY GROUP_DATE DESC";
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
+		String query = "SELECT * FROM ("
+				+ "    SELECT ROWNUM NUM, G.*"
+				+ "        FROM (SELECT * FROM SH_GROUP ORDER BY GROUP_DATE ASC) G"
+				+ "    ) WHERE NUM BETWEEN ? AND ?";
 		try {
 			pstm = conn.prepareStatement(query);
+			pstm.setInt(1, start);
+			pstm.setInt(2, end);
 			rset = pstm.executeQuery();
 			while(rset.next()) {
 				Group group = new Group();
-				group.setGroupId(rset.getInt(1));
-				group.setMemberId(rset.getString(2));
-				group.setMemberCnt(rset.getInt(3));
-				group.setGroupPayDate(rset.getInt(4));
-				group.setAccountInfo(rset.getString(5));
-				group.setShareId(rset.getString(6));
-				group.setSharePw(rset.getString(7));
-				group.setRegdate(rset.getDate(8));
-				group.setAutoDate(rset.getDate(9));
-				group.setServiceCode(rset.getString(10));
-				group.setMemberCntWish(rset.getInt(11));
-				group.setLastDay(rset.getDate(12));
+				group.setGroupId(rset.getInt(2));
+				group.setMemberId(rset.getString(3));
+				group.setMemberCnt(rset.getInt(4));
+				group.setGroupPayDate(rset.getInt(5));
+				group.setAccountInfo(rset.getString(6));
+				group.setShareId(rset.getString(7));
+				group.setSharePw(rset.getString(8));
+				group.setRegdate(rset.getDate(9));
+				group.setAutoDate(rset.getDate(10));
+				group.setServiceCode(rset.getString(11));
+				group.setMemberCntWish(rset.getInt(12));
+				group.setLastDay(rset.getDate(13));
 				groupList.add(group);
 			}
 		} catch (SQLException e) {
@@ -124,29 +129,34 @@ public class GroupDao {
 		}
 		return groupList;		
 	}
-	public ArrayList<Group> getGroupListId(Connection conn, String groupId){
+	public ArrayList<Group> getGroupList(Connection conn, String service, int start, int end){
 		ArrayList<Group> groupList = new ArrayList<Group>();
-		String query = "SELECT * FROM SH_GROUP WHERE GROUP_PPL_NUMBER < 4 AND GROUP_ID = ?";
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
+		String query = "SELECT * FROM ("
+				+ "    SELECT ROWNUM NUM, G.*"
+				+ "        FROM (SELECT * FROM SH_GROUP WHERE SER_CODE = ? ORDER BY GROUP_DATE ASC) G"
+				+ "    ) WHERE NUM BETWEEN ? AND ?";
 		try {
 			pstm = conn.prepareStatement(query);
-			pstm.setString(1, groupId);
+			pstm.setString(1, service);
+			pstm.setInt(2, start);
+			pstm.setInt(3, end);
 			rset = pstm.executeQuery();
 			while(rset.next()) {
 				Group group = new Group();
-				group.setGroupId(rset.getInt(1));
-				group.setMemberId(rset.getString(2));
-				group.setMemberCnt(rset.getInt(3));
-				group.setGroupPayDate(rset.getInt(4));
-				group.setAccountInfo(rset.getString(5));
-				group.setShareId(rset.getString(6));
-				group.setSharePw(rset.getString(7));
-				group.setRegdate(rset.getDate(8));
-				group.setAutoDate(rset.getDate(9));
-				group.setServiceCode(rset.getString(10));
-				group.setMemberCntWish(rset.getInt(11));
-				group.setLastDay(rset.getDate(12));
+				group.setGroupId(rset.getInt(2));
+				group.setMemberId(rset.getString(3));
+				group.setMemberCnt(rset.getInt(4));
+				group.setGroupPayDate(rset.getInt(5));
+				group.setAccountInfo(rset.getString(6));
+				group.setShareId(rset.getString(7));
+				group.setSharePw(rset.getString(8));
+				group.setRegdate(rset.getDate(9));
+				group.setAutoDate(rset.getDate(10));
+				group.setServiceCode(rset.getString(11));
+				group.setMemberCntWish(rset.getInt(12));
+				group.setLastDay(rset.getDate(13));
 				groupList.add(group);
 			}
 		} catch (SQLException e) {
@@ -156,71 +166,47 @@ public class GroupDao {
 		}
 		return groupList;		
 	}
-	public ArrayList<Group> getGroupListService(Connection conn, String service){
-		ArrayList<Group> groupList = new ArrayList<Group>();
-		String query = "SELECT * FROM SH_GROUP WHERE GROUP_PPL_NUMBER < 4 AND SER_CODE = ?";
+
+	
+	// =========================그룹 개수를 int로 가져오는 함수=========================
+	public int getGroupCnt(Connection conn) {
+		int res = 0;
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
+		String query = "SELECT COUNT(*) FROM SH_GROUP";
+		try {
+			pstm = conn.prepareStatement(query);
+			rset = pstm.executeQuery();
+			if(rset.next()) {
+				res = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.SG01, e);
+		} finally {
+			jdt.close(rset, pstm);
+		}
+		return res;
+	}
+	public int getGroupCnt(Connection conn, String service) {
+		int res = 0;
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = "SELECT COUNT(*) FROM SH_GROUP WHERE SER_CODE = ?";
 		try {
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, service);
 			rset = pstm.executeQuery();
-			while(rset.next()) {
-				Group group = new Group();
-				group.setGroupId(rset.getInt(1));
-				group.setMemberId(rset.getString(2));
-				group.setMemberCnt(rset.getInt(3));
-				group.setGroupPayDate(rset.getInt(4));
-				group.setAccountInfo(rset.getString(5));
-				group.setShareId(rset.getString(6));
-				group.setSharePw(rset.getString(7));
-				group.setRegdate(rset.getDate(8));
-				group.setAutoDate(rset.getDate(9));
-				group.setServiceCode(rset.getString(10));
-				group.setMemberCntWish(rset.getInt(11));
-				group.setLastDay(rset.getDate(12));
-				groupList.add(group);
+			if(rset.next()) {
+				res = rset.getInt(1);
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.SG01, e);
 		} finally {
-			jdt.close(rset,pstm);
+			jdt.close(rset, pstm);
 		}
-		return groupList;		
+		return res;
 	}
-	public ArrayList<Group> getGroupList(Connection conn, String groupId, String service){
-		ArrayList<Group> groupList = new ArrayList<Group>();
-		String query = "SELECT * FROM SH_GROUP WHERE GROUP_PPL_NUMBER < 4 AND GROUP_ID = ? AND SER_CODE = ?";
-		PreparedStatement pstm = null;
-		ResultSet rset = null;
-		try {
-			pstm = conn.prepareStatement(query);
-			pstm.setString(1, groupId);
-			pstm.setString(2, service);
-			rset = pstm.executeQuery();
-			while(rset.next()) {
-				Group group = new Group();
-				group.setGroupId(rset.getInt(1));
-				group.setMemberId(rset.getString(2));
-				group.setMemberCnt(rset.getInt(3));
-				group.setGroupPayDate(rset.getInt(4));
-				group.setAccountInfo(rset.getString(5));
-				group.setShareId(rset.getString(6));
-				group.setSharePw(rset.getString(7));
-				group.setRegdate(rset.getDate(8));
-				group.setAutoDate(rset.getDate(9));
-				group.setServiceCode(rset.getString(10));
-				group.setMemberCntWish(rset.getInt(11));
-				group.setLastDay(rset.getDate(12));
-				groupList.add(group);
-			}
-		} catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.SG01, e);
-		} finally {
-			jdt.close(rset,pstm);
-		}
-		return groupList;		
-	}
+	
 	
 	//=========================그룹 대기 테이블에 유저 입력 함수=========================
 	public int insertStandBy(Connection conn, int groupId, String userId) {
