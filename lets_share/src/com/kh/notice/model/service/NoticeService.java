@@ -224,22 +224,6 @@ public class NoticeService {
 		return rs;
 	}
 	
-	
-	public ArrayList<Notice> selectKeyword(int noticeCategory, String noticeKeyword){
-		Connection conn = jdt.getConnection();
-		ArrayList<Notice> noticeList = null;
-		
-		try {
-			noticeList = noticeDao.selectKeyword(conn, noticeCategory, noticeKeyword);
-		}catch (DataAccessException e) {
-			throw new ToAlertException(e.error);
-		}
-		finally {
-			jdt.close(conn);
-		}
-		
-		return noticeList;
-	}
 	//모든 신고 내역을 (페이징해서) 가져오는 메서드
 	public ArrayList<Notice> getNoticeList(int start, int end){
 		

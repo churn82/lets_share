@@ -298,7 +298,6 @@ public class NoticeDao {
 			if(rs.next()) {
 				notice = new Notice();
 				notice.setNoticeTotalPosts(rs.getInt("notice_total_posts"));
-				System.out.println("dao : "+notice.getNoticeTotalPosts());
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.PB01, e);
@@ -325,46 +324,7 @@ public class NoticeDao {
 		}
 		return rs;
 	}
-
 	
-	public ArrayList<Notice> selectKeyword(Connection conn, int noticeCategory, String noticeKeyword){
-		ArrayList<Notice> keywordList = new ArrayList<>();
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		String sql = null;
-			try {
-					//전체
-					if(noticeCategory == 1) {
-						sql = "select * from sh_notice where (notice_title like '%" +noticeKeyword+"%' or notice_content like '%" +noticeKeyword+"%') and notice_delete is null and notice_type = 'event'";
-						pstm = conn.prepareStatement(sql);
-					//제목
-					}else if(noticeCategory == 2) {	
-						sql = "select * from sh_notice where notice_title like '%" +noticeKeyword+"%' and notice_delete is null and notice_type = 'event'";
-						pstm = conn.prepareStatement(sql);
-						//내용
-					}else if(noticeCategory == 3) {
-						sql = "select * from sh_notice where notice_content like '%" +noticeKeyword+"%' and notice_delete is null and notice_type = 'event'";
-						pstm = conn.prepareStatement(sql);
-					}
-					
-					rs = pstm.executeQuery();				
-				
-				while(rs.next()) {
-					Notice notice = new Notice();
-					notice.setNoticeNo(rs.getInt("notice_no"));
-		            notice.setNoticeTitle(rs.getString("notice_title"));
-		            notice.setNoticeDate(rs.getDate("notice_date"));
-		            notice.setNoticeView(rs.getInt("notice_view"));
-		            keywordList.add(notice);
-				}
-				
-			} catch (SQLException e) {
-				throw new DataAccessException(ErrorCode.AUTH01, e); //수정해야함
-			}finally {
-				jdt.close(rs,pstm);
-			}
-		return keywordList;
-	}
 		//모든 post들을 (페이징해서) 가져오는 메서드
 		public ArrayList<Notice> getNoticeList(Connection conn, int start, int end){
 			ArrayList<Notice> noticetList = new ArrayList<Notice>();
@@ -405,7 +365,7 @@ public class NoticeDao {
 			int allNoticeCnt = 0;
 			PreparedStatement pstm = null;
 			ResultSet rset = null;
-			String query = "SELECT COUNT(*) FROM SH_NOTICE WHERE "+select+" LIKE '%?%' AND NOTICE_TYPE='notice' AND NOTICE_DELETE IS NULL;";
+			String query = "SELECT COUNT(*) FROM SH_NOTICE WHERE "+select+" LIKE ? AND NOTICE_TYPE='notice' AND NOTICE_DELETE IS NULL;";
 			
 			try {
 				pstm = conn.prepareStatement(query);
