@@ -37,6 +37,10 @@
 				<div class="left_menu">
 					<div><a href="rank"><i class="fas fa-trophy"></i>회원 랭킹</a></div>
 					<div><a href="modify"><i class="fas fa-edit"></i>  회원 정보 수정</a></div>
+					<c:if test="${sessionScope.user.mblevel=='MB10'}">
+						<div><a href="/member/adminMember"><i class="fas fa-edit"></i>  회원 관리[관리자전용]</a></div>
+					</c:if>
+					
 				</div>
 				<div class="wrap_rank">
 					<h1 class="rank_title">내 정보</h1>

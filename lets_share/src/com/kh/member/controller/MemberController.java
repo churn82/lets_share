@@ -51,10 +51,8 @@ public class MemberController extends HttpServlet {
 			//case "joinModify" : joinModify(request, response); break;
 			case "sendAuthCode" : sendAuthCode(request, response); break;
 			case "confirmAuthCode" : confirmAuthCode(request, response); break;
-			//case "kakaologin" : kakaologin(request,response); break;
-			case "admin" : admin(request,response); break;
-			
-			
+			case "adminMember" : adminMember(request,response); break;
+			case "stopMember" : stopMember(request, response);break;
 			default : System.out.println("오류");
 		}
 	} 
@@ -88,27 +86,79 @@ public class MemberController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/member/rank.jsp")
 		.forward(request, response);
 	}
-	private void admin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void adminMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//ActionForward forward = new ActionForward();
+		 //1. 사용자가 클릭한 페이지를 가져온다 but, 처음 신고페이지 왔을시 1로 초기화 
+		 int page = 0;
+		 if(request.getParameter("page") == "" || request.getParameter("page") == null) { 
+			 page = 1; 
+		 }else {
+			 page = Integer.parseInt(request.getParameter("page")); 
+		 }
+		 
+		 //2. 사용할 변수들 초기화 
+		 int start = 0, end = 0; int firstPage = 0, lastPage = 0;
+		 ArrayList<Integer> pageList = null; int allMemberCnt = 0 , allPageCnt = 0;
+		 String id = "";
+		 
+		 //3. 우리 멤버 회원 수를 구한다. 
+		 if(request.getParameter("id") == null || request.getParameter("id").equals("")) { 
+			 allMemberCnt = memberService.getMemberCnt(); 
+		 }else {
+			 id = request.getParameter("id"); //이거는 검색한 ID를 받아온거에요 
+			 allMemberCnt = memberService.getMemberCnt("%"+id+"%");  
+			 System.out.println(allMemberCnt);
+	     } 
+		 
+		 if(allMemberCnt%10==0) {
+			allPageCnt = allMemberCnt/10; 
+		 }else {
+			allPageCnt = (allMemberCnt/10)+1;
+		 }
+		 
+		 //4. 사용자가 접근한 페이지가 전체페이지보다 많거나 1보다 작다면 -> page를 1로 놔준다
+		 if(page>allPageCnt || page<1) {
+			 page = 1;
+		 }
+		 
+		 //5. page에 따른 start, end를 정의해서 가져온다 list를 
+		 ArrayList<Member> memberList = null;
+		 start = 1+(page-1)*10;
+		 end = page*10;         
+		 if(request.getParameter("id") == null || request.getParameter("id").equals("")) { 
+			 memberList = memberService.getMemberList(start, end); //검색한 아이디가 없으니까 당연히 그냥 가져오겠죠
+		 }else {
+			 memberList = memberService.getMemberList("%"+id+"%", start, end); //검색한 아이디가 있으니 변수로 가져가서 걸러 가져와야죠 
+	     } 
+		 
+	
+		 //pageList 넣어준다 
+		 for(int i=page; i<= allPageCnt; i++) {
+			if(i%5==0) {
+				lastPage = i;
+				firstPage = i-4;
+				break;
+			}else {
+				lastPage = allPageCnt;
+				firstPage = lastPage - ((lastPage%5)-1); 
+			}
+		 }
+		pageList = new ArrayList<Integer>();
+		for(int i=firstPage; i<=lastPage; i++) {
+			pageList.add(i);
+		}
 		
-		//회원정보 가져온다.
-		MemberDao dao = MemberDao.getInstance();
-		//List<Member> Memberlist = dao.MemberList();
-		//MemberListForm.jsp에 회원정보를 전달하기 위해 request에 Member 세팅
-		//request.setAttribute("memberList",list);
+		//그럼 끝이제 진짜 이제 진짜 그냥 jsp페이지로 이제 구한애들넘겨준다음에 이쁘게 정리만하면 리스트 뽑히는거에요 
 		
-		//request를 유지해야 하므로 setRedirect(false)로 지정
-		//forward.setRedirect(false);
-		// forward.setNextPath("MemberListForm.");
+		request.setAttribute("id", id);
+		request.setAttribute("currentPage", page);
+		request.setAttribute("lastPage", lastPage);
+		request.setAttribute("firstPage", firstPage);
+		request.setAttribute("pageList", pageList);
+		request.setAttribute("memberList", memberList);	
 		
-		//return forward
-		request.getRequestDispatcher("/WEB-INF/view/member/admin.jsp")
+		request.getRequestDispatcher("/WEB-INF/view/member/adminMember.jsp")
 		.forward(request, response);
-		//RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/member/admin.jsp");
-		//dispatcher.forward(request, response);
-			
-		
 		
 	}
 	
@@ -128,15 +178,6 @@ public class MemberController extends HttpServlet {
 		//mypage 이동
 		request.getRequestDispatcher("/WEB-INF/view/member/mypage.jsp")
 	    .forward(request, response);
-		//======================================
-		String memberId = member.getMbId();
-		Member adminmember = memberService.selectMemberById(memberId);
-		//if((session.getAttribute("mbId")).equals("admin")) {
-			
-		//}
-		
-		
-		
 		
 	}
 
@@ -274,7 +315,7 @@ public class MemberController extends HttpServlet {
 
 
 	
-private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getSession().removeAttribute("user");
 		response.sendRedirect("/index");
 	}
@@ -350,5 +391,12 @@ private void logout(HttpServletRequest request, HttpServletResponse response) th
 		}else {
 			response.getWriter().print("fail");
 		}
+	}
+	
+	private void stopMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String memberId = request.getParameter("memberId");
+		System.out.println(memberId);
+		//잘뜨죠 여기로 내가클릭한 memberId는 가져온거에요 이제여기에 아까 메모장에한거 dao,service만하고 저한테 말씀해주시면 낼 같이 보면서 마무리하죠 아침10시까지 해주세요
+		// 그럼 일단 여기까지 git 올릴게요 그리고 메모장에 적어둔거도 보내드릴게요 카톡으로 수고하셨어요!
 	}
 }
