@@ -1,6 +1,7 @@
 package com.kh.common.filter;
 
 import java.io.IOException;
+import java.sql.Connection;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -10,6 +11,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kh.common.template.JDBCTemplate;
+
 public class EncodingFilter implements Filter {
 
     /**
@@ -18,12 +21,14 @@ public class EncodingFilter implements Filter {
     public EncodingFilter() {
         // TODO Auto-generated constructor stub
     }
+    
 
 	/**
 	 * @see Filter#destroy()
 	 */
 	public void destroy() {
 		// TODO Auto-generated method stub
+	
 	}
 
 	/**
@@ -59,7 +64,7 @@ public class EncodingFilter implements Filter {
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
 		// TODO Auto-generated method stub
+	
 	}
-
 }
 

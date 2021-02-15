@@ -88,7 +88,7 @@ public class MemberController extends HttpServlet {
 	}
 	private void adminMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		 //1. 사용자가 클릭한 페이지를 가져온다 but, 처음 신고페이지 왔을시 1로 초기화 
+		 //1. 사용자가 클릭한 페이지를 가져온다
 		 int page = 0;
 		 if(request.getParameter("page") == "" || request.getParameter("page") == null) { 
 			 page = 1; 
@@ -148,7 +148,6 @@ public class MemberController extends HttpServlet {
 			pageList.add(i);
 		}
 		
-		//그럼 끝이제 진짜 이제 진짜 그냥 jsp페이지로 이제 구한애들넘겨준다음에 이쁘게 정리만하면 리스트 뽑히는거에요 
 		
 		request.setAttribute("id", id);
 		request.setAttribute("currentPage", page);
@@ -394,9 +393,21 @@ public class MemberController extends HttpServlet {
 	}
 	
 	private void stopMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String memberId = request.getParameter("memberId");
-		System.out.println(memberId);
-		//잘뜨죠 여기로 내가클릭한 memberId는 가져온거에요 이제여기에 아까 메모장에한거 dao,service만하고 저한테 말씀해주시면 낼 같이 보면서 마무리하죠 아침10시까지 해주세요
-		// 그럼 일단 여기까지 git 올릴게요 그리고 메모장에 적어둔거도 보내드릴게요 카톡으로 수고하셨어요!
+		
+		
+		 //1. 사용자가 클릭한 페이지를 가져온다
+		
+		 
+		 //5. page에 따른 start, end를 정의해서 가져온다 list를 
+		 ArrayList<Member> memberList = null;
+		 memberList = memberService.getLeavelist();
+		
+		
+		request.setAttribute("memberList", memberList);	
+		System.out.println(memberList);
+		request.getRequestDispatcher("/WEB-INF/view/member/stopMember.jsp")
+		.forward(request, response);
+		
+	
 	}
 }
