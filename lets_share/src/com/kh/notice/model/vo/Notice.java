@@ -12,7 +12,7 @@ public class Notice {
 	private int noticeView;			//조회수
 	private String noticeType;		//타입(notice/event)
 	private Date noticeDelete;
-	private int noticeAllCount;
+	private int noticeTotalPosts;
 	private int noticeCategory;
 	private String noticeKeyword;
 	
@@ -76,13 +76,6 @@ public class Notice {
 		this.noticeDelete = noticeDelete;
 	}
 
-	public int getNoticeAllCount() {
-		return noticeAllCount;
-	}
-
-	public void setNoticeAllCount(int noticeAllCount) {
-		this.noticeAllCount = noticeAllCount;
-	}
 
 	public int getNoticeCategory() {
 		return noticeCategory;
@@ -100,14 +93,23 @@ public class Notice {
 		this.noticeKeyword = noticeKeyword;
 	}
 
+	public int getNoticeTotalPosts() {
+		return noticeTotalPosts;
+	}
+
+	public void setNoticeTotalPosts(int noticeTotalPosts) {
+		this.noticeTotalPosts = noticeTotalPosts;
+	}
+
 	@Override
 	public String toString() {
 		return "Notice [noticeNo=" + noticeNo + ", noticeTitle=" + noticeTitle + ", noticeContent=" + noticeContent
 				+ ", noticeDate=" + noticeDate + ", noticeView=" + noticeView + ", noticeType=" + noticeType
-				+ ", noticeDelete=" + noticeDelete + ", noticeAllCount=" + noticeAllCount + ", noticeCategory="
+				+ ", noticeDelete=" + noticeDelete + ", noticeTotalPosts=" + noticeTotalPosts + ", noticeCategory="
 				+ noticeCategory + ", noticeKeyword=" + noticeKeyword + "]";
 	}
 
+	
 	
 
 	
