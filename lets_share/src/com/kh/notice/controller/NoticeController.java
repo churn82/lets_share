@@ -3,11 +3,14 @@ package com.kh.notice.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.kh.notice.model.dao.NoticeDao;
 import com.kh.notice.model.service.NoticeService;
 import com.kh.notice.model.vo.Notice;
 
@@ -15,6 +18,7 @@ import com.kh.notice.model.vo.Notice;
 public class NoticeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private NoticeService noticeService = new NoticeService();
+    
 	
     public NoticeController() {
         super();
@@ -67,10 +71,12 @@ public class NoticeController extends HttpServlet {
 		
 		//paging
 		Notice notice = new Notice();
+		notice = noticeService.getAllCount(notice);
+		
 		int allCount = notice.getNoticeAllCount();
 		int page = allCount/10;
 		
-				System.out.println("allCount : " + allCount); //these are not saving thru dao i guess
+				System.out.println("allCount : " + allCount); 
 				System.out.println("page : " + page);
 		
 		request.setAttribute("allCount", allCount); //전체글의갯수인데 나중에 봐서 필요없으면 삭제하자

@@ -193,12 +193,11 @@ public class NoticeService {
 		return noticeList;
 	}
 	
-	/*//공지 전체 갯수
-	public Notice getAllCount() {
-		Notice notice = null;
+	//공지 전체 갯수
+	public Notice getAllCount(Notice notice) {
 		Connection conn = jdt.getConnection();
 		try {
-			notice = noticeDao.getAllCount(conn);
+			notice = noticeDao.getAllCount(conn, notice);
 			jdt.commit(conn);
 			
 		}catch(DataAccessException e){
@@ -207,7 +206,7 @@ public class NoticeService {
 			jdt.close(conn);
 		}		
 		return notice;
-	}*/
+	}
 	
 	//조회수
 	public int hitCounter(int noticeNo) {

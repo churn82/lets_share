@@ -80,7 +80,8 @@
 					</thead>
 					<tbody>
 					
-					<c:forEach var="noticeList" items="${noticeList}">
+					
+					<c:forEach var="noticeList" items="${noticeList}" begin="0" end="10">
 						<tr>
 							<td class="num">
 								${noticeList.noticeNo}
@@ -135,14 +136,7 @@
                <span class="" onclick="alert('다음 페이지가 없습니다.');"></span>
             </c:if>
 			
-			<!-- 게시판 페이지 번호 
-			<div class="paging">
-				<a class="page_btn" href="">1</a>
-				<a class="page_btn" href="">2</a>
-				<a class="page_btn" href="">3</a>
-				<a class="page_btn" href="">4</a>
-			</div>-->
-			
+		
 			
 				
 					
@@ -164,10 +158,7 @@
 					<button id="write" onclick="changeWriter()">글쓰기</button>				
 				</div>						
 					
-			<%--  관리자 로그인 승현님 --%>
-	        <c:if test="${sessionScope.sessionID !=null && sessionScope.MB_LEVEL=='MB10'}">
-	            <button id="memberViewBtn" class="btn btn-warning" onclick="changeView(5)">회원보기</button>
-	        </c:if>
+		
 				
 				
 			</div>
@@ -176,11 +167,6 @@
 	</div>
 <%-- </div> --%>
 								
-		         <%--  관리자 로그인 승현님 --%>
-           <c:if test="${sessionScope.sessionID !=null && sessionScope.MB_LEVEL=='MB10'}">
-               <button id="memberViewBtn" class="btn btn-warning" onclick="changeView(5)">회원보기</button>
-           </c:if>
-            
             
          </div>
       </div>
