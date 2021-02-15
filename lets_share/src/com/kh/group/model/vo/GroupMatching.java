@@ -12,13 +12,14 @@ public class GroupMatching {
 	private Date stDate;
 	private Date exDate;
 	private int payDate;
+	private String memberName;
 	
 	public GroupMatching() {
 		
 	}
 	
 	public GroupMatching(String memberId, int groupId, char paymentYN, char paymentConfirm, Date regDate, Date stDate,
-			Date exDate, int payDate) {
+			Date exDate, int payDate, String memberName) {
 		super();
 		this.memberId = memberId;
 		this.groupId = groupId;
@@ -28,6 +29,7 @@ public class GroupMatching {
 		this.stDate = stDate;
 		this.exDate = exDate;
 		this.payDate = payDate;
+		this.memberName = memberName;
 	}
 
 	public String getMemberId() {
@@ -94,15 +96,20 @@ public class GroupMatching {
 		this.payDate = payDate;
 	}
 
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
 	@Override
 	public String toString() {
 		return "GroupMatching [memberId=" + memberId + ", groupId=" + groupId + ", paymentYN=" + paymentYN
 				+ ", paymentConfirm=" + paymentConfirm + ", regDate=" + regDate + ", stDate=" + stDate + ", exDate="
-				+ exDate + ", payDate=" + payDate + "]";
+				+ exDate + ", payDate=" + payDate + ", memberName=" + memberName + "]";
 	}
-	
-	
-	
-	
+
 	
 }

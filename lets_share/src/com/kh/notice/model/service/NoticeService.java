@@ -223,4 +223,26 @@ public class NoticeService {
 		return rs;
 	}
 	
+	
+	public ArrayList<Notice> selectKeyword(int noticeCategory, String noticeKeyword){
+		Connection conn = jdt.getConnection();
+		ArrayList<Notice> noticeList = null;
+		
+		try {
+			noticeList = noticeDao.selectKeyword(conn, noticeCategory, noticeKeyword);
+		}catch (DataAccessException e) {
+			throw new ToAlertException(e.error);
+		}
+		finally {
+			jdt.close(conn);
+		}
+		
+		return noticeList;
+	}
+	
+	
+	
+	
+	
+	
 }

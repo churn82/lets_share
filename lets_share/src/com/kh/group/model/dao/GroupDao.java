@@ -43,7 +43,7 @@ public class GroupDao {
 	
 	
 	// =========================그룹을 생성하는 함수=========================  
-	public int insertGroup(Connection conn, Group group) {
+	public int insertGroup(Connection conn, Group group, String memeberName) {
 		int res = 0;
 		int res2 = 0;
 		int res3 = 0;
@@ -55,7 +55,7 @@ public class GroupDao {
 				+ "(GROUP_ID, MB_ID, GROUP_PPL_NUMBER, GROUP_PAYDATE, GROUP_ACCOUNT_INFO, GROUP_SHARE_ID, GROUP_SHARE_PASSWORD, SER_CODE)"
 				+ "VALUES (SC_GROUP_ID.NEXTVAL, ?, 0, ?, ?, ?, ?, ?)";
 		
-		String query2 = "INSERT INTO SH_MATCHING (MB_ID, GROUP_ID) VALUES (?, SC_GROUP_ID.CURRVAL)";
+		String query2 = "INSERT INTO SH_MATCHING (MB_ID, GROUP_ID, MB_NAME) VALUES (?, SC_GROUP_ID.CURRVAL, ?)";
 		
 		String query3 = "{call PL_UPDATE_MEMBER_CNT(SC_GROUP_ID.CURRVAL)}";
 		
@@ -70,6 +70,7 @@ public class GroupDao {
 			
 			pstm2 = conn.prepareStatement(query2);
 			pstm2.setString(1, group.getMemberId());
+			pstm2.setString(2, memeberName);
 			
 			cstm = conn.prepareCall(query3);
 			
@@ -318,14 +319,15 @@ public class GroupDao {
 	}
 		
 	//=========================Approval 승인 프로시저 실행하는 함수=========================
-	public int approval(Connection conn, int groupId, String memberId) {
+	public int approval(Connection conn, int groupId, String memberId, String memberName) {
 		int res = 0;
 		CallableStatement cstm = null;
-		String query3 = "{call PL_APPROVAL_GROUP(?,?)}";
+		String query3 = "{call PL_APPROVAL_GROUP(?,?,?)}";
 		try {
 			cstm = conn.prepareCall(query3);
 			cstm.setInt(1, groupId);
 			cstm.setString(2, memberId);
+			cstm.setString(3, memberName);
 			res = cstm.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -375,6 +377,7 @@ public class GroupDao {
 				groupMatching.setStDate(rset.getDate(6));
 				groupMatching.setExDate(rset.getDate(7));
 				groupMatching.setPayDate(rset.getInt(8));
+				groupMatching.setMemberName(rset.getString(9));
 				matchingList.add(groupMatching);
 			}
 		} catch (SQLException e) {
@@ -445,6 +448,7 @@ public class GroupDao {
 				groupMatching.setStDate(rset.getDate(6));
 				groupMatching.setExDate(rset.getDate(7));
 				groupMatching.setPayDate(rset.getInt(8));
+				groupMatching.setMemberName(rset.getString(9));
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.MR02, e);
@@ -567,6 +571,7 @@ public class GroupDao {
 				groupMatching.setStDate(rset.getDate(6));
 				groupMatching.setExDate(rset.getDate(7));
 				groupMatching.setPayDate(rset.getInt(8));
+				groupMatching.setMemberName(rset.getString(9));
 				groupMatchings.add(groupMatching);
 			}
 		} catch (SQLException e) {

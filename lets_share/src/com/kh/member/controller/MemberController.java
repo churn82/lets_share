@@ -1,6 +1,10 @@
 package com.kh.member.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kh.common.sms.SMS;
 import com.kh.group.model.service.GroupService;
+import com.kh.member.model.dao.MemberDao;
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.Member;
 
@@ -19,6 +24,7 @@ public class MemberController extends HttpServlet {
 	
 	MemberService memberService = new MemberService();
 	GroupService groupService = new GroupService();
+	
     
     public MemberController() {
         super();
@@ -34,8 +40,8 @@ public class MemberController extends HttpServlet {
 			case "modify" : modify(request,response); break;
 			case "modifyimpl" : modifyImpl(request,response); break;
 			case "rank" : rank(request,response); break;
-			case "mypage" : mypage(request,response); break;//김승현 mypage
-			case "joinimpl" : joinImpl(request,response); break;
+			case "mypage" : mypage(request,response); break;// mypage
+			case "joinimpl" : joinImpl(request,response); break; 
 			case "loginimpl" : loginImpl(request,response); break;
 			case "idcheck" : confirmId(request,response); break;
 			case "nickcheck" : confirmnick(request,response); break;
@@ -46,6 +52,9 @@ public class MemberController extends HttpServlet {
 			case "sendAuthCode" : sendAuthCode(request, response); break;
 			case "confirmAuthCode" : confirmAuthCode(request, response); break;
 			//case "kakaologin" : kakaologin(request,response); break;
+			case "admin" : admin(request,response); break;
+			
+			
 			default : System.out.println("오류");
 		}
 	} 
@@ -79,6 +88,29 @@ public class MemberController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/member/rank.jsp")
 		.forward(request, response);
 	}
+	private void admin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//ActionForward forward = new ActionForward();
+		
+		//회원정보 가져온다.
+		MemberDao dao = MemberDao.getInstance();
+		//List<Member> Memberlist = dao.MemberList();
+		//MemberListForm.jsp에 회원정보를 전달하기 위해 request에 Member 세팅
+		//request.setAttribute("memberList",list);
+		
+		//request를 유지해야 하므로 setRedirect(false)로 지정
+		//forward.setRedirect(false);
+		// forward.setNextPath("MemberListForm.");
+		
+		//return forward
+		request.getRequestDispatcher("/WEB-INF/view/member/admin.jsp")
+		.forward(request, response);
+		//RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/member/admin.jsp");
+		//dispatcher.forward(request, response);
+			
+		
+		
+	}
 	
 	//마이페이지
 	private void mypage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -93,31 +125,25 @@ public class MemberController extends HttpServlet {
 		//3. gradeName 설정해준다
 		request.setAttribute("gradeName", gradeName);
 		
+		//mypage 이동
 		request.getRequestDispatcher("/WEB-INF/view/member/mypage.jsp")
 	    .forward(request, response);
+		//======================================
+		String memberId = member.getMbId();
+		Member adminmember = memberService.selectMemberById(memberId);
+		//if((session.getAttribute("mbId")).equals("admin")) {
+			
+		//}
+		
+		
+		
 		
 	}
 
 	//회원가입 
 	private void joinImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//=========================================Email로직===================================================
-//		//1. 세션에서 저장해둔 persistUser Member 꺼낸다.
-//		Member member = (Member) request.getSession().getAttribute("persistUser"); 
-//		
-//		//2. 꺼낸 Member를 SH_MEMBER에 넣어준다.
-//		int res = memberService.insertMember(member); 
-//	
-//		//3. 세션에서 persistUser Member를 지워준다.
-//		request.getSession().removeAttribute("persistUser"); 
-//		
-//		//4. login페이지로 보내주어 로그인하라고 한다.
-//		request.getRequestDispatcher("/WEB-INF/view/member/login.jsp")
-//		.forward(request, response); 그냥 주석처리 해줄게요
-		
-		
-		//=========================================폰 번호로 이미 인증 받은 로직===================================================
-		//1. 데이터들을 받아온다
+		//1. 사용자입력 데이터들을 받아온다
 		String Id = request.getParameter("Id");
 		String password = request.getParameter("password");
 		String email = request.getParameter("email");
@@ -181,21 +207,21 @@ public class MemberController extends HttpServlet {
 	//로그인
 	private void loginImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String mbId = request.getParameter("id");
-		String mbpassword = request.getParameter("pw");
+		String mbId = request.getParameter("id"); //사용자 입력 ID
+		String mbpassword = request.getParameter("pw"); //사용자 입력 패스워드
 		Member member = memberService.memberAuthenticate(mbId, mbpassword);
 
-		if(member.getMbId() != null) {
+		if(member.getMbId() != null) { // ID가 null이 아니라면 로그인 성공
 			//세션에 회원 정보 저장
 			request.getSession().setAttribute("user", member);
 			request.setAttribute("msg", "정상적으로 로그인 되었습니다.");
-			request.setAttribute("url", "/index");
+			request.setAttribute("url", "/index"); //
 			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
 			.forward(request, response);
 			
 		}else {
 			request.setAttribute("msg", "아이디나 비밀번호를 확인하세요.");
-			request.setAttribute("url", "/member/login");
+			request.setAttribute("url", "/member/login"); //실패시 다시 로그인 시도하도록 로그인페이지로 
 			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
 			.forward(request, response);
 		}
@@ -203,6 +229,7 @@ public class MemberController extends HttpServlet {
 	
 	//회원정보 수정
 	private void modifyImpl(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String updatePw = request.getParameter("pw");
 		String updateNickName = request.getParameter("nick");
 		
@@ -245,30 +272,7 @@ public class MemberController extends HttpServlet {
 	}
 	
 
-	/*
-private void kakaologin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String mbkakaoId = request.getParameter("userID");
-		
-		Member member = memberService.memberAuthenticatekakao(mbkakaoId);
-		
-		if(member != null) {
-			//세션에 회원 정보 저장
-			request.getSession().setAttribute("user", member);
-			request.setAttribute("msg", "정상적으로 로그인 되었습니다.");
-			request.setAttribute("url", "/index");
-			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
-			.forward(request, response);
-			
-		}else {
-			request.setAttribute("msg", "아이디나 비밀번호를 확인하세요.");
-			request.setAttribute("url", "/member/login");
-			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
-			.forward(request, response);
-		}
-		
-		
-	}*/
+
 	
 private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getSession().removeAttribute("user");
@@ -316,7 +320,7 @@ private void logout(HttpServletRequest request, HttpServletResponse response) th
 	
 		//1. 폰번호를 받고, 인증코드만들어 문자메시지 내용을 만들어주자  //01030299967
 		String phoneNum = request.getParameter("phoneNum");
-		int authNum = (int) Math.round(Math.random()*1000000);
+		int authNum = (int) Math.round(Math.random()*1000000); //인증번호로 부여할 랜덤한 6자리의 숫자 받아온다
 		String authCode = Integer.toString(authNum); //인증 코드 완성
 		String content = "Let's Share 입니다.\n인증 번호["+authCode+"]를 입력하세요";
 		//System.out.println(authCode);
@@ -334,7 +338,7 @@ private void logout(HttpServletRequest request, HttpServletResponse response) th
 	//인증 번호 확인
 	private void confirmAuthCode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//1. 받아온 인증번호를 확인하자 -> 잘온다 
+		//1. 받아온 인증번호를 확인하자 
 		String authCode = request.getParameter("authCode");
 		
 		//2. 이제 Session에 저장해둔 인증코드와 사용자가 입력한 인증코드를 비교 한다
