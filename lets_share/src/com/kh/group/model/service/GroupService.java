@@ -51,11 +51,11 @@ public class GroupService {
 	}
 	
 	// =========================그룹 정보를 Arraylist에 담아 가져오는 함수=========================
-	public ArrayList<Group> getGroupList(){
+	public ArrayList<Group> getGroupList(int start, int end){
 		ArrayList<Group> groupList = null;
 		Connection conn = jdt.getConnection();
 		try {
-			groupList = groupDao.getGroupList(conn);
+			groupList = groupDao.getGroupList(conn, start, end);
 			jdt.commit(conn);
 		} catch(DataAccessException e) {
 			jdt.rollback(conn);
@@ -65,11 +65,12 @@ public class GroupService {
 		}
 		return groupList;
 	}
-	public ArrayList<Group> getGroupListId(String groupId){
+	
+	public ArrayList<Group> getGroupList(String service, int start, int end){
 		ArrayList<Group> groupList = null;
 		Connection conn = jdt.getConnection();
 		try {
-			groupList = groupDao.getGroupListId(conn, groupId);
+			groupList = groupDao.getGroupList(conn, service, start, end);
 			jdt.commit(conn);
 		} catch(DataAccessException e) {
 			jdt.rollback(conn);
@@ -79,11 +80,15 @@ public class GroupService {
 		}
 		return groupList;
 	}
-	public ArrayList<Group> getGroupListService(String service){
-		ArrayList<Group> groupList = null;
+	
+	
+	
+	// =========================그룹 개수를 int로 가져오는 함수=========================
+	public int getGroupCnt() {
+		int res = 0;
 		Connection conn = jdt.getConnection();
 		try {
-			groupList = groupDao.getGroupListService(conn, service);
+			res = groupDao.getGroupCnt(conn);
 			jdt.commit(conn);
 		} catch(DataAccessException e) {
 			jdt.rollback(conn);
@@ -91,13 +96,13 @@ public class GroupService {
 		}finally {
 			jdt.close(conn);
 		}
-		return groupList;
+		return res;
 	}
-	public ArrayList<Group> getGroupList(String groupId, String service){
-		ArrayList<Group> groupList = null;
+	public int getGroupCnt(String service) {
+		int res = 0;
 		Connection conn = jdt.getConnection();
 		try {
-			groupList = groupDao.getGroupList(conn, groupId, service);
+			res = groupDao.getGroupCnt(conn,service);
 			jdt.commit(conn);
 		} catch(DataAccessException e) {
 			jdt.rollback(conn);
@@ -105,8 +110,10 @@ public class GroupService {
 		}finally {
 			jdt.close(conn);
 		}
-		return groupList;
+		return res;
 	}
+	
+	
 	
 	//=========================그룹 대기 테이블에 유저 입력 함수=========================
 	public int insertStandBy(int groupId, String userId) {
