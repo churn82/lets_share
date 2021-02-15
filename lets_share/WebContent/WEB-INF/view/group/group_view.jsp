@@ -216,6 +216,15 @@
 							<button><a href="#ex2" rel="modal:open">서비스 비밀번호 변경</a></button>
 						</div>
 						<div class="">
+							<c:if test="${group.autoDate==null}">
+								<button><a href="${context}/group/autoMatching?groupId=${group.groupId}&reg=1" >그룹 자동 매칭 등록</a></button>
+							</c:if>
+							<c:if test="${group.autoDate!=null}">
+								<button><a href="${context}/group/autoMatching?groupId=${group.groupId}&reg=0">그룹 자동 매칭 취소</a></button>
+							</c:if>
+							
+						</div>
+						<div class="">
 							<button><a href="#ex4" rel="modal:open">그룹 해지</a></button>
 						</div>
 					</c:if>				

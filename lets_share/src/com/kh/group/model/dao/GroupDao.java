@@ -52,8 +52,8 @@ public class GroupDao {
 		CallableStatement cstm = null;
 		
 		String query = "INSERT INTO SH_GROUP "
-				+ "(GROUP_ID, MB_ID, GROUP_PPL_NUMBER, GROUP_PAYDATE, GROUP_ACCOUNT_INFO, GROUP_SHARE_ID, GROUP_SHARE_PASSWORD, SER_CODE)"
-				+ "VALUES (SC_GROUP_ID.NEXTVAL, ?, 0, ?, ?, ?, ?, ?)";
+				+ "(GROUP_ID, MB_ID, GROUP_PPL_NUMBER, GROUP_PAYDATE, GROUP_ACCOUNT_INFO, GROUP_SHARE_ID, GROUP_SHARE_PASSWORD, SER_CODE, GROUP_PPL_WISH_NUMBER)"
+				+ "VALUES (SC_GROUP_ID.NEXTVAL, ?, 0, ?, ?, ?, ?, ?, ?)";
 		
 		String query2 = "INSERT INTO SH_MATCHING (MB_ID, GROUP_ID, MB_NAME) VALUES (?, SC_GROUP_ID.CURRVAL, ?)";
 		
@@ -67,6 +67,7 @@ public class GroupDao {
 			pstm.setString(4, group.getShareId());
 			pstm.setString(5, group.getSharePw());
 			pstm.setString(6, group.getServiceCode());
+			pstm.setInt(7, group.getMemberCntWish());
 			
 			pstm2 = conn.prepareStatement(query2);
 			pstm2.setString(1, group.getMemberId());
@@ -94,7 +95,7 @@ public class GroupDao {
 	// =========================그룹 정보를 Arraylist에 담아 가져오는 함수=========================
 	public ArrayList<Group> getGroupList(Connection conn){
 		ArrayList<Group> groupList = new ArrayList<Group>();
-		String query = "SELECT * FROM SH_GROUP WHERE GROUP_PPL_NUMBER < 4";
+		String query = "SELECT * FROM SH_GROUP WHERE GROUP_PPL_NUMBER < 4 ORDER BY GROUP_DATE DESC";
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
 		try {
@@ -641,8 +642,7 @@ public class GroupDao {
 		}
 		return flag;
 	}
-	
-	
+		
 	//=========================소속 그룹 아이디 리스트 형태로 가져오기=========================
 	public ArrayList<Integer> getgroupIdList(Connection conn, String userId){
 		ArrayList<Integer> groupIdList = new ArrayList<Integer>();
@@ -663,5 +663,22 @@ public class GroupDao {
 			jdt.close(rset,pstm);
 		}
 		return groupIdList;
+	}
+
+	//자동 매칭 등록, 해지
+	public int updateAutoDate(Connection conn, int groupId, String text) {
+		int res = 0;
+		PreparedStatement pstm = null;
+		String query = "UPDATE  SH_GROUP SET GROUP_AUTO_DATE = "+text+" WHERE GROUP_ID = ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setInt(1, groupId);
+			res = pstm.executeUpdate();
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.GR04, e);
+		} finally {
+			jdt.close(pstm);
+		}
+		return res;
 	}
 }

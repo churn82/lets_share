@@ -109,32 +109,49 @@
 
 			</div>
 				
-			<c:set var="page" value="${(requestScope.p = null)?1:requestScope.p}" />
-            <c:set var="startNum" value="${page-(page-1)%5}" />
-            <c:set var="lastNum" value="${requestScope.page}" />
-            
-            <!-- 이전버튼 -->
-            <c:if test="${startNum>1}"> 
-               <a href="?p=${startNum-1}" class="page_btn btn_left">이전</a> <!-- ${startNum-1} : 이전번호를 눌렀을때 마지막번호를 띄워주기 -->
-            </c:if>
-            <c:if test="${startNum<=1}">
-               <span onclick="alert('이전 페이지가 없습니다.');"></span>
-            </c:if>
-
-			<!-- 12345 -->
-			<ul class="paging">
-				<c:forEach var="i" begin="0" end="4">
-					<li><a class="page_btn" href="?p=${startNum+i}">${startNum+i}</a></li>
-				</c:forEach>
-			</ul>
-
-			<!-- 다음버튼 -->
-			<c:if test="${startNum<lastNum}">
-               <a href="/notice/noticeList?p=${startNum+5}" class="page_btn btn_right">다음</a>
-            </c:if>
-            <c:if test="${startNum+5>=lastNum}">
-               <span class="" onclick="alert('다음 페이지가 없습니다.');"></span>
-            </c:if>
+			<!-- 게시판 페이지 번호 -->
+					<c:choose>
+						<c:when test='${select==""}'>
+							<div class="paging">
+								<a class="page_btn" href="/notice/noticeList?page=${firstPage-1}" style="background-color: white; color:black">&lt;</a>
+								<c:forEach var="page" items="${pageList}">
+								<c:choose>
+									<c:when test = "${page==currentPage}">
+										<a class="page_btn" href="/notice/noticeList?page=${page}" style="background-color: #FF9900">
+											${page}
+										</a>
+									</c:when>
+									<c:otherwise>
+										<a class="page_btn" href="/notice/noticeList?page=${page}">
+											${page}
+										</a>
+									</c:otherwise>
+								</c:choose>
+								</c:forEach>
+								<a class="page_btn" href="/notice/noticeList?page=${lastPage+1}" style="background-color: white; color:black">&gt;</a>
+							</div>		
+						</c:when>
+						<c:otherwise>
+							<div class="paging">
+								<a class="page_btn" href="/notice/noticeList?select=${select}&searchText=${searchText}&page=${firstPage-1}" style="background-color: white; color:black">&lt;</a>
+								<c:forEach var="page" items="${pageList}">
+								<c:choose>
+									<c:when test = "${page==currentPage}">
+										<a class="page_btn" href="/notice/noticeList?select=${select}&searchText=${searchText}&page=${page}" style="background-color: #FF9900">
+											${page}
+										</a>
+									</c:when>
+									<c:otherwise>
+										<a class="page_btn" href="/notice/noticeList?select=${select}&searchText=${searchText}&page=${page}">
+											${page}
+										</a>
+									</c:otherwise>
+								</c:choose>
+								</c:forEach>
+								<a class="page_btn" href="/notice/noticeList?select=${select}&searchText=${searchText}&page=${lastPage+1}" style="background-color: white; color:black">&gt;</a>
+							</div>
+						</c:otherwise>
+					</c:choose>
 			
 		
 			

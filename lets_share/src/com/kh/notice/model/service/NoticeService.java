@@ -194,11 +194,11 @@ public class NoticeService {
 		return noticeList;
 	}
 	
-	//공지 전체 갯수
-	public Notice getAllCount(Notice notice) {
+	//공지 전체 게시글 갯수
+	public Notice getTotalPosts(Notice notice) {
 		Connection conn = jdt.getConnection();
 		try {
-			notice = noticeDao.getAllCount(conn, notice);
+			notice = noticeDao.getTotalPosts(conn, notice);
 			jdt.commit(conn);
 			
 		}catch(DataAccessException e){
@@ -224,44 +224,57 @@ public class NoticeService {
 		return rs;
 	}
 	
+	 //모든 신고 내역을 (페이징해서) 가져오는 메서드
+	   public ArrayList<Notice> getNoticeList(int start, int end){
+	      
+	      Connection conn = jdt.getConnection();
+	      ArrayList<Notice> noticeList = null;
+	      
+	      try {
+	         noticeList = noticeDao.getNoticeList(conn, start, end);
+	         jdt.commit(conn);
+	      } catch (DataAccessException e){
+	         jdt.rollback(conn);
+	         throw new ToAlertException(e.error, e);
+	      }finally {
+	         jdt.close(conn);
+	      }
+	      return noticeList;
+	   }
+	   
+	   
+	   //[검색]한 모든 신고내역 개수 가져오는 메서드
+	   public int getNoticeCnt(String select, String searchText) {
+	      Connection conn = jdt.getConnection();
+	      int allNoticeCnt = 0;
+	      try {
+	         allNoticeCnt = noticeDao.getNoticeCnt(conn, select, searchText);
+	         jdt.commit(conn);
+	      } catch (DataAccessException e){
+	         jdt.rollback(conn);
+	         throw new ToAlertException(e.error, e);
+	      }finally {
+	         jdt.close(conn);
+	      }
+	      return allNoticeCnt;
+	   }
 
-	// [검색]한 모든 이벤트 개수 가져오는 메서드
-	public int getNoticeCnt(String select, String searchText) {
-		Connection conn = jdt.getConnection();
-		int allNoticeCnt = 0;
-		try {
-			allNoticeCnt = noticeDao.getEventCnt(conn, select, searchText);
-			jdt.commit(conn);
-		} catch (DataAccessException e){
-			jdt.rollback(conn);
-			throw new ToAlertException(e.error, e);
-		}finally {
-			jdt.close(conn);
-		}
-		return allNoticeCnt;
-	}
-	
-	//[검색]한 모든 이벤트게시글을 (페이징해서) 가져오는 메서드
-		public ArrayList<Notice> getNoticeList(int start, int end, String select, String searchText){
-			Connection conn = jdt.getConnection();
-			ArrayList<Notice> noticeList = null;
-			try {
-				noticeList = noticeDao.getEventList(conn, start, end, select, searchText);
-				jdt.commit(conn);
-			} catch (DataAccessException e){
-				jdt.rollback(conn);
-				throw new ToAlertException(e.error, e);
-			}finally {
-				jdt.close(conn);
-			}
-			return noticeList;
-		}
-	
-	
-	
-	
-	
-	
+	   //[검색]한 모든 신고 내역을 (페이징해서) 가져오는 메서드
+	   public ArrayList<Notice> getNoticeList(int start, int end, String select, String searchText){
+	      Connection conn = jdt.getConnection();
+	      ArrayList<Notice> noticeList = null;
+	      try {
+	         noticeList = noticeDao.getNoticeList(conn, start, end, select, searchText);
+	         jdt.commit(conn);
+	      } catch (DataAccessException e){
+	         jdt.rollback(conn);
+	         throw new ToAlertException(e.error, e);
+	      }finally {
+	         jdt.close(conn);
+	      }
+	      return noticeList;
+	   }
+
 	
 	
 }
