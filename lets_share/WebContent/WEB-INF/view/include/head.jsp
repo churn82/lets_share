@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>head</title>
+<title>Let's Share</title>
 <script type="text/javascript" src="/resources/js/common/asyncResponseError.js"></script>
 <script type="text/javascript" src="/resources/js/common/urlEncoder.js"></script>
 <c:set var="context" value="${pageContext.request.contextPath}"/>

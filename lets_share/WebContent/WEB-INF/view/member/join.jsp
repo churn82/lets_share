@@ -20,17 +20,17 @@
 					<!-- Inner -->
 					<div class="inner">
 						<header>
-							<h1><a href="index.html" id="logo">Let's Share</a></h1>
+							<h1><a href="${context}/index" id="logo">Let's Share</a></h1>
 						</header>
 					</div>
 					<!-- Nav -->
 					<nav id="nav">
 						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li><a href="#">구매자 모집</a></li>
-							<li><a href="left-sidebar.html">구매 참여</a></li>
-							<li><a href="right-sidebar.html">신고 게시판</a></li>
-							<li><a href="no-sidebar.html">공지 사항</a></li>
+							<li><a href="${context}/index">Home</a></li>
+							<li><a href="${context}/group/form">구매자 모집</a></li>
+							<li><a href="${context}/group/search">구매 참여</a></li>
+							<li><a href="${context}/report/listAll">신고 게시판</a></li>
+							<li><a href="${context}/notice/noticeList?p=1">공지 사항</a></li>
 						</ul>
 					</nav>
 				</div>
