@@ -9,8 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.kh.notice.model.dao.NoticeDao;
 import com.kh.notice.model.service.NoticeService;
 import com.kh.notice.model.vo.Notice;
 
@@ -55,8 +53,6 @@ public class NoticeController extends HttpServlet {
 			deleteNotice(request, response); break;
 		case "mypage" :
 			mypage(request, response); break;
-		case "eventSearchList" :
-			eventSearchList(request, response);break;
 		default : response.setStatus(404); break;
 		}
 	}
@@ -67,26 +63,85 @@ public class NoticeController extends HttpServlet {
 	//공지리스트
 	protected void goNoticeList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		ArrayList<Notice> noticeList = null;
-		noticeList = noticeService.selectNoticeList();
-		request.setAttribute("noticeList", noticeList);
-		
-		//paging
 		Notice notice = new Notice();
-		notice = noticeService.getAllCount(notice);
+		notice = noticeService.getTotalPosts(notice);
+		//////////////////////////////////////
 		
-		int allCount = notice.getNoticeAllCount();
-		int page = allCount/10;
+		//1. 사용자가 클릭한 페이지를 가져온다 but, 처음 공지페이지 왔을시 1로 초기화
+		int page = 0;
+		if(request.getParameter("page") == "" || request.getParameter("page") == null) {
+			page = 1;
+		}else {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
 		
-				System.out.println("allCount : " + allCount); 
-				System.out.println("page : " + page);
+		//2. 사용할 변수들 초기화
+		int start = 0, end = 0;
+		int firstPage = 0, lastPage = 0;
+		ArrayList<Integer> pageList = null;
+		int allNoticeCnt = 0 , allPageCnt = 0;
+		String select = "", searchText = "";
 		
-		request.setAttribute("allCount", allCount); //전체글의갯수인데 나중에 봐서 필요없으면 삭제하자
-		request.setAttribute("p", page);
+		
+		//3. 전체 페이지 개수를 구한다. ex. 게시글이 36개이면 총 4개의 페이지를 보여줄 수 있다.
+		if(request.getParameter("searchText") == null) {
+			allNoticeCnt = notice.getNoticeTotalPosts();
+		}else {
+			select = request.getParameter("select");
+			searchText = request.getParameter("searchText");
+			allNoticeCnt = noticeService.getNoticeCnt(select, "%"+searchText+"%");
+		}
+		
+		if(allNoticeCnt%10==0) {
+			allPageCnt = allNoticeCnt/10; 
+		}else {
+			allPageCnt = (allNoticeCnt/10)+1;
+		}
+		
+		
+		//4. 사용자가 접근한 페이지가 전체페이지보다 많거나 1보다 작다면 -> 예외처리
+		ArrayList<Notice> noticeList = null;
+		if(page>allPageCnt || page<1) {
+			System.out.println("잘못된 접근입니다");
+		}else {
+			// 3-1. 사용자가 클릭한 페이지의 NoticeList를 가져온다 
+			//      ex) 1페이지 : 가장최신글 10개 , 2페이지 : 가장최신글 10개를 뺀 10개
+			start = 1+(page-1)*10;
+			end = page*10;
+			if(request.getParameter("searchText") == null) {
+				noticeList = noticeService.getNoticeList(start, end);
+			}else {
+				noticeList = noticeService.getNoticeList(start, end, select, "%"+searchText+"%");
+			}
+		
+			// 3-2. 사용자가 만약 2페이지를 클릭하고 있다면 1~5를 보여주고 7페이지를 클릭하고 있다면 6~10을 보여줘여함
+			// 3-2-1. 사용자가 볼 수 있는 첫번째 페이지, 마지막 페이지를 지정
+			for(int i=page; i<= allPageCnt; i++) {
+				if(i%5==0) {
+					lastPage = i;
+					firstPage = i-4;
+					break;
+				}else {
+					lastPage = allPageCnt;
+					firstPage = lastPage - ((lastPage%5)-1); 
+				}
+			}
+			//3-2-2. 구한 페이지를 pageList에 넣어줌
+			pageList = new ArrayList<Integer>();
+			for(int i=firstPage; i<=lastPage; i++) {
+				pageList.add(i);
+			}
+		}
+		request.setAttribute("select", select);
+		request.setAttribute("searchText", searchText);
+		request.setAttribute("currentPage", page);
+		request.setAttribute("lastPage", lastPage);
+		request.setAttribute("firstPage", firstPage);
+		request.setAttribute("pageList", pageList);
+		request.setAttribute("noticeList", noticeList);	
 		
 		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
 		.forward(request, response);
-		
 	}
 	
 	//이벤트 목록
@@ -96,30 +151,23 @@ public class NoticeController extends HttpServlet {
 		noticeList = noticeService.selectEventList();
 		request.setAttribute("noticeList", noticeList);
 		
+		///////////////////////////////////////////////////
+		//2. 사용할 변수들 초기화
+		int start = 0, end = 0;
+		int firstPage = 0, lastPage = 0;
+		ArrayList<Integer> pageList = null;
+		int allNoticeCnt = 0 , allPageCnt = 0;
+		String select = "", searchText = "";
 		
+		select = request.getParameter("select");
+		searchText = request.getParameter("searchText");
+		
+		allNoticeCnt = noticeService.getNoticeCnt(select, searchText);
+	
 		request.getRequestDispatcher("/WEB-INF/view/notice/event_list.jsp")
 		.forward(request, response);
 	}
-	//검색결과목록
-	protected void eventSearchList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//뷰에서 요청을 받아 dao에 넘기기
-		if(request.getParameter("search")!=null) {
-			int category = Integer.parseInt(request.getParameter("search"));
-			String keyword = request.getParameter("keyword");
-			noticeService.selectKeyword(category, keyword);
-			
-			//받아온 데이터 뷰단에 그려주기
-			ArrayList<Notice> keywordList = noticeService.selectKeyword(category, keyword);
-			request.setAttribute("noticeList", keywordList);
-			
-		}	
-			//검색한 정보를 session에 실어 상태유지
-			//request.getSession().setAttribute("category", category);
-			//request.getSession().setAttribute("keyword", keyword);
-		
-		request.getRequestDispatcher("/WEB-INF/view/notice/event_search_list.jsp")
-		.forward(request, response);
-	}
+
 	
 	
 	//공지 상세페이지

@@ -4,12 +4,12 @@ package com.kh.notice.model.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.kh.common.exception.DataAccessException;
 import com.kh.common.exception.ToAlertException;
 import com.kh.common.template.JDBCTemplate;
 import com.kh.notice.model.dao.NoticeDao;
 import com.kh.notice.model.vo.Notice;
+import com.kh.report.model.vo.Report;
 
 public class NoticeService {
 	
@@ -50,14 +50,10 @@ public class NoticeService {
 		return rs;
 	}
 	
-	
-	
 	//게시글 수정전
 	public Notice beforeUpdate(int noticeNo) {
-
 		Connection conn = jdt.getConnection();
 		Notice notice = null;
-		
 		try {
 			notice = noticeDao.beforeUpdate(conn,noticeNo);
 			jdt.commit(conn);
@@ -68,7 +64,6 @@ public class NoticeService {
 		finally {
 			jdt.close(conn);
 		}
-		
 		return notice;
 	}
 	
@@ -76,7 +71,6 @@ public class NoticeService {
 	public int updateRequest(Notice notice) {
 		int res = 0;
 		Connection conn = jdt.getConnection();
-		
 		try {
 			res = noticeDao.updateRequest(conn, notice);
 			jdt.commit(conn);
@@ -93,7 +87,6 @@ public class NoticeService {
 	public int deleteNoticeBoard(int noticeNo) {
 		Connection conn = jdt.getConnection();
 		int rs = 0;
-		
 		try {
 			rs = noticeDao.deleteNoticeBoard(conn, noticeNo);
 			jdt.commit(conn);
@@ -102,10 +95,8 @@ public class NoticeService {
 		}finally {
 			jdt.close(conn);
 		}
-		
 		return rs;
 	}
-	
 	
 	//이벤트 삭제 기능
 	public int deleteEventBoard(int noticeNo) {
@@ -119,22 +110,18 @@ public class NoticeService {
 		}finally {
 			jdt.close(conn);
 		}
-		
 		return rs;
 	}
-	
 	
 	//공지 상세페이지
 	public Notice selectNoticeDetail(int noticeNo){
 		Connection conn = jdt.getConnection();
 		Notice notice = null;
-		
 		try {
 			notice = noticeDao.selectNoticeDetail(conn, noticeNo);
 		}finally {
 			jdt.close(conn);
 		}
-		
 		return notice;
 	}
 	
@@ -142,22 +129,18 @@ public class NoticeService {
 		public Notice selectEventDetail(int noticeNo){
 			Connection conn = jdt.getConnection();
 			Notice notice = null;
-			
 			try {
 				notice = noticeDao.selectEventDetail(conn, noticeNo);
 			}finally {
 				jdt.close(conn);
 			}
-			
 			return notice;
 		}
 	
 	//공지사항 목록
 	public ArrayList<Notice> selectNoticeList(){
-		
 		Connection conn = jdt.getConnection();
 		ArrayList<Notice> noticeList = null;
-		
 		try {
 			noticeList = noticeDao.selectNoticeList(conn);
 			jdt.commit(conn);
@@ -168,17 +151,13 @@ public class NoticeService {
 		finally {
 			jdt.close(conn);
 		}
-		
 		return noticeList;
 	}
 	
-	
 	//이벤트 목록
 	public ArrayList<Notice> selectEventList(){
-		
 		Connection conn = jdt.getConnection();
 		ArrayList<Notice> noticeList = null;
-		
 		try {
 			noticeList = noticeDao.selectEventList(conn);
 			jdt.commit(conn);
@@ -189,15 +168,14 @@ public class NoticeService {
 		finally {
 			jdt.close(conn);
 		}
-		
 		return noticeList;
 	}
 	
-	//공지 전체 갯수
-	public Notice getAllCount(Notice notice) {
+	//공지 전체 게시글 갯수
+	public Notice getTotalPosts(Notice notice) {
 		Connection conn = jdt.getConnection();
 		try {
-			notice = noticeDao.getAllCount(conn, notice);
+			notice = noticeDao.getTotalPosts(conn, notice);
 			jdt.commit(conn);
 			
 		}catch(DataAccessException e){
@@ -223,26 +201,57 @@ public class NoticeService {
 		return rs;
 	}
 	
-	
-	public ArrayList<Notice> selectKeyword(int noticeCategory, String noticeKeyword){
-		Connection conn = jdt.getConnection();
-		ArrayList<Notice> noticeList = null;
-		
-		try {
-			noticeList = noticeDao.selectKeyword(conn, noticeCategory, noticeKeyword);
-		}catch (DataAccessException e) {
-			throw new ToAlertException(e.error);
-		}
-		finally {
-			jdt.close(conn);
-		}
-		
-		return noticeList;
-	}
-	
-	
-	
-	
+	 //모든 신고 내역을 (페이징해서) 가져오는 메서드
+	   public ArrayList<Notice> getNoticeList(int start, int end){
+	      
+	      Connection conn = jdt.getConnection();
+	      ArrayList<Notice> noticeList = null;
+	      
+	      try {
+	         noticeList = noticeDao.getNoticeList(conn, start, end);
+	         jdt.commit(conn);
+	      } catch (DataAccessException e){
+	         jdt.rollback(conn);
+	         throw new ToAlertException(e.error, e);
+	      }finally {
+	         jdt.close(conn);
+	      }
+	      return noticeList;
+	   }
+	   
+	   
+	   //[검색]한 모든 신고내역 개수 가져오는 메서드
+	   public int getNoticeCnt(String select, String searchText) {
+	      Connection conn = jdt.getConnection();
+	      int allNoticeCnt = 0;
+	      try {
+	         allNoticeCnt = noticeDao.getNoticeCnt(conn, select, searchText);
+	         jdt.commit(conn);
+	      } catch (DataAccessException e){
+	         jdt.rollback(conn);
+	         throw new ToAlertException(e.error, e);
+	      }finally {
+	         jdt.close(conn);
+	      }
+	      return allNoticeCnt;
+	   }
+
+	   //[검색]한 모든 신고 내역을 (페이징해서) 가져오는 메서드
+	   public ArrayList<Notice> getNoticeList(int start, int end, String select, String searchText){
+	      Connection conn = jdt.getConnection();
+	      ArrayList<Notice> noticeList = null;
+	      try {
+	         noticeList = noticeDao.getNoticeList(conn, start, end, select, searchText);
+	         jdt.commit(conn);
+	      } catch (DataAccessException e){
+	         jdt.rollback(conn);
+	         throw new ToAlertException(e.error, e);
+	      }finally {
+	         jdt.close(conn);
+	      }
+	      return noticeList;
+	   }
+
 	
 	
 }

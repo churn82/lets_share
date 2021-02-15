@@ -2,14 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/include/head.jsp" %>
 <head>
-		<title>Let's Share</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="/resources/css/main.css" />
-		<link rel="stylesheet" href="/resources/css/group/group_search.css" />
-		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
-		<!-- 모달 -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+	<title>Let's Share</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="/resources/css/main.css" />
+	<link rel="stylesheet" href="/resources/css/group/group_search.css" />
+	<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
+	<!-- 모달 -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 </head>
 	<body class="no-sidebar is-preload">
 		<div id="page-wrapper">
@@ -19,7 +19,7 @@
 					<!-- Inner -->
 						<div class="inner">
 							<header>
-								<h1><a href="/index" id="logo">Let's Share</a></h1>
+								<h1><a href="${context}/index" id="logo">Let's Share</a></h1>
 							</header>
 						</div>
 
@@ -33,9 +33,7 @@
 								<li><a href="${context}/notice/noticeList?p=1">공지 사항</a></li>
 							</ul>
 						</nav>
-
-				</div>
-
+			</div>
 			<!-- Main -->
 				<div class="wrapper style1">
 					<div class="title"><a href="/group/search">그룹 서칭</a></div>
@@ -44,7 +42,7 @@
 							<input type="text" id="groupId" name="groupId"/>
 							<input type="text" id="service" name="service">
 							<input type="number" id="userPeriod" name="userPeriod">
-							<button class="btn_wrap"><a href="#ex1" rel="modal:open">그룹번호로 검색</a></button>
+							<!--<button class="btn_wrap"><a href="#ex1" rel="modal:open">그룹번호로 검색</a></button>  -->
 							<button class="btn_wrap"><a href="#ex2" rel="modal:open">서비스 정보로 검색</a></button>
 							<button class="btn">검색</button> 
 							<!-- 그룹 자동검색 버튼 -->
@@ -123,6 +121,49 @@
 	                        </div>
                         </c:forEach>                       
                     </div>
+					<c:choose>
+						<c:when test='${service==""}'>
+							<div class="paging">
+								<a class="page_btn" href="/group/search?page=${firstPage-1}" style="background-color: white; color:black">&lt;</a>
+								<c:forEach var="page" items="${pageList}">
+								<c:choose>
+									<c:when test = "${page==currentPage}">
+										<a class="page_btn" href="/group/search?page=${page}" style="background-color: #FF9900">
+											${page}
+										</a>
+									</c:when>
+									<c:otherwise>
+										<a class="page_btn" href="/group/search?page=${page}">
+											${page}
+										</a>
+									</c:otherwise>
+								</c:choose>
+								</c:forEach>
+								<a class="page_btn" href="/group/search?page=${lastPage+1}" style="background-color: white; color:black">&gt;</a>
+							</div>		
+						</c:when>
+						<c:otherwise>
+							<div class="paging">
+								<a class="page_btn" href="/group/search?service=${service}&page=${firstPage-1}" style="background-color: white; color:black">&lt;</a>
+								<c:forEach var="page" items="${pageList}">
+								<c:choose>
+									<c:when test = "${page==currentPage}">
+										<a class="page_btn" href="/group/search?service=${service}&page=${page}" style="background-color: #FF9900">
+											${page}
+										</a>
+									</c:when>
+									<c:otherwise>
+										<a class="page_btn" href="/group/search?service=${service}&page=${page}">
+											${page}
+										</a>
+									</c:otherwise>
+								</c:choose>
+								</c:forEach>
+								<a class="page_btn" href="/group/search?service=${service}&page=${lastPage+1}" style="background-color: white; color:black">&gt;</a>
+							</div>
+						</c:otherwise>
+					</c:choose>
+					
 				</div>
 			<!-- Footer -->
 				<div id="footer">

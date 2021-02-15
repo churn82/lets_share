@@ -5,9 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.kh.common.code.ErrorCode;
 import com.kh.common.exception.DataAccessException;
 import com.kh.common.template.JDBCTemplate;
@@ -28,7 +25,6 @@ public class NoticeDao {
 				+ "(NOTICE_NO,NOTICE_TITLE,NOTICE_CONTENT,NOTICE_DATE,NOTICE_TYPE,NOTICE_ALL_COUNT) "
 				+ "values(sc_notice_no.nextval,?,?,sysdate,'notice',sc_notice_all_count.nextval)";
 		PreparedStatement pstm = null;
-		
 		
 		try {
 			pstm = conn.prepareStatement(sql);
@@ -115,9 +111,7 @@ public class NoticeDao {
 			jdt.close(pstm);
 		}
 		return res;
-		
 	}
-	
 
 	//공지게시판 삭제 기능
 	public int deleteNoticeBoard(Connection conn, int noticeNo) {
@@ -133,11 +127,8 @@ public class NoticeDao {
 		}finally {
 			jdt.close(pstm,conn);
 		}
-
 		return res;
-		
 	}
-	
 	  
 	//이벤트 게시판 삭제 기능
 		public int deleteEventBoard(Connection conn, int noticeNo) {
@@ -154,12 +145,9 @@ public class NoticeDao {
 			}finally {
 				jdt.close(pstm,conn);
 			}
-
 			return res;
-			
 		}
 		
-
 	//공지 테이블 상세페이지
 	public Notice selectNoticeDetail(Connection conn, int noticeNo){
 		Notice notice = null;
@@ -199,7 +187,6 @@ public class NoticeDao {
 		ArrayList<Notice> noticeList = new ArrayList<>();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		
 		try {
 			String sql = "select * from sh_notice where notice_type='notice' and notice_delete is null order by notice_no desc";
 			pstm = conn.prepareStatement(sql);
@@ -219,7 +206,6 @@ public class NoticeDao {
 		}finally {
 			jdt.close(rs,pstm);
 		}
-	
 		return noticeList;
 	}
 	
@@ -229,7 +215,6 @@ public class NoticeDao {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		String sql = "select * from sh_notice where notice_no=? and notice_type='event' ";
-		
 		try {
 			pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, noticeNo);
@@ -249,23 +234,18 @@ public class NoticeDao {
 		}finally {
 			jdt.close(rs,pstm);
 		}
-
 		return notice;
-		
 	}
 	
 	//이벤트 목록 조회(번호,제목,작성자,작성날짜,조회수)
 	public ArrayList<Notice> selectEventList(Connection conn) {
-		
 		ArrayList<Notice> noticeList = new ArrayList<>();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		
 		try {
 			String sql = "select * from sh_notice where notice_type='event' and notice_delete is null order by notice_no desc";
 			pstm = conn.prepareStatement(sql);
 			rs = pstm.executeQuery();
-			
 			while(rs.next()) {
 				Notice notice = new Notice();
 				notice.setNoticeNo(rs.getInt("notice_no"));
@@ -274,30 +254,26 @@ public class NoticeDao {
 				notice.setNoticeView(rs.getInt("notice_view"));
 				noticeList.add(notice);
 			}
-			
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.SB01, e);
 		}finally {
 			jdt.close(rs,pstm);
 		}
-	
 		return noticeList;
 	}
 	
 	//공지 게시글의 전체 수를 리턴하는 메서드
-	public Notice getAllCount(Connection conn, Notice notice) {
+	public Notice getTotalPosts(Connection conn, Notice notice) {
 		PreparedStatement pstm = null; //pstm필요없지만 일반 stmt는 close메소드 없으니까 그냥 pstm으로
 		ResultSet rs = null;
-		String sql = "select notice_all_count from (select notice_all_count from sh_notice where notice_type='notice' "
-				+ "and notice_delete is null and notice_all_count is not null order by notice_all_count desc) where rownum = 1";
+		String sql = "select notice_total_posts from (select notice_total_posts from sh_notice where notice_type='notice' "
+				+ "and notice_delete is null and notice_total_posts is not null order by notice_total_posts desc) where rownum = 1";
 		try {
 			pstm = conn.prepareStatement(sql);
 			rs = pstm.executeQuery();
-			
 			if(rs.next()) {
 				notice = new Notice();
-				notice.setNoticeAllCount(rs.getInt("notice_all_count"));
-				System.out.println("dao : "+notice.getNoticeAllCount());
+				notice.setNoticeTotalPosts(rs.getInt("notice_total_posts"));
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.PB01, e);
@@ -312,7 +288,6 @@ public class NoticeDao {
 		int rs = 0;
 		PreparedStatement pstm = null;
 		String sql = "update sh_notice set notice_view = notice_view+1 where notice_no = ?";
-		
 		try {
 			pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, noticeNo);
@@ -324,48 +299,97 @@ public class NoticeDao {
 		}
 		return rs;
 	}
+	
+	//모든 post들을 (페이징해서) 가져오는 메서드
+	public ArrayList<Notice> getNoticeList(Connection conn, int start, int end){
+		ArrayList<Notice> noticetList = new ArrayList<Notice>();
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = 
+				  "SELECT * FROM ("
+				+ "    SELECT ROWNUM NUM, R.*"
+				+ "        FROM (SELECT * FROM SH_NOTICE ORDER BY NOTICE_DATE DESC) R"
+				+ ") WHERE NUM BETWEEN ? AND ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setInt(1, start);
+			pstm.setInt(2, end);
+			rset = pstm.executeQuery();
+			while(rset.next()) {
+				Notice notice = new Notice();
+				notice.setNoticeNo(rset.getInt("NOTICE_NO"));
+				notice.setNoticeTitle(rset.getString("NOTICE_TITLE"));
+				notice.setNoticeContent(rset.getString("NOTICE_CONTENT"));
+				notice.setNoticeDate(rset.getDate("NOTICE_DATE"));
+				notice.setNoticeView(rset.getInt("NOTICE_VIEW"));
+				notice.setNoticeType(rset.getString("NOTICE_TYPE"));
+				notice.setNoticeDelete(rset.getDate("NOTICE_DELETE"));
+				noticetList.add(notice);
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.PB01, e);
+		} finally {
+			jdt.close(rset, pstm);
+		}
+		return noticetList;
+	}
+
+
+    //[검색]한 모든 내역 개수 가져오는 메서드
+	public int getNoticeCnt(Connection conn, String select, String searchText) {
+		int allNoticeCnt = 0;
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = "SELECT COUNT(*) FROM SH_NOTICE WHERE "+select+" LIKE ? AND NOTICE_TYPE='notice' AND NOTICE_DELETE IS NULL;";
+		
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, searchText);
+			rset = pstm.executeQuery();
+			if(rset.next()) {
+				allNoticeCnt = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.PB01, e);
+		}
+		return allNoticeCnt;
+	}
 
 	
-	public ArrayList<Notice> selectKeyword(Connection conn, int noticeCategory, String noticeKeyword){
-		ArrayList<Notice> keywordList = new ArrayList<>();
+	//[검색]한 모든 내역을 (페이징해서) 가져오는 메서드
+	public ArrayList<Notice> getNoticeList(Connection conn, int start, int end, String select, String searchText){
+		ArrayList<Notice> noticeList = new ArrayList<Notice>();
 		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		String sql = null;
-			try {
-					//전체
-					if(noticeCategory == 1) {
-						sql = "select * from sh_notice where (notice_title like '%" +noticeKeyword+"%' or notice_content like '%" +noticeKeyword+"%') and notice_delete is null and notice_type = 'event'";
-						pstm = conn.prepareStatement(sql);
-					//제목
-					}else if(noticeCategory == 2) {	
-						sql = "select * from sh_notice where notice_title like '%" +noticeKeyword+"%' and notice_delete is null and notice_type = 'event'";
-						pstm = conn.prepareStatement(sql);
-						//내용
-					}else if(noticeCategory == 3) {
-						sql = "select * from sh_notice where notice_content like '%" +noticeKeyword+"%' and notice_delete is null and notice_type = 'event'";
-						pstm = conn.prepareStatement(sql);
-					}
-					
-					rs = pstm.executeQuery();				
-				
-				while(rs.next()) {
-					Notice notice = new Notice();
-					notice.setNoticeNo(rs.getInt("notice_no"));
-		            notice.setNoticeTitle(rs.getString("notice_title"));
-		            notice.setNoticeDate(rs.getDate("notice_date"));
-		            notice.setNoticeView(rs.getInt("notice_view"));
-		            keywordList.add(notice);
-				}
-				
-			} catch (SQLException e) {
-				throw new DataAccessException(ErrorCode.AUTH01, e); //수정해야함
-			}finally {
-				jdt.close(rs,pstm);
+		ResultSet rset = null;
+		String query = 
+				  "SELECT * FROM ("
+				+ "    SELECT ROWNUM NUM, R.*"
+				+ "        FROM (SELECT * FROM SH_NOTICE WHERE "+select+" LIKE '?' AND NOTICE_TYPE='notice' AND NOTICE_DELETE IS NULL ORDER BY NOTICE_DATE DESC) R"
+				+ ") WHERE NUM BETWEEN ? AND ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, searchText);
+			pstm.setInt(2, start);
+			pstm.setInt(3, end);
+			rset = pstm.executeQuery();
+			while(rset.next()) {
+				Notice notice = new Notice();
+				notice.setNoticeNo(rset.getInt("NOTICE_NO"));
+				notice.setNoticeTitle(rset.getString("NOTICE_TITLE"));
+				notice.setNoticeContent(rset.getString("NOTICE_CONTENT"));
+				notice.setNoticeDate(rset.getDate("NOTICE_DATE"));
+				notice.setNoticeView(rset.getInt("NOTICE_VIEW"));
+				notice.setNoticeType(rset.getString("NOTICE_TYPE"));
+				notice.setNoticeDelete(rset.getDate("NOTICE_DELETE"));
+				noticeList.add(notice);
 			}
-		return keywordList;
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.PB01, e);
+		} finally {
+			jdt.close(rset, pstm);
+		}
+		return noticeList;
 	}
-	
-	
-	
+		
 	
 }

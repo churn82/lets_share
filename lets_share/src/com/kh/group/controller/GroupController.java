@@ -97,23 +97,80 @@ public class GroupController extends HttpServlet {
 	
 	// group_search.jsp 페이지 로드
 	protected void goSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Group> groupList = null;
-		String groupId = request.getParameter("groupId");
-		String service = request.getParameter("service");
 		
-		if((groupId==null && service==null) || (groupId.equals("") && service.equals(""))) {
-			groupList = groupService.getGroupList();
-		}else if(groupId.equals("")&&service!=null) {
-			//서비스만 검색
-			groupList = groupService.getGroupListService(service);
-		}else if(groupId!=null&&service.equals("")) {
-			//그룹 아이디만 검색
-			groupList = groupService.getGroupListId(groupId);
-		}else if(groupId!=null&&service!=null) {
-			groupList = groupService.getGroupList(groupId, service);
-		}
 
+		//1. 사용자가 클릭한 페이지를 가져온다 but, 처음 신고페이지 왔을시 1로 초기화
+		int page = 0;
+		if(request.getParameter("page") == "" || request.getParameter("page") == null) {
+			page = 1;
+		}else {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		
+		//2. 사용할 변수들 초기화
+		int start = 0, end = 0;
+		int firstPage = 0, lastPage = 0;
+		ArrayList<Integer> pageList = null;
+		int allGroupCnt = 0 , allPageCnt = 0;
+		String service = "";
+		
+		//3. 전체 게시글 개수 and 전체 페이지 개수 구한다.
+		if(request.getParameter("service")==null || request.getParameter("service").equals("")) { 
+			allGroupCnt = groupService.getGroupCnt(); //검색하지 않은 경우
+		}else {
+			service = request.getParameter("service"); //검색한 경우 검색한 서비스를 변수에 넣어주고 검색한 서비스 그룹의 개수를 가져온다.
+			allGroupCnt = groupService.getGroupCnt(service);
+		}
+		
+		if(allGroupCnt%6==0) {
+			allPageCnt = allGroupCnt/6; 
+		}else {
+			allPageCnt = (allGroupCnt/6)+1;
+		}
+		
+		//4. 사용자가 접근한 페이지가 전체페이지보다 많거나 1보다 작다면 -> 그냥 1페이지 보여줌
+		ArrayList<Group> groupList = null;
+		if(page>allPageCnt || page<1) {
+			System.out.println("잘못된 접근입니다");
+			page = 1;
+		}
+		
+		start = 1+(page-1)*6;
+		end = page*6;
+		if(request.getParameter("service")==null || request.getParameter("service").equals("")) {
+			//검색하지 않은 경우
+			groupList = groupService.getGroupList(start, end);
+		}else {
+			//검색한 경우
+			groupList = groupService.getGroupList(service, start, end);
+		}
+		
+		// 3-2. 사용자가 만약 2페이지를 클릭하고 있다면 1~5를 보여주고 7페이지를 클릭하고 있다면 6~10을 보여줘여함
+		// 3-2-1. 사용자가 볼 수 있는 첫번째 페이지, 마지막 페이지를 지정
+		for(int i=page; i<= allPageCnt; i++) {
+			if(i%5==0) {
+				lastPage = i;
+				firstPage = i-4;
+				break;
+			}else {
+				lastPage = allPageCnt;
+				firstPage = lastPage - ((lastPage%5)-1); 
+			}
+		}
+		
+		//3-2-2. 구한 페이지를 pageList에 넣어줌
+		pageList = new ArrayList<Integer>();
+		for(int i=firstPage; i<=lastPage; i++) {
+			pageList.add(i);
+		}
+		
+		request.setAttribute("service", service);
+		request.setAttribute("currentPage", page);
+		request.setAttribute("lastPage", lastPage);
+		request.setAttribute("firstPage", firstPage);
+		request.setAttribute("pageList", pageList);
 		request.setAttribute("groupList", groupList);
+		
 		request.getRequestDispatcher("/WEB-INF/view/group/group_search.jsp")
 		.forward(request, response);
 	}

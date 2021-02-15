@@ -218,5 +218,63 @@ public class MemberService {
 		return null;
 		//return memberDao.selectMemberList();
 	}
+	
+	//멤버 개수 가져오는 함수
+	public int getMemberCnt() {
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			res = memberDao.getMemberCnt(conn);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
+	//검색한 멤버 개수 가져오는 함수
+	public int getMemberCnt(String id) { 
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			res = memberDao.getMemberCnt(conn, id);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
+		return res;
+	}
+	//페이징해서 memberList를 가져온다 
+	public ArrayList<Member> getMemberList(int start, int end){
+		Connection conn = jdt.getConnection();
+		ArrayList<Member> memberList = null;
+		try {
+			memberList = memberDao.getMemberList(conn, start, end);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
+		return memberList;
+	}
+	
+	//[검색]한 애들을 페이징해서 memberList를 가져온다 
+	public ArrayList<Member> getMemberList(String id, int start, int end){
+		Connection conn = jdt.getConnection();
+		ArrayList<Member> memberList = null;
+		try {
+			memberList = memberDao.getMemberList(conn, id, start, end); 
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
+		return memberList;
+	}
 }
 

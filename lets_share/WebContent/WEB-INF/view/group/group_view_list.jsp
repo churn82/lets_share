@@ -18,7 +18,7 @@
 				<!-- Inner -->
 				<div class="inner">
 					<header>
-						<h1><a href="/index" id="logo">Let's Share</a></h1>
+						<h1><a href="${context}/index" id="logo">Let's Share</a></h1>
 					</header>
 				</div>
 				<!-- Nav -->

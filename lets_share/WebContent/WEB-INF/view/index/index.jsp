@@ -17,7 +17,7 @@
 					<!-- Inner -->
 						<div class="inner">
 							<header>
-								<h1><a href="index.html" id="logo">Let's share</a></h1>
+								<h1><a href="${context}/index" id="logo">Let's Share</a></h1>
 								<hr />
 								<p>and pay less</p>
 							</header>

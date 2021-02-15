@@ -14,6 +14,7 @@ import com.kh.common.template.JDBCTemplate;
 import com.kh.member.model.vo.Member;
 
 import oracle.jdbc.proxy.annotation.Pre;
+import oracle.security.crypto.core.RSA;
 
 public class MemberDao {
 
@@ -343,6 +344,115 @@ public  ArrayList<Member> MemberList(Connection conn){
 			jdt.close(rset,pstm);
 		}
 		
+		return memberList;
+	}
+
+	//멤버 개수 가져오는 함수
+	public int getMemberCnt(Connection conn) {
+		int allMemberCnt = 0;
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = "SELECT COUNT(*) FROM SH_MEMBER WHERE MB_LEVEL != 'MB10'"; 
+		try {
+			pstm = conn.prepareStatement(query);
+			rset = pstm.executeQuery();
+			if(rset.next()) {
+				allMemberCnt = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return allMemberCnt;
+	}
+	
+	//검색한 멤버 개수 가져오는 함수
+	public int getMemberCnt(Connection conn, String id) {
+		int allMemberCnt = 0;
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = "SELECT COUNT(*) FROM SH_MEMBER WHERE MB_LEVEL != 'MB10' AND MB_ID LIKE ?"; 
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, id);
+			rset = pstm.executeQuery();
+			if(rset.next()) {
+				allMemberCnt = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return allMemberCnt;
+	}
+	
+	//페이징해서 memberList를 가져온다 
+	public ArrayList<Member> getMemberList(Connection conn, int start, int end) {
+		ArrayList<Member> memberList = new ArrayList<Member>();
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = "SELECT * FROM ("
+				+ "    SELECT ROWNUM NUM, M.*"
+				+ "        FROM (SELECT * FROM SH_MEMBER ORDER BY MB_REGISTER_DATE DESC) M"
+				+ ") WHERE NUM BETWEEN ? AND ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setInt(1, start);
+			pstm.setInt(2, end);
+			rset = pstm.executeQuery();
+			while(rset.next()) {
+				Member member = new Member();
+				member.setMbId(rset.getString(2));
+				member.setMbpassword(rset.getString(3));
+				member.setMbnick(rset.getString(4));
+				member.setMbtel(rset.getString(5));
+				member.setMbemail(rset.getString(6));
+				member.setMbpoint(rset.getInt(7));
+				member.setMblevel(rset.getString(8));
+				member.setMbRegisterDate(rset.getDate(9));
+				member.setMbLeaveDate(rset.getDate(10));
+				member.setMbName(rset.getString(11));
+				memberList.add(member);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			jdt.close(rset, pstm);
+		}
+		return memberList;
+	}
+	// [검색]한 애들을 페이징해서 memberList를 가져온다 
+	public ArrayList<Member> getMemberList(Connection conn, String id, int start, int end) {
+		ArrayList<Member> memberList = new ArrayList<Member>();
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = "SELECT * FROM ("
+				+ "    SELECT ROWNUM NUM, M.*"
+				+ "        FROM (SELECT * FROM SH_MEMBER WHERE MB_ID LIKE ? ORDER BY MB_REGISTER_DATE DESC) M"
+				+ ") WHERE NUM BETWEEN ? AND ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, id);
+			pstm.setInt(2, start);
+			pstm.setInt(3, end);
+			rset = pstm.executeQuery();
+			while(rset.next()) {
+				Member member = new Member();
+				member.setMbId(rset.getString(2));
+				member.setMbpassword(rset.getString(3));
+				member.setMbnick(rset.getString(4));
+				member.setMbtel(rset.getString(5));
+				member.setMbemail(rset.getString(6));
+				member.setMbpoint(rset.getInt(7));
+				member.setMblevel(rset.getString(8));
+				member.setMbRegisterDate(rset.getDate(9));
+				member.setMbLeaveDate(rset.getDate(10));
+				member.setMbName(rset.getString(11));
+				memberList.add(member);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			jdt.close(rset, pstm);
+		}
 		return memberList;
 	}
 	

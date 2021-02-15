@@ -181,3 +181,26 @@
 }
 
 
+.paging{
+	margin-top:4vh;
+	display:flex;
+	text-align: center;
+	font-weight: 500;
+	justify-content: center;
+}
+
+.paging a{
+	display:flex;
+	color: white;
+	text-align: center;
+	background-color: #df7366;
+	border-color: white;
+	justify-content: center;
+	width: 30px;
+	height: 30px;
+	font-size: 15px;
+	line-height: 30px;
+	border: 1px solid #d8dce3;
+}
+
+

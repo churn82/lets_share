@@ -4,13 +4,13 @@
 <!-- 사용자가 자신의 신고내역을 목록으로 확인할 수 있는 페이지입니다. -->
 <!-- 접근권한 : 사용자 -->
 <head>
-	<title>Let's Share</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="/resources/css/report/reportList.css" />
-	<link rel="stylesheet" href="/resources/css/main.css" />
-	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-	<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
+		<title>Let's Share</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/resources/css/member/adminMember.css" />
+		<link rel="stylesheet" href="/resources/css/main.css" />
+		<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
 </head>
 	<body class="no-sidebar is-preload">
 		<div id="page-wrapper">
@@ -29,31 +29,20 @@
 						<li><a href="${context}/group/form">구매자 모집</a></li>
 						<li><a href="${context}/group/search">구매 참여</a></li>
 						<li><a href="${context}/report/listAll">신고 게시판</a></li>
-						<li><a href="${context}/notice/noticeList?p=1">공지 사항</a></li>
+						<li><a href="${context}/notice/noticeList?p=1">공지 사항</a></lI>
 					</ul>
 				</nav>
 			</div>
 			<!-- Main -->
 			<div class="wrapper style1">
 				<div class="section">
-					<div class="wrap_title"><h2>처리 완료 신고 내역</h2></div>
-					<ul class="tab_menu">
-						<li class="e_menu">
-							<a href="/report/listAll">전체 신고내역</a>
-						</li>
-						<li class="n_menu">
-							<a href="/report/listClear">처리된 신고내역</a>
-						</li>
-					</ul>
+					<div class="wrap_title"><h2>회원 관리</h2></div>
+					
 			
 					<div class="tab_content">
 						<div id="search_bar">
-							<form method="GET" action="${context}/report/listClear" class="searchForm">
-								<select id="search_sel" name="select">
-									<option value="REPORT_TITLE">제목 ▼</option>
-									<option value="REPORT_CONTENT">내용</option>
-								</select>
-								<input type="text" class="searchText" name="searchText" placeholder="검색어를 입력하세요.">
+							<form method="GET" action="${context}/member/adminMember" class="searchForm">
+								<input type="text" class="id" name="id" placeholder="검색할 아이디를 입력하세요.">
 								<button class="search_btn" type="submit">조회</button>
 							</form>
 						</div>
@@ -63,37 +52,48 @@
 						<table class="tb_list">
 							<thead>
 								<tr>
-									<th>번호</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>작성날짜</th>
-									<th>처리상태</th>
+									<th>이름</th>
+									<th>ID</th>
+									<th>E-mail</th>
+									<th>휴대폰</th>
+									<th>이용 상태</th>
+									<th>탈퇴</th>
 								</tr>
 							</thead>
 							<tbody>
-							<c:forEach var="report" items="${reportList}">
+							<c:forEach var="member" items="${memberList}">
 									<tr class="table_head">
 										<td class="reportNo">
-											${report.reportIdx}
+											${member.mbName}
 										</td>
 										<td class="title">
-			                      		  <a href="/report/detail?reportIdx=${report.reportIdx}">
-			                        	  	${report.title}
-			                        	  </a>
+											${member.mbId}
 			                     		</td>
 										<td class="writer">
-											${report.memberId}
+											${member.mbemail}
 										</td>
 										<td class="date">
-											${report.regdate}
+											${member.mbtel}
 										</td>
 										<td class="state">
-											<c:if test="${report.clear == 0}">
-												처리중
-											</c:if>
-											<c:if test="${report.clear == 1}">
-												처리 완료
-											</c:if>		
+											<c:choose>
+												<c:when test="${member.mbLeaveDate==null}">
+													이용중
+												</c:when>
+												<c:otherwise>
+													탈퇴 회원
+												</c:otherwise>
+											</c:choose>
+										</td>
+										<td class="state">
+											<c:choose>
+												<c:when test="${member.mbLeaveDate==null}">
+													<button onclick="stopMember('${member.mbId}')">이용 중지</button>
+												</c:when>
+												<c:otherwise>
+													
+												</c:otherwise>
+											</c:choose>
 										</td>
 									</tr>
 							</c:forEach>
@@ -105,42 +105,42 @@
 					<c:choose>
 						<c:when test='${select==""}'>
 							<div class="paging">
-								<a class="page_btn" href="/report/listClear?page=${firstPage-1}" style="background-color: white; color:black">&lt;</a>
+								<a class="page_btn" href="/member/adminMember?page=${firstPage-1}" style="background-color: white; color:black">&lt;</a>
 								<c:forEach var="page" items="${pageList}">
 								<c:choose>
 									<c:when test = "${page==currentPage}">
-										<a class="page_btn" href="/report/listClear?page=${page}" style="background-color: #FF9900">
+										<a class="page_btn" href="/member/adminMember?page=${page}" style="background-color: #FF9900">
 											${page}
 										</a>
 									</c:when>
 									<c:otherwise>
-										<a class="page_btn" href="/report/listClear?page=${page}">
+										<a class="page_btn" href="/member/adminMember?page=${page}">
 											${page}
 										</a>
 									</c:otherwise>
 								</c:choose>
 								</c:forEach>
-								<a class="page_btn" href="/report/listClear?page=${lastPage+1}" style="background-color: white; color:black">&gt;</a>
+								<a class="page_btn" href="/member/adminMember?page=${lastPage+1}" style="background-color: white; color:black">&gt;</a>
 							</div>		
 						</c:when>
 						<c:otherwise>
 							<div class="paging">
-								<a class="page_btn" href="/report/listClear?select=${select}&searchText=${searchText}&page=${firstPage-1}" style="background-color: white; color:black">&lt;</a>
+								<a class="page_btn" href="/member/adminMember?select=${select}&searchText=${searchText}&page=${firstPage-1}" style="background-color: white; color:black">&lt;</a>
 								<c:forEach var="page" items="${pageList}">
 								<c:choose>
 									<c:when test = "${page==currentPage}">
-										<a class="page_btn" href="/report/listClear?select=${select}&searchText=${searchText}&page=${page}" style="background-color: #FF9900">
+										<a class="page_btn" href="/member/adminMember?select=${select}&searchText=${searchText}&page=${page}" style="background-color: #FF9900">
 											${page}
 										</a>
 									</c:when>
 									<c:otherwise>
-										<a class="page_btn" href="/report/listClear?select=${select}&searchText=${searchText}&page=${page}">
+										<a class="page_btn" href="/member/adminMember?select=${select}&searchText=${searchText}&page=${page}">
 											${page}
 										</a>
 									</c:otherwise>
 								</c:choose>
 								</c:forEach>
-								<a class="page_btn" href="/report/listClear?select=${select}&searchText=${searchText}&page=${lastPage+1}" style="background-color: white; color:black">&gt;</a>
+								<a class="page_btn" href="/member/adminMember?select=${select}&searchText=${searchText}&page=${lastPage+1}" style="background-color: white; color:black">&gt;</a>
 							</div>
 						</c:otherwise>
 					</c:choose>
@@ -169,6 +169,10 @@
 		<script type="text/javascript">
 			let report = () => {
 				location.href="/report/form";
+			}
+			
+			let stopMember = (memberId) => {
+				location.href="/member/stopMember?memberId="+memberId;
 			}
 		</script>
 	</body>

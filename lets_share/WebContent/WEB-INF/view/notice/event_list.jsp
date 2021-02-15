@@ -21,7 +21,7 @@
 		<!-- Inner -->
 		<div class="inner">
 			<header>
-				<h1><a href="index.html" id="logo">Let's Share</a></h1>
+				<h1><a href="${context}/index" id="logo">Let's Share</a></h1>
 			</header>
 		</div>
 
@@ -55,24 +55,13 @@
 		
 		<div class="tab_content">
 			<form id="search_bar">
-				<select id="search_sel" name="search">
-					<option value="1">전체  ▼ </option>
-					<option value="2">제목</option>
-					<option value="3">내용</option>
-				</select>
-				<script type="text/javascript">
-				function search(){
-					location.href="eventSearchList";
-				}
-				</script>
-				
-				
-				<input type="text" class="searchText" name="keyword" value="" placeholder="검색어를 입력하세요.">
-				<span onclick="search()"><input type="submit" class="search_btn" value="검색" /></span>
-				
-			    
-			    
-			
+				<select id="search_sel" name="select">
+					<option value="sel_all">전체  ▼ </option>
+					<option value="sel_title">제목</option>
+					<option value="sel_content">내용</option>
+				</select>			
+				<input type="text" class="searchText" name="searchText" placeholder="검색어를 입력하세요.">
+				<button class="search_btn" onclick="searchList">조회</button>		
 			</form>
 	
 			<div class="table_wrap">
