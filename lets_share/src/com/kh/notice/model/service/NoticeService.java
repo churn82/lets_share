@@ -10,6 +10,7 @@ import com.kh.common.exception.ToAlertException;
 import com.kh.common.template.JDBCTemplate;
 import com.kh.notice.model.dao.NoticeDao;
 import com.kh.notice.model.vo.Notice;
+import com.kh.report.model.vo.Report;
 
 public class NoticeService {
 	
@@ -223,22 +224,40 @@ public class NoticeService {
 		return rs;
 	}
 	
-	
-	public ArrayList<Notice> selectKeyword(int noticeCategory, String noticeKeyword){
+
+	// [검색]한 모든 이벤트 개수 가져오는 메서드
+	public int getNoticeCnt(String select, String searchText) {
 		Connection conn = jdt.getConnection();
-		ArrayList<Notice> noticeList = null;
-		
+		int allNoticeCnt = 0;
 		try {
-			noticeList = noticeDao.selectKeyword(conn, noticeCategory, noticeKeyword);
-		}catch (DataAccessException e) {
-			throw new ToAlertException(e.error);
-		}
-		finally {
+			allNoticeCnt = noticeDao.getEventCnt(conn, select, searchText);
+			jdt.commit(conn);
+		} catch (DataAccessException e){
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error, e);
+		}finally {
 			jdt.close(conn);
 		}
-		
-		return noticeList;
+		return allNoticeCnt;
 	}
+	
+	//[검색]한 모든 이벤트게시글을 (페이징해서) 가져오는 메서드
+		public ArrayList<Notice> getNoticeList(int start, int end, String select, String searchText){
+			Connection conn = jdt.getConnection();
+			ArrayList<Notice> noticeList = null;
+			try {
+				noticeList = noticeDao.getEventList(conn, start, end, select, searchText);
+				jdt.commit(conn);
+			} catch (DataAccessException e){
+				jdt.rollback(conn);
+				throw new ToAlertException(e.error, e);
+			}finally {
+				jdt.close(conn);
+			}
+			return noticeList;
+		}
+	
+	
 	
 	
 	

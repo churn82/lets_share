@@ -1,17 +1,18 @@
 package com.kh.notice.model.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.kh.common.code.ErrorCode;
 import com.kh.common.exception.DataAccessException;
 import com.kh.common.template.JDBCTemplate;
 import com.kh.notice.model.vo.Notice;
+import com.kh.report.model.vo.Report;
 
 public class NoticeDao {
 
@@ -326,46 +327,58 @@ public class NoticeDao {
 	}
 
 	
-	public ArrayList<Notice> selectKeyword(Connection conn, int noticeCategory, String noticeKeyword){
-		ArrayList<Notice> keywordList = new ArrayList<>();
+	//[검색]한 이벤트 게시글 개수 가져오는 메서드
+	public int getEventCnt(Connection conn, String select, String searchText) {
+		int allEventCnt = 0;
 		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		String sql = null;
-			try {
-					//전체
-					if(noticeCategory == 1) {
-						sql = "select * from sh_notice where (notice_title like '%" +noticeKeyword+"%' or notice_content like '%" +noticeKeyword+"%') and notice_delete is null and notice_type = 'event'";
-						pstm = conn.prepareStatement(sql);
-					//제목
-					}else if(noticeCategory == 2) {	
-						sql = "select * from sh_notice where notice_title like '%" +noticeKeyword+"%' and notice_delete is null and notice_type = 'event'";
-						pstm = conn.prepareStatement(sql);
-						//내용
-					}else if(noticeCategory == 3) {
-						sql = "select * from sh_notice where notice_content like '%" +noticeKeyword+"%' and notice_delete is null and notice_type = 'event'";
-						pstm = conn.prepareStatement(sql);
-					}
-					
-					rs = pstm.executeQuery();				
-				
-				while(rs.next()) {
-					Notice notice = new Notice();
-					notice.setNoticeNo(rs.getInt("notice_no"));
-		            notice.setNoticeTitle(rs.getString("notice_title"));
-		            notice.setNoticeDate(rs.getDate("notice_date"));
-		            notice.setNoticeView(rs.getInt("notice_view"));
-		            keywordList.add(notice);
-				}
-				
-			} catch (SQLException e) {
-				throw new DataAccessException(ErrorCode.AUTH01, e); //수정해야함
-			}finally {
-				jdt.close(rs,pstm);
+		ResultSet rset = null;
+		String query = "SELECT COUNT(*) FROM SH_NOTICE WHERE "+select+" LIKE '%?%' AND NOTICE_TYPE='event' AND NOTICE_DELETE IS NULL";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, searchText);
+			rset = pstm.executeQuery();
+			if(rset.next()) {
+				allEventCnt = rset.getInt(1);
 			}
-		return keywordList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return allEventCnt;
 	}
 	
+	//[검색]한 모든 이벤트 게시글을 (페이징해서) 가져오는 메서드
+		public ArrayList<Notice> getEventList(Connection conn, int start, int end, String select, String searchText){
+			ArrayList<Notice> eventList = new ArrayList<Notice>();
+			PreparedStatement pstm = null;
+			ResultSet rset = null;
+			String query = 
+					  "SELECT * FROM ("
+					+ "    SELECT ROWNUM NUM, R.*"
+					+ "        FROM (SELECT * FROM SH_NOTICE WHERE "+select+" LIKE ? ORDER BY NOTICE_DATE DESC) R"
+					+ ") WHERE NUM BETWEEN ? AND ?";
+			try {
+				pstm = conn.prepareStatement(query);
+				pstm.setString(1, searchText);
+				pstm.setInt(2, start);
+				pstm.setInt(3, end);
+				rset = pstm.executeQuery();
+				while(rset.next()) {
+					Notice notice = new Notice();
+					notice.setNoticeNo(rset.getInt("NOTICE_NO"));
+					notice.setNoticeTitle(rset.getString("NOTICE_TITLE"));
+		            notice.setNoticeDate(rset.getDate("NOTICE_DATE"));
+		            notice.setNoticeView(rset.getInt("NOTICE_VIEW"));
+					eventList.add(notice);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				jdt.close(rset, pstm);
+			}
+			return eventList;
+		}
 	
+
 	
 	
 }
