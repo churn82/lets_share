@@ -51,18 +51,18 @@
 									<span>내 순위</span>
 								</div>
 								<div class="myrank_value">
-									<span>[내 등급]아이콘</span>
-									<span>123123(내점수)</span>
-									<span>12312(내순위)</span>
+									<span>${gradeName}</span>
+									<span>${sessionScope.user.mbpoint}</span>
+									<span></span>
 								</div>
 							</div>
 							<table class="ranking_table">
 								<tr><th>순위</th><th>아이디</th><th>등급</th><th>누적점수</th></tr>
-								<tr><td>1</td><td>1</td><td>1</td><td>1</td></tr>
-								<tr><td>2</td><td>2</td><td>2</td><td>2</td></tr>
-								<tr><td>3</td><td>3</td><td>3</td><td>3</td></tr>
-								<tr><td>4</td><td>4</td><td>4</td><td>4</td></tr>
-								<tr><td>5</td><td>5</td><td>5</td><td>5</td></tr>
+								<tr><td>1</td><td></td><td></td><td>1</td></tr>
+								<tr><td>2</td><td></td><td></td><td>2</td></tr>
+								<tr><td>3</td><td></td><td></td><td>3</td></tr>
+								<tr><td>4</td><td></td><td></td><td>4</td></tr>
+								<tr><td>5</td><td></td><td></td><td>5</td></tr>
 							</table>
 						</div>
 					</div>

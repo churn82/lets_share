@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/include/head.jsp" %>
-<!-- 사용자가 자신의 신고내역을 목록으로 확인할 수 있는 페이지입니다. -->
-<!-- 접근권한 : 사용자 -->
 <head>
 		<title>Let's Share</title>
 		<meta charset="utf-8" />
