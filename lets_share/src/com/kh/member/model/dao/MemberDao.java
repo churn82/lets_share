@@ -478,7 +478,6 @@ public  ArrayList<Member> MemberList(Connection conn){
 		String query = "select * from SH_MEMBER where mb_leave_date is not null";
 		try {
 			pstm = conn.prepareStatement(query);
-		
 			rset = pstm.executeQuery();
 			while(rset.next()) {
 				Member member = new Member();
@@ -501,6 +500,38 @@ public  ArrayList<Member> MemberList(Connection conn){
 		}
 		return memberList;
 	}
+	public ArrayList<Member> getMemberRank(Connection conn, int start, int end) {
+		ArrayList<Member> memberList = new ArrayList<Member>();
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = "SELECT * FROM (SELECT ROWNUM NUM, M.*FROM (SELECT * FROM SH_MEMBER ORDER BY MB_POINT DESC) M) WHERE NUM BETWEEN 1 AND 5";
+		try {
+			pstm = conn.prepareStatement(query);
+			rset = pstm.executeQuery();
+			pstm.setInt(1, start);
+			pstm.setInt(2, end);
+			while(rset.next()) {
+				Member member = new Member();
+				member.setMbId(rset.getString(2));
+				member.setMbpassword(rset.getString(3));
+				member.setMbnick(rset.getString(4));
+				member.setMbtel(rset.getString(5));
+				member.setMbemail(rset.getString(6));
+				member.setMbpoint(rset.getInt(7));
+				member.setMblevel(rset.getString(8));
+				member.setMbRegisterDate(rset.getDate(9));
+				member.setMbLeaveDate(rset.getDate(10));
+				member.setMbName(rset.getString(11));
+				memberList.add(member);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			jdt.close(rset, pstm);
+		}
+		return memberList;
+	}
+
 	
 
 

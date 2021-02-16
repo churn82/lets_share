@@ -151,10 +151,7 @@
 							</div>
 						</c:otherwise>
 					</c:choose>
-				<!-- 글쓰기 버튼 -->
-				<div class="write_btn">
-					<button id="write" onclick="report()">신고하기</button>				
-				</div>						
+										
 			
 				</div>
 			</div>

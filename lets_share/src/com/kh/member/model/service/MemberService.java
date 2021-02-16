@@ -305,5 +305,18 @@ public class MemberService {
 		}
 		return memberList;
 	}
+	public ArrayList<Member> getRanklist(int start, int end){
+		Connection conn = jdt.getConnection();
+		ArrayList<Member> memberList = null;
+		try {
+			memberList = memberDao.getMemberRank(conn, start, end);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
+		}
+		return memberList;
+	}
 }
 

@@ -83,6 +83,50 @@ public class MemberController extends HttpServlet {
 		.forward(request, response);
 	}
 	private void rank(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		Member member = (Member) request.getSession().getAttribute("user");
+		String memberRank = member.getMblevel();
+		String gradeName = memberService.getGradeName(memberRank);
+		
+		// gradeName 설정
+		request.setAttribute("gradeName", gradeName);
+		
+		 //1. 사용자가 클릭한 페이지를 가져온다
+		 int page = 0;
+		 if(request.getParameter("page") == "" || request.getParameter("page") == null) { 
+			 page = 1; 
+		 }else {
+			 page = Integer.parseInt(request.getParameter("page")); 
+		 }
+		 
+		 //2. 사용할 변수들 초기화 
+		 int start = 0, end = 0;
+		 ArrayList<Integer> pageList = null; int allMemberCnt = 0 , allPageCnt = 0;
+		 String id = "";
+		 
+		 //3. 우리 멤버 회원 수를 구한다. 
+		 if(request.getParameter("id") == null || request.getParameter("id").equals("")) { 
+			 allMemberCnt = memberService.getMemberCnt(); 
+		 }
+		 
+		
+		 
+		 //5. page에 따른 start, end를 정의해서 가져온다 list를 
+		 ArrayList<Member> memberList = null;
+		 start = 1+(page-1)*5;
+		 end = page*5;         
+		 if(request.getParameter("id") == null || request.getParameter("id").equals("")) { 
+			 memberList = memberService.getMemberList(start, end); 
+		 }
+	
+		
+		
+		request.setAttribute("id", id);
+		request.setAttribute("currentPage", page);
+		request.setAttribute("pageList", pageList);
+		request.setAttribute("memberList", memberList);	
+		
+		
 		request.getRequestDispatcher("/WEB-INF/view/member/rank.jsp")
 		.forward(request, response);
 	}
@@ -126,9 +170,9 @@ public class MemberController extends HttpServlet {
 		 start = 1+(page-1)*10;
 		 end = page*10;         
 		 if(request.getParameter("id") == null || request.getParameter("id").equals("")) { 
-			 memberList = memberService.getMemberList(start, end); //검색한 아이디가 없으니까 당연히 그냥 가져오겠죠
+			 memberList = memberService.getMemberList(start, end); 
 		 }else {
-			 memberList = memberService.getMemberList("%"+id+"%", start, end); //검색한 아이디가 있으니 변수로 가져가서 걸러 가져와야죠 
+			 memberList = memberService.getMemberList("%"+id+"%", start, end); //검색한 아이디 가져오기
 	     } 
 		 
 	
@@ -394,10 +438,10 @@ public class MemberController extends HttpServlet {
 	
 	//관리자가 회원 탈퇴 시키는 메서드
 	private void stopMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+			
 		String memberId = request.getParameter("memberId"); 
 		int res = memberService.adminUpdate(memberId);
 		request.getRequestDispatcher("/WEB-INF/view/member/stopMember.jsp").forward(request, response);
-	}
+		}
 	
 }

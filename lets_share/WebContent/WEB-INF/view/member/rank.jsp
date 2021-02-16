@@ -57,12 +57,11 @@
 								</div>
 							</div>
 							<table class="ranking_table">
-								<tr><th>순위</th><th>아이디</th><th>등급</th><th>누적점수</th></tr>
-								<tr><td>1</td><td></td><td></td><td>1</td></tr>
-								<tr><td>2</td><td></td><td></td><td>2</td></tr>
-								<tr><td>3</td><td></td><td></td><td>3</td></tr>
-								<tr><td>4</td><td></td><td></td><td>4</td></tr>
-								<tr><td>5</td><td></td><td></td><td>5</td></tr>
+							<c:forEach var="member" items="${memberList}">
+								<tr><th>아이디</th><th>등급</th><th>누적점수</th></tr>
+								<tr><td>${member.mbId}</td><td>일반 회원</td><td>${member.mbpoint}</td></tr>
+								
+								</c:forEach>
 							</table>
 						</div>
 					</div>
