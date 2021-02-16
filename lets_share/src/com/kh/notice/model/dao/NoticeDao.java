@@ -340,7 +340,7 @@ public class NoticeDao {
 		int allNoticeCnt = 0;
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
-		String query = "SELECT COUNT(*) FROM SH_NOTICE WHERE "+select+" LIKE ? AND NOTICE_TYPE='notice' AND NOTICE_DELETE IS NULL;";
+		String query = "SELECT COUNT(*) FROM SH_NOTICE WHERE "+select+" LIKE ? AND NOTICE_TYPE='notice' AND NOTICE_DELETE IS NULL";
 		
 		try {
 			pstm = conn.prepareStatement(query);
