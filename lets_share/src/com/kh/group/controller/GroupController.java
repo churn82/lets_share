@@ -204,7 +204,7 @@ public class GroupController extends HttpServlet {
 		groupService.insertGroup(group, memeberName);
 		
 		request.setAttribute("msg", "모임을 정상적으로 등록하였습니다.");
-		request.setAttribute("url", "/group/search");
+		request.setAttribute("url", "/group/viewlist");
 		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
 		.forward(request, response);
 	}

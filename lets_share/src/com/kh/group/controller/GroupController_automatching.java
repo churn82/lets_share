@@ -39,9 +39,10 @@ public class GroupController_automatching extends HttpServlet {
 		int userPeriod = Integer.parseInt(request.getParameter("user_period")); //사용자 요청 사용기간
 		Member user = (Member) request.getSession().getAttribute("user"); //세션에서 아이디를 가져오기
 		String userId = user.getMbId();  //현재 사용자의 아이디
+		String userName = user.getMbName();
 		int groupId = 0;
 		
-		groupId = groupService_auto.autoMatching(userSerCode, userPeriod, userId);
+		groupId = groupService_auto.autoMatching(userSerCode, userPeriod, userId, userName);
 		if(groupId != 0) {
 			request.setAttribute("groupFound", "found");
 			response.sendRedirect("/group/view?groupId=" + groupId);

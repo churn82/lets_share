@@ -52,16 +52,17 @@ public class GroupDao_automatching {
 	}
 	
 	//매칭에 성공한 그룹 아이디와 사용자의 아이디, 사용 기간을 받아서, 그룹에 바로 등록해주는 메서드
-	public int addGroup(Connection conn, String userId, int groupId, int userPeriod) {
+	public int addGroup(Connection conn, String userId, int groupId, int userPeriod, String userName) {
 		int res = 0;
 		PreparedStatement pstm = null;
-		String query = "insert into SH_MATCHING (MB_ID, GROUP_ID, PAY_DATE) "
-				+ "values( ? , ? , ? )";
+		String query = "insert into SH_MATCHING (MB_ID, GROUP_ID, PAY_DATE, MB_NAME) "
+				+ "values( ? , ? , ? , ? )";
 		try {
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, userId);
 			pstm.setInt(2, groupId);
 			pstm.setInt(3, userPeriod);
+			pstm.setString(4, userName);
 			res = pstm.executeUpdate();
 		}catch (SQLException e) {
 			throw new DataAccessException(ErrorCode.MR02, e);
@@ -102,23 +103,6 @@ public class GroupDao_automatching {
 			jdt.close(cstm);
 		}
 		return occupied;
-	}
-	//그룹장이 그룹을 매칭허용 상태로 등록하는 메서드
-	public int addQueue(Connection conn, int groupId) {
-		int res = 0;
-		PreparedStatement pstm  = null;
-		String query = "update SH_MEMBER set GROUP_AUTO_DATE = sysdate "
-				+ "where GROUP_ID = ? ";
-		try {
-			pstm = conn.prepareStatement(query);
-			pstm.setInt(1, groupId);
-			res = pstm.executeUpdate();
-		}catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.MR03, e);
-		}finally {
-			jdt.close(pstm);
-		}
-		return res;
 	}
 	//그룹 인원이 가득 차거나, 그룹장이 매칭등록을 해제한 경우 
 	//그룹을 매칭불가 상태로 변경하는 메서드
