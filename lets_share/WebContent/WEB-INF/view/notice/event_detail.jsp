@@ -57,12 +57,12 @@
 			<div class="content_wrap">
 				<div class="content">
 					<div class="content_header">
-						<h3>제목: ${requestScope.noticeTitle}</h3>
-						<span class="date">작성날짜: ${requestScope.noticeDate}</span>
+						<h3>제목: ${requestScope.notice.noticeTitle}</h3> 
+						<span class="date">작성날짜: ${requestScope.notice.noticeDate}</span>
 					</div>
 					<div class="content_body">
 						<pre id="text">
-							<c:out value="${requestScope.noticeContent}"/>
+							<c:out value="${requestScope.notice.noticeContent}"/>
 						</pre>
 					</div>
 					
@@ -86,8 +86,8 @@
 						<button onclick="goList()">목록</button>
 					</div>
 					
-					<!-- 수정 버튼 	-->
-				<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mbId eq 'admin'}">
+				<!-- 수정,삭제 버튼 -->
+				<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mblevel eq 'MB10'}">
 					<div class="update_btn">
 						<span><a href="/notice/beforeUpdate?noticeNo=${requestScope.noticeNo}">수정</a></span>
 						<span><a onclick="return confirm('삭제하시겠습니까?')" href="/notice/deleteEvent?noticeNo=${requestScope.noticeNo}">삭제</a></span>
