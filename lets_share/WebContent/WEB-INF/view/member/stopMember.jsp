@@ -11,6 +11,9 @@
 		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
 </head>
 	<body class="no-sidebar is-preload">
+	<script>
+		location.href = window.history.back();
+	</script>
 		<div id="page-wrapper">
 			<!-- Header -->
 			<div id="header">

@@ -4,13 +4,20 @@
 <!-- 사용자가 자신의 신고내역을 목록으로 확인할 수 있는 페이지입니다. -->
 <!-- 접근권한 : 사용자 -->
 <head>
-		<title>Let's Share</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="/resources/css/member/adminMember.css" />
-		<link rel="stylesheet" href="/resources/css/main.css" />
-		<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-		<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
+	<title>Let's Share</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="/resources/css/member/adminMember.css" />
+	<link rel="stylesheet" href="/resources/css/main.css" />
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+	<noscript><link rel="stylesheet" href="/resources/css/noscript.css" /></noscript>
+	<script type="text/javascript">
+		if (self.name != 'reload') {
+	        self.name = 'reload';
+	        self.location.reload(true);
+	    }
+	    else self.name = ''; 
+	</script>
 </head>
 	<body class="no-sidebar is-preload">
 		<div id="page-wrapper">
@@ -67,7 +74,7 @@
 											${member.mbName}
 										</td>
 										<td class="title">
-											${member.mbId}
+											${member.mbId}  
 			                     		</td>
 										<td class="writer">
 											${member.mbemail}
@@ -88,7 +95,7 @@
 										<td class="state">
 											<c:choose>
 												<c:when test="${member.mbLeaveDate==null}">
-													<button onclick="stopMember('${member.mbId}')">이용 중지</button>
+													<button onclick="stopMember('${member.mbId}')">이용 중지</button> 
 												</c:when>
 												<c:otherwise>
 													

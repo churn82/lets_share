@@ -392,22 +392,12 @@ public class MemberController extends HttpServlet {
 		}
 	}
 	
+	//관리자가 회원 탈퇴 시키는 메서드
 	private void stopMember(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
-		 //1. 사용자가 클릭한 페이지를 가져온다
-		
-		 
-		 //5. page에 따른 start, end를 정의해서 가져온다 list를 
-		 ArrayList<Member> memberList = null;
-		 memberList = memberService.getLeavelist();
-		
-		
-		request.setAttribute("memberList", memberList);	
-		System.out.println(memberList);
-		request.getRequestDispatcher("/WEB-INF/view/member/stopMember.jsp")
-		.forward(request, response);
-		
-	
+		String memberId = request.getParameter("memberId"); 
+		int res = memberService.adminUpdate(memberId);
+		request.getRequestDispatcher("/WEB-INF/view/member/stopMember.jsp").forward(request, response);
 	}
+	
 }

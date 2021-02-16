@@ -453,54 +453,54 @@ public  ArrayList<Member> MemberList(Connection conn){
 	}
 	
 	
-		//관리자 회원 탈퇴 시키기
-		public int adminupdate(Connection conn, String memberId) {
-			int res = 0;
-			PreparedStatement pstm = null;
-			String query = "UPDATE SH_MEMBER SET MB_LEAVE_DATE = SYSDATE WHERE MB_ID = ?";
-			try {
-				pstm = conn.prepareStatement(query);
-				pstm.setString(1, memberId);
-				res = pstm.executeUpdate();
-			} catch (SQLException e) {
-				throw new DataAccessException(ErrorCode.UM01, e);
-			} finally {
-				jdt.close(pstm);
-			}
-			return res;
+	//관리자 회원 탈퇴 시키기 
+	public int adminUpdate(Connection conn, String memberId) {
+		int res = 0;
+		PreparedStatement pstm = null;
+		String query = "UPDATE SH_MEMBER SET MB_LEAVE_DATE = SYSDATE WHERE MB_ID = ?";
+		try {
+			pstm = conn.prepareStatement(query);
+			pstm.setString(1, memberId);
+			res = pstm.executeUpdate();
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.UM01, e);
+		} finally {
+			jdt.close(pstm);
 		}
+		return res;
+	}
 		
 		
-		public ArrayList<Member> getLeavelist(Connection conn) {
-			ArrayList<Member> memberList = new ArrayList<Member>();
-			PreparedStatement pstm = null;
-			ResultSet rset = null;
-			String query = "select * from SH_MEMBER where mb_leave_date is not null";
-			try {
-				pstm = conn.prepareStatement(query);
-			
-				rset = pstm.executeQuery();
-				while(rset.next()) {
-					Member member = new Member();
-					member.setMbId(rset.getString(1));
-					member.setMbpassword(rset.getString(2));
-					member.setMbnick(rset.getString(3));
-					member.setMbtel(rset.getString(4));
-					member.setMbemail(rset.getString(5));
-					member.setMbpoint(rset.getInt(6));
-					member.setMblevel(rset.getString(7));
-					member.setMbRegisterDate(rset.getDate(8));
-					member.setMbLeaveDate(rset.getDate(9));
-					member.setMbName(rset.getString(10));
-					memberList.add(member);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}finally {
-				jdt.close(rset, pstm);
+	public ArrayList<Member> getLeavelist(Connection conn) {
+		ArrayList<Member> memberList = new ArrayList<Member>();
+		PreparedStatement pstm = null;
+		ResultSet rset = null;
+		String query = "select * from SH_MEMBER where mb_leave_date is not null";
+		try {
+			pstm = conn.prepareStatement(query);
+		
+			rset = pstm.executeQuery();
+			while(rset.next()) {
+				Member member = new Member();
+				member.setMbId(rset.getString(1));
+				member.setMbpassword(rset.getString(2));
+				member.setMbnick(rset.getString(3));
+				member.setMbtel(rset.getString(4));
+				member.setMbemail(rset.getString(5));
+				member.setMbpoint(rset.getInt(6));
+				member.setMblevel(rset.getString(7));
+				member.setMbRegisterDate(rset.getDate(8));
+				member.setMbLeaveDate(rset.getDate(9));
+				member.setMbName(rset.getString(10));
+				memberList.add(member);
 			}
-			return memberList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			jdt.close(rset, pstm);
 		}
+		return memberList;
+	}
 	
 
 

@@ -276,32 +276,34 @@ public class MemberService {
 		}
 		return memberList;
 	}
-		//관리자 회원 탈퇴 시키기
-		public int adminupdate(String memberId) {
-			Connection conn = jdt.getConnection();
-			int res = 0;
-			try {
-				res = memberDao.adminupdate(conn, memberId);
-				jdt.commit(conn);
-			} catch (DataAccessException e) {
-				jdt.rollback(conn);
-			}finally {
-				jdt.close(conn);
-			}
-			return res;
+	
+	//관리자 회원 탈퇴 시키기
+	public int adminUpdate(String memberId) {
+		Connection conn = jdt.getConnection();
+		int res = 0;
+		try {
+			res = memberDao.adminUpdate(conn, memberId);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
 		}
-		public ArrayList<Member> getLeavelist(){
-			Connection conn = jdt.getConnection();
-			ArrayList<Member> memberList = null;
-			try {
-				memberList = memberDao.getLeavelist(conn);
-				jdt.commit(conn);
-			} catch (DataAccessException e) {
-				jdt.rollback(conn);
-			}finally {
-				jdt.close(conn);
-			}
-			return memberList;
+		return res;
+	}
+	
+	public ArrayList<Member> getLeavelist(){
+		Connection conn = jdt.getConnection();
+		ArrayList<Member> memberList = null;
+		try {
+			memberList = memberDao.getLeavelist(conn);
+			jdt.commit(conn);
+		} catch (DataAccessException e) {
+			jdt.rollback(conn);
+		}finally {
+			jdt.close(conn);
 		}
+		return memberList;
+	}
 }
 
