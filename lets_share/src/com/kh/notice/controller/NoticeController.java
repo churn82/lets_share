@@ -303,8 +303,7 @@ public class NoticeController extends HttpServlet {
 		//저장한 vo를 service단을 통해 dao로 전달
 		noticeService.updateRequest(notice);
 		
-		//request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
-		//.forward(request, response);	
+		response.sendRedirect("/notice/noticeList");
 	}
 
 	//이벤트게시글 삭제
