@@ -43,10 +43,6 @@
 				<div class="form form_title">
 					<div class="title_wrap">
 						<div class="form_space">제목</div>
-						<!-- 파일선택 -->
-						<div class="form_space file_sel">
-							<input type="file" name="files">
-						</div>
 					</div>
 					<input type="text" name="title" required="required" value="${requestScope.noticeTitle}"/>
           		</div>
