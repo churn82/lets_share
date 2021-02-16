@@ -65,7 +65,7 @@
 	
 			<div class="table_wrap">
 				<table class="tb_list">
-					<thead>
+					<thead style="border-bottom: 1px solid #d8dce3;">
 						<tr>
 							<th>번호</th>
 							<th>제목</th>
