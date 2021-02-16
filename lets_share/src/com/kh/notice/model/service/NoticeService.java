@@ -64,6 +64,22 @@ public class NoticeService {
 		}
 		return notice;
 	}
+	//게시글 수정전[이벤트용]
+	public Notice beforeUpdateEvent(int noticeNo) {
+		Connection conn = jdt.getConnection();
+		Notice notice = null;
+		try {
+			notice = noticeDao.beforeUpdateEvent(conn, noticeNo);
+			jdt.commit(conn);
+		}catch (DataAccessException e) {
+			jdt.rollback(conn);
+			throw new ToAlertException(e.error);
+		}
+		finally {
+			jdt.close(conn);
+		}
+		return notice;
+	}
 	
 	//게시글 수정요청
 	public int updateRequest(Notice notice) {

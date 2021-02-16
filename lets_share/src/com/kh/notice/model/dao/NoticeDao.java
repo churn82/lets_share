@@ -88,6 +88,33 @@ public class NoticeDao {
 		}
 		return notice;
 	}
+	//수정전[이벤트용]
+	public Notice beforeUpdateEvent(Connection conn, int noticeNo){
+		Notice notice = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		String sql = "select * from sh_notice where notice_no=? and notice_type='event' ";
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, noticeNo);
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				notice = new Notice();
+				notice.setNoticeNo(rs.getInt("notice_no"));
+				notice.setNoticeTitle(rs.getString("notice_title"));
+				notice.setNoticeContent(rs.getString("notice_content"));
+				notice.setNoticeDate(rs.getDate("notice_date"));
+				notice.setNoticeView(rs.getInt("notice_view"));
+			}			
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.UB01, e);
+		}finally {
+			jdt.close(rs,pstm);
+		}
+		return notice;
+	}
+	
 	
 	//게시글 수정 요청
 	public int updateRequest(Connection conn, Notice notice) {
@@ -112,6 +139,7 @@ public class NoticeDao {
 		}
 		return res;
 	}
+	
 
 	//공지게시판 삭제 기능
 	public int deleteNoticeBoard(Connection conn, int noticeNo) {
@@ -308,7 +336,7 @@ public class NoticeDao {
 		String query = 
 				  "SELECT * FROM ("
 				+ "    SELECT ROWNUM NUM, R.*"
-				+ "        FROM (SELECT * FROM SH_NOTICE ORDER BY NOTICE_DATE DESC) R"
+				+ "        FROM (SELECT * FROM SH_NOTICE WHERE NOTICE_TYPE='notice' AND NOTICE_DELETE IS NULL ORDER BY NOTICE_DATE DESC) R"
 				+ ") WHERE NUM BETWEEN ? AND ?";
 		try {
 			pstm = conn.prepareStatement(query);

@@ -89,8 +89,8 @@
 				<!-- 수정,삭제 버튼 -->
 				<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mblevel eq 'MB10'}">
 					<div class="update_btn">
-						<span><a href="/notice/beforeUpdate?noticeNo=${requestScope.noticeNo}">수정</a></span>
-						<span><a onclick="return confirm('삭제하시겠습니까?')" href="/notice/deleteEvent?noticeNo=${requestScope.noticeNo}">삭제</a></span>
+						<span><a href="/notice/beforeUpdate?noticeNo=${requestScope.notice.noticeNo}">수정</a></span>
+						<span><a onclick="return confirm('삭제하시겠습니까?')" href="/notice/deleteEvent?noticeNo=${requestScope.notice.noticeNo}">삭제</a></span>
 					</div>   
 				</c:if>
 		

@@ -326,19 +326,12 @@ public class NoticeController extends HttpServlet {
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 		
 		Notice notice = new Notice();
-		notice = noticeService.beforeUpdate(noticeNo);
+		notice = noticeService.beforeUpdateEvent(noticeNo);
 		request.setAttribute("notice",notice);
 		
-		String noticeTitle = notice.getNoticeTitle();
-		String noticeContent = notice.getNoticeContent();
-		Date noticeDate = notice.getNoticeDate();
-		
-		request.setAttribute("noticeTitle", noticeTitle);
-		request.setAttribute("noticeContent", noticeContent);
-		request.setAttribute("noticeDate", noticeDate);
-		request.setAttribute("noticeNo", noticeNo);
-		
-		request.getRequestDispatcher("/WEB-INF/view/notice/update.jsp")
+		System.out.println(notice);
+
+		request.getRequestDispatcher("/WEB-INF/view/notice/updateEvent.jsp")
 		.forward(request, response);	
 	}
 	
@@ -366,14 +359,16 @@ public class NoticeController extends HttpServlet {
 
 	//이벤트게시글 삭제
 	protected void deleteEvent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-			
+		System.out.println(noticeNo);
 		//저장한 vo를 service단을 통해 dao로 전달
 		noticeService.deleteEventBoard(noticeNo);
 		
-		request.getRequestDispatcher("/WEB-INF/view/notice/event_list.jsp")
-		  .forward(request, response);
-		
+		request.setAttribute("msg", "정상적으로 삭제되었습니다.");
+		request.setAttribute("url", "/notice/eventList");
+		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+		.forward(request, response);
 	}
 	
 	//공지 게시글 삭제
