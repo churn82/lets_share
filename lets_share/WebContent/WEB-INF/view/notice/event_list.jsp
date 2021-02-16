@@ -152,7 +152,7 @@
 				
 				
 				<!-- 글쓰기 버튼 -->
-				<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mbId eq 'admin'}">
+				<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mblevel eq 'MB10'}">
 					<div class="write_btn">
 						<button id="write" onclick="changeWriter()">글쓰기</button>				
 					</div>	

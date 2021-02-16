@@ -71,8 +71,8 @@
 						<button onclick="goList()">목록</button>
 					</div>
 					
-					<!-- 수정 버튼 -->
-            		<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mbId eq 'admin'}">
+					<!-- 수정,삭제 버튼 -->
+				<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mblevel eq 'MB10'}">
 						<div class="update_btn">
 							<span><a href="/notice/beforeUpdate?noticeNo=${requestScope.noticeNo}">수정</a></span>
 							<span><a onclick="return confirm('삭제하시겠습니까?')" href="/notice/deleteNotice?noticeNo=${requestScope.noticeNo}">삭제</a></span>
