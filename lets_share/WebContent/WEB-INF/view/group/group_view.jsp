@@ -55,7 +55,7 @@
     		/* 날짜 지정  */
     		var firstDay = new Date(); 
     		firstDay.setDate(1); //캘린더 표시의 첫 날짜 : 이번달 1일
-    		var endday = new Date(today.getFullYear(),today.getMonth()+2,0);
+    		var endday = new Date(today.getFullYear(),today.getMonth()+3,0);
     		endday.setDate(endday.getDate()+1); //캘린더 표시의 마지막 날짜 : 다음달 말일
     		
     		/* 캘린더 생성 */
@@ -185,11 +185,17 @@
 										<td>${groupMember.getStDate()}</td>
 										<td>${groupMember.getExDate()}</td>
 										<td>
-											<c:if test="${group.getMemberId()==sessionScope.user.getMbId()}">
-												<button onclick="payConfirm('${groupMember.getMemberId()}', ${groupMember.getGroupId()})">입금 확인</button>
+											<c:if test="${groupMember.getMemberId()==group.getMemberId()}">
+												<i class="fas fa-crown"></i>그룹장
 											</c:if>
-											<c:if test="${group.getMemberId()!=sessionScope.user.getMbId()}">
-												<i class="fas fa-user-slash"></i>
+											<c:if test="${groupMember.getMemberId()!=group.getMemberId()}">
+												<c:if test="${group.getMemberId()==sessionScope.user.getMbId()}">
+													
+													<button onclick="payConfirm('${groupMember.getMemberId()}', ${groupMember.getGroupId()})">입금 확인</button>
+												</c:if>
+												<c:if test="${group.getMemberId()!=sessionScope.user.getMbId()}">
+													<i class="fas fa-user-slash"></i>
+												</c:if>
 											</c:if>
 										</td>
 									</tr>

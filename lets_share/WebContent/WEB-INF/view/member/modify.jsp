@@ -40,8 +40,12 @@
 			<!-- Main -->
 			<div class="wrapper style1">
 				<div class="left_menu">
-					<div><i class="fas fa-trophy"></i>  회원 랭킹</div>
-					<div><i class="fas fa-edit"></i>  회원 정보 수정</div>
+					<div><a href="${context}/member/mypage"><i class="fas fa-user-alt"></i>마이페이지</a></div>
+					<div><a href="${context}/member/rank"><i class="fas fa-trophy"></i>회원 랭킹</a></div>
+					<div><a href="${context}/member/modify"><i class="fas fa-edit"></i>회원 정보 수정</a></div>
+					<c:if test="${sessionScope.user.mblevel=='MB10'}">
+						<div><a href="/member/adminMember"><i class="fas fa-edit"></i>  회원 관리[관리자전용]</a></div>
+					</c:if>
 				</div>
 				<h1 class="modify_title">회원정보 수정</h1>
 				<div class="pw_secure contents">

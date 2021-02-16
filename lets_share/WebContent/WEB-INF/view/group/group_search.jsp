@@ -41,7 +41,7 @@
 							<input type="text" id="service" name="service">
 							<input type="number" id="userPeriod" name="userPeriod">
 							<!--<button class="btn_wrap"><a href="#ex1" rel="modal:open">그룹번호로 검색</a></button>  -->
-							<button class="btn_wrap"><a href="#ex2" rel="modal:open">서비스 정보로 검색</a></button>
+							<button class="btn_wrap"><a href="#ex2" rel="modal:open">검색 정보 입력</a></button>
 							<button class="btn">검색</button> 
 							<!-- 그룹 자동검색 버튼 -->
 							<button id="btn_auto" onclick="automatch()">그룹 자동검색</button>
@@ -54,7 +54,7 @@
 						</div>
 						<!-- ex2 : 서비스 선택 & 사용일수 입력 -->	
 						<div id="ex2" class="modal">
-							<h1>원하는 서비스를 선택하세요</h1>
+							<h1>원하는 서비스를 선택하세요.</h1>
 							
 							<div class="modal2Box">
 								<div><img src="../../../resources/images/group/SR01.PNG" alt="" id="SR01" class="serviceSelect"></div>
@@ -64,7 +64,7 @@
 								<div><img src="../../../resources/images/group/SR05.PNG" alt="" id="SR05" class="serviceSelect"></div>
 							</div>
 							<div class="modal2Box2">
-								<h1>서비스를 사용하고 싶은 일수를 입력하세요.</h1>
+								<h1>서비스를 사용하고 싶은 일수를 입력하세요.(15일~90일)</h1>
 								<input type="number" id="user_period">
 								<a href="#" rel="modal:close" id="btn_confirm2">확인</a>
 							</div>

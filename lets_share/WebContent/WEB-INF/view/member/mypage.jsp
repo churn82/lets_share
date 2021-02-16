@@ -35,8 +35,9 @@
 			<!-- Main -->
 			<div class="wrapper style1">
 				<div class="left_menu">
-					<div><a href="rank"><i class="fas fa-trophy"></i>회원 랭킹</a></div>
-					<div><a href="modify"><i class="fas fa-edit"></i>  회원 정보 수정</a></div>
+					<div><a href="${context}/member/mypage"><i class="fas fa-user-alt"></i>마이페이지</a></div>
+					<div><a href="${context}/member/rank"><i class="fas fa-trophy"></i>회원 랭킹</a></div>
+					<div><a href="${context}/member/modify"><i class="fas fa-edit"></i>회원 정보 수정</a></div>
 					<c:if test="${sessionScope.user.mblevel=='MB10'}">
 						<div><a href="/member/adminMember"><i class="fas fa-edit"></i>  회원 관리[관리자전용]</a></div>
 					</c:if>
@@ -67,7 +68,13 @@
 							</tr>
 						</table>
 					</div>
+					<div class="rank_content">
+						<a class="link_mygroup" href="${context}/group/viewlist">내가 가입한 그룹 보기 >></a>
+					</div>
 				</div>
+				
+				
+				
 			</div>
 			<!-- Footer -->
 			<div id="footer">

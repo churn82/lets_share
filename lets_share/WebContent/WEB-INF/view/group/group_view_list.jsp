@@ -34,7 +34,7 @@
 			</div>
 			<!-- Main -->
 			<div class="wrapper style1">
-				<div class="title"><a href="/group/search">마이 그룹 페이지</a></div>
+				<div class="title"><a href="/group/viewlist">마이 그룹 페이지</a></div>
 				<div class="nodeBox">
 					<c:forEach var="group" items="${groupList}">
                         <div class="node" onclick="goView(${group.getGroupId()})">

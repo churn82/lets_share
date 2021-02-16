@@ -1,8 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
-*{
-	font-family: 'Noto Sans KR', sans-serif !important;
-}
+
 .title{
     font-family: 'Noto Sans KR', sans-serif;
     /* border : 1px solid black; */

@@ -1,12 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
-*{
-	font-family: 'Noto Sans KR', sans-serif !important;
-}
+
 .group_reg{
     display: flex;
 }
 .slider{
-    font-family: 'Noto Sans KR', sans-serif;
     border : 1px solid #beb9b9;
     width : 63%;
     height : 60vh;
@@ -178,9 +175,6 @@
 
 
 /* 은행 선택 */
-#ex1{
-    font-family: 'Noto Sans KR', sans-serif;
-}
 #ex1 > .content{
     display: flex;
     flex-wrap:wrap;
@@ -194,7 +188,6 @@
 }
 .content > input {
     height: 30px;
-    font-family: 'Noto Sans KR', sans-serif;
     font-size: 0.7em;
 }
 
