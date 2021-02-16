@@ -37,6 +37,9 @@ public class GroupController_automatching extends HttpServlet {
 		int addGroup = 0;
 		String userSerCode = (String) request.getParameter("service"); //사용자 요청 서비스 코드
 		int userPeriod = Integer.parseInt(request.getParameter("user_period")); //사용자 요청 사용기간
+		if(request.getSession().getAttribute("user") == null) {
+			throw new ToAlertException(ErrorCode.AUTH01);
+		}
 		Member user = (Member) request.getSession().getAttribute("user"); //세션에서 아이디를 가져오기
 		String userId = user.getMbId();  //현재 사용자의 아이디
 		String userName = user.getMbName();

@@ -225,10 +225,13 @@
 					
 					let serviceCode = document.querySelector("#service").value;
 					let userPeriod = document.querySelector("#userPeriod").value;
+					
 					if (!serviceCode){
 						alert("원하는 서비스를 선택하세요.");
 					}else if (!userPeriod){
 						alert("서비스 사용을 원하는 일수를 입력하세요.");
+					}else if(userPeriod < 15 || userPeriod > 90){
+						alert("한번에 서비스를 사용가능한 기간은 15일에서 90일 사이입니다.")
 					}else{
 						location.href = "/auto?service=" + serviceCode + "&user_period=" + userPeriod;
 					}
