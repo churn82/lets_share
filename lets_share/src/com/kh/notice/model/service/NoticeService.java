@@ -204,7 +204,6 @@ public class NoticeService {
 	      
 	      Connection conn = jdt.getConnection();
 	      ArrayList<Notice> noticeList = null;
-	      
 	      try {
 	         noticeList = noticeDao.getNoticeList(conn, start, end);
 	         jdt.commit(conn);
@@ -250,6 +249,90 @@ public class NoticeService {
 	      return noticeList;
 	   }
 
+	//==================이벤트 ========================
 	
-	
+		//이벤트 전체 게시글 갯수
+		public Notice getEventTotalPosts(Notice notice) {
+			Connection conn = jdt.getConnection();
+			try {
+				notice = noticeDao.getEventTotalPosts(conn, notice);
+				jdt.commit(conn);
+				
+			}catch(DataAccessException e){
+				throw new ToAlertException(e.error);
+			}finally {
+				jdt.close(conn);
+			}		
+			return notice;
+		}
+	   
+	   
+	 //모든 이벤트게시글 (페이징해서) 가져오는 메서드
+	   public ArrayList<Notice> getEventList(int start, int end){
+	      
+	      Connection conn = jdt.getConnection();
+	      ArrayList<Notice> noticeList = null;
+	      
+	      try {
+	         noticeList = noticeDao.getEventList(conn, start, end);
+	         jdt.commit(conn);
+	      } catch (DataAccessException e){
+	         jdt.rollback(conn);
+	         throw new ToAlertException(e.error, e);
+	      }finally {
+	         jdt.close(conn);
+	      }
+	      return noticeList;
+	   }
+	   
+	   //[검색]한 모든 이벤트게시글 개수 가져오는 메서드
+	   public int getEventCnt() {
+	      Connection conn = jdt.getConnection();
+	      int allEventCnt = 0;
+	      try {
+	    	  allEventCnt = noticeDao.getEventCnt(conn);
+	         jdt.commit(conn);
+	      } catch (DataAccessException e){
+	         jdt.rollback(conn);
+	         throw new ToAlertException(e.error, e);
+	      }finally {
+	         jdt.close(conn);
+	      }
+	      return allEventCnt;
+	   }
+	   
+	   
+	   //[검색]한 모든 이벤트게시글 개수 가져오는 메서드
+	   public int getEventCnt(String select, String searchText) {
+	      Connection conn = jdt.getConnection();
+	      int allEventCnt = 0;
+	      try {
+	    	  allEventCnt = noticeDao.getEventCnt(conn, select, searchText); 
+	         jdt.commit(conn);
+	      } catch (DataAccessException e){
+	         jdt.rollback(conn);
+	         throw new ToAlertException(e.error, e);
+	      }finally {
+	         jdt.close(conn);
+	      }
+	      return allEventCnt;
+	   }
+	   
+	   
+
+	   //[검색]한 모든 이벤트게시글 (페이징해서) 가져오는 메서드
+	   public ArrayList<Notice> getEventList(int start, int end, String select, String searchText){
+	      Connection conn = jdt.getConnection();
+	      ArrayList<Notice> eventList = null;
+	      try {
+	    	  eventList = noticeDao.getEventList(conn, start, end, select, searchText);
+	         jdt.commit(conn);
+	      } catch (DataAccessException e){
+	         jdt.rollback(conn);
+	         throw new ToAlertException(e.error, e);
+	      }finally {
+	         jdt.close(conn);
+	      }
+	      return eventList;
+	   }
 }

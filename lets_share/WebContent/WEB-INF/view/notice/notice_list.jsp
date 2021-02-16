@@ -68,7 +68,7 @@
 	
 			<div class="table_wrap">
 				<table class="tb_list">
-					<thead>
+					<thead style="border-bottom: 1px solid #d8dce3;">
 						<tr>
 							<th>번호</th>
 							<th>제목</th>
@@ -154,7 +154,7 @@
 			
 					
 				<!-- 글쓰기 버튼 -->
-				<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mbId eq 'admin'}">
+				<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mblevel eq 'MB10'}">
 					<div class="write_btn">
 						<button id="write" onclick="changeWriter()">글쓰기</button>				
 					</div>	

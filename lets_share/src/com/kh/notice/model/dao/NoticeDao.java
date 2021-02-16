@@ -213,7 +213,7 @@ public class NoticeDao {
 	public Notice selectEventDetail(Connection conn, int noticeNo){
 		Notice notice = null;
 		PreparedStatement pstm = null;
-		ResultSet rs = null;
+		ResultSet rs = null; 
 		String sql = "select * from sh_notice where notice_no=? and notice_type='event' ";
 		try {
 			pstm = conn.prepareStatement(sql);
@@ -390,6 +390,137 @@ public class NoticeDao {
 		}
 		return noticeList;
 	}
+	
+	
+	/////////////////////이벤트//////////////////////
+	
+	//[이벤트] 모든 post들을 (페이징해서) 가져오는 메서드 이거도잘있네요 
+		public ArrayList<Notice> getEventList(Connection conn, int start, int end){
+			ArrayList<Notice> eventtList = new ArrayList<Notice>();
+			PreparedStatement pstm = null;
+			ResultSet rset = null;
+			String query = 
+					  "SELECT * FROM ("
+					+ "    SELECT ROWNUM NUM, R.*"
+					+ "        FROM (SELECT * FROM SH_NOTICE WHERE NOTICE_TYPE = 'event' AND NOTICE_DELETE IS NULL ORDER BY NOTICE_DATE DESC) R"
+					+ ") WHERE NUM BETWEEN ? AND ?";
+			try {
+				pstm = conn.prepareStatement(query);
+				pstm.setInt(1, start);
+				pstm.setInt(2, end);
+				rset = pstm.executeQuery();
+				while(rset.next()) {
+					Notice notice = new Notice();
+					notice.setNoticeNo(rset.getInt("NOTICE_NO"));
+					notice.setNoticeTitle(rset.getString("NOTICE_TITLE"));
+					notice.setNoticeContent(rset.getString("NOTICE_CONTENT"));
+					notice.setNoticeDate(rset.getDate("NOTICE_DATE"));
+					notice.setNoticeView(rset.getInt("NOTICE_VIEW"));
+					notice.setNoticeType(rset.getString("NOTICE_TYPE"));
+					notice.setNoticeDelete(rset.getDate("NOTICE_DELETE"));
+					eventtList.add(notice);
+				}
+			} catch (SQLException e) {
+				throw new DataAccessException(ErrorCode.PB01, e);
+			} finally {
+				jdt.close(rset, pstm);
+			}
+			return eventtList;
+		}	
+		//[이벤트][검색]한 모든 내역을 (페이징해서) 가져오는 메서드
+		public ArrayList<Notice> getEventList(Connection conn, int start, int end, String select, String searchText){
+			ArrayList<Notice> eventList = new ArrayList<Notice>();
+			PreparedStatement pstm = null;
+			ResultSet rset = null;
+			String query = 
+					  "SELECT * FROM ("
+					+ "    SELECT ROWNUM NUM, R.*"
+					+ "        FROM (SELECT * FROM SH_NOTICE WHERE "+select+" LIKE ? AND NOTICE_TYPE='event' AND NOTICE_DELETE IS NULL ORDER BY NOTICE_DATE DESC) R"
+					+ ") WHERE NUM BETWEEN ? AND ?";
+			try {
+				pstm = conn.prepareStatement(query);
+				pstm.setString(1, searchText);
+				pstm.setInt(2, start);
+				pstm.setInt(3, end);
+				rset = pstm.executeQuery();
+				while(rset.next()) {
+					Notice notice = new Notice();
+					notice.setNoticeNo(rset.getInt("NOTICE_NO"));
+					notice.setNoticeTitle(rset.getString("NOTICE_TITLE"));
+					notice.setNoticeContent(rset.getString("NOTICE_CONTENT"));
+					notice.setNoticeDate(rset.getDate("NOTICE_DATE"));
+					notice.setNoticeView(rset.getInt("NOTICE_VIEW"));
+					notice.setNoticeType(rset.getString("NOTICE_TYPE"));
+					notice.setNoticeDelete(rset.getDate("NOTICE_DELETE"));
+					eventList.add(notice);
+				}
+			} catch (SQLException e) {
+				throw new DataAccessException(ErrorCode.PB01, e);
+			} finally {
+				jdt.close(rset, pstm);
+			}
+			return eventList;
+		}
+	
+		//공지 게시글의 전체 수를 리턴하는 메서드
+		public Notice getEventTotalPosts(Connection conn, Notice notice) {
+			PreparedStatement pstm = null; //pstm필요없지만 일반 stmt는 close메소드 없으니까 그냥 pstm으로
+			ResultSet rs = null;
+			String sql = "select notice_total_posts from (select notice_total_posts from sh_notice where notice_type='event' "
+					+ "and notice_delete is null and notice_total_posts is not null order by notice_total_posts desc) where rownum = 1";
+			try {
+				pstm = conn.prepareStatement(sql);
+				rs = pstm.executeQuery();
+				if(rs.next()) {
+					notice = new Notice();
+					notice.setNoticeTotalPosts(rs.getInt("notice_total_posts"));
+				}
+			} catch (SQLException e) {
+				throw new DataAccessException(ErrorCode.PB01, e);
+			}finally {
+				jdt.close(rs, pstm);
+			}
+			return notice;
+		}
 		
+		// 이벤트 개수 가져오는 메서드
+		public int getEventCnt(Connection conn) {
+			int allEventCnt = 0;
+			PreparedStatement pstm = null;
+			ResultSet rset = null;
+			String query = "SELECT COUNT(*) FROM SH_NOTICE WHERE NOTICE_TYPE = 'event' AND NOTICE_DELETE IS NULL";
+			try {
+				pstm = conn.prepareStatement(query);
+				rset = pstm.executeQuery();
+				if(rset.next()) {
+					allEventCnt = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return allEventCnt;
+		}
+		
+		// [검색]한 이벤트 개수 가져오는 메서드
+		public int getEventCnt(Connection conn, String select, String searchText) {
+			int allEventCnt = 0;
+			PreparedStatement pstm = null;
+			ResultSet rset = null;
+			String query = "SELECT COUNT(*) FROM SH_NOTICE WHERE NOTICE_TYPE = 'event' AND NOTICE_DELETE IS NULL AND "+select+" LIKE ? ";
+			try {
+				pstm = conn.prepareStatement(query);
+				pstm.setString(1, searchText);
+				rset = pstm.executeQuery();
+				if(rset.next()) {
+					allEventCnt = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return allEventCnt;
+		}
+	
+	
+	
 	
 }

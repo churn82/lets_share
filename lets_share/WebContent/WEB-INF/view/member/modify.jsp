@@ -83,7 +83,7 @@
 						</div>	
 						<!--  관리자 회원관리 -->
 						<div class="wrap_btn">
-							<button id="save_btn" onclick = "javascript:form.action='/${context}/member/modifyimpl';" type="submit">저장</button>
+							<button id="save_btn" onclick = "javascript:form.action='${context}/member/modifyimpl';" type="submit">저장</button>
 					</form>
 							<button id="leave_btn"><a href="#ex1" rel="modal:open">회원 탈퇴하기</a></button>
 							<button id="cancel_btn">돌아가기</button>
