@@ -13,8 +13,6 @@ public class Notice {
 	private String noticeType;		//타입(notice/event)
 	private Date noticeDelete;
 	private int noticeTotalPosts;
-	private int noticeCategory;
-	private String noticeKeyword;
 	
 	public Notice() {
 		
@@ -77,22 +75,6 @@ public class Notice {
 	}
 
 
-	public int getNoticeCategory() {
-		return noticeCategory;
-	}
-
-	public void setNoticeCategory(int noticeCategory) {
-		this.noticeCategory = noticeCategory;
-	}
-
-	public String getNoticeKeyword() {
-		return noticeKeyword;
-	}
-
-	public void setNoticeKeyword(String noticeKeyword) {
-		this.noticeKeyword = noticeKeyword;
-	}
-
 	public int getNoticeTotalPosts() {
 		return noticeTotalPosts;
 	}
@@ -105,12 +87,9 @@ public class Notice {
 	public String toString() {
 		return "Notice [noticeNo=" + noticeNo + ", noticeTitle=" + noticeTitle + ", noticeContent=" + noticeContent
 				+ ", noticeDate=" + noticeDate + ", noticeView=" + noticeView + ", noticeType=" + noticeType
-				+ ", noticeDelete=" + noticeDelete + ", noticeTotalPosts=" + noticeTotalPosts + ", noticeCategory="
-				+ noticeCategory + ", noticeKeyword=" + noticeKeyword + "]";
+				+ ", noticeDelete=" + noticeDelete + ", noticeTotalPosts=" + noticeTotalPosts + "]";
 	}
 
-	
-	
 
 	
 

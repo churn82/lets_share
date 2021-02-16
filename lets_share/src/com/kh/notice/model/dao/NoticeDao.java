@@ -22,7 +22,7 @@ public class NoticeDao {
 	public int insertNoticeBoard(Connection conn, Notice notice) {
 		int res = 0;
 		String sql = "insert into sh_notice "
-				+ "(NOTICE_NO,NOTICE_TITLE,NOTICE_CONTENT,NOTICE_DATE,NOTICE_TYPE,NOTICE_ALL_COUNT) "
+				+ "(NOTICE_NO,NOTICE_TITLE,NOTICE_CONTENT,NOTICE_DATE,NOTICE_TYPE,NOTICE_TOTAL_POSTS) "
 				+ "values(sc_notice_no.nextval,?,?,sysdate,'notice',sc_notice_all_count.nextval)";
 		PreparedStatement pstm = null;
 		
