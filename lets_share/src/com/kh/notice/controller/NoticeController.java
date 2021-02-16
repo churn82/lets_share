@@ -234,15 +234,12 @@ public class NoticeController extends HttpServlet {
 		//저장한 vo를 service단을 통해 dao로 전달
 		noticeService.insertNoticeBoard(notice);
 		
-		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
-		.forward(request, response);	
-		
+		response.sendRedirect("/notice/noticeList");
 		
 	}
 	
 	//이벤트 작성
 	protected void eventWriter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		 request.getRequestDispatcher("/WEB-INF/view/notice/event_writer.jsp")
 		  .forward(request, response);
 	}

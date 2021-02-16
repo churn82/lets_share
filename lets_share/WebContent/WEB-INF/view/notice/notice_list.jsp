@@ -152,9 +152,6 @@
 						</c:otherwise>
 					</c:choose>
 			
-		
-			
-				
 					
 				<!-- 글쓰기 버튼 -->
 				<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mbId eq 'admin'}">
@@ -169,14 +166,6 @@
 						}
 					</script>
 							
-						
-				<div class="write_btn">
-					<button id="write" onclick="changeWriter()">글쓰기</button>				
-				</div>						
-					
-		
-				
-				
 			</div>
 		</div>
 		
@@ -185,9 +174,6 @@
 								
             
          </div>
-      </div>
-      
-   </div>
 
 <!-- Footer -->
 	<div id="footer">
@@ -196,7 +182,6 @@
 		</div>
 	</div>
 
-	</div>
 
 	<!-- Scripts -->
 	<script src="/resources/js/jquery.min.js"></script>

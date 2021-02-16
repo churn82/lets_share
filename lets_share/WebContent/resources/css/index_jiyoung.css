@@ -188,10 +188,6 @@ section, summary, time, mark, audio, video {
 				margin-bottom: 1em;
 			}
 		
-			p {
-				text-align: justify;
-			}
-		
 			br.clear {
 				clear: both;
 			}

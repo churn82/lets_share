@@ -3,13 +3,11 @@ package com.kh.notice.model.service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.List;
 import com.kh.common.exception.DataAccessException;
 import com.kh.common.exception.ToAlertException;
 import com.kh.common.template.JDBCTemplate;
 import com.kh.notice.model.dao.NoticeDao;
 import com.kh.notice.model.vo.Notice;
-import com.kh.report.model.vo.Report;
 
 public class NoticeService {
 	

@@ -138,9 +138,30 @@ pre{
 
 .list_btn button{
 	font-size:1vw;
-	
-	
-	
+}
+
+.update_btn>span {
+	position: relative;
+    display: inline-block;
+    background: #df7366;
+    color: #fff;
+    text-align: center;
+    border-radius: 0.5em;
+    text-decoration: none;
+    padding: 0.05em 1.2em 0.05em 1.2em;
+    border: 0;
+    cursor: pointer;
+    outline: 0;
+    font-size: small;
+	-moz-transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out, border-bottom-color 0.35s ease-in-out;
+	-webkit-transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out, border-bottom-color 0.35s ease-in-out;
+	-ms-transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out, border-bottom-color 0.35s ease-in-out;
+	transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out, border-bottom-color 0.35s ease-in-out;
+}
+
+.update_btn>span:hover {
+	color: #fff;
+	background: #ef8376;
 }
 
 

@@ -65,19 +65,6 @@
 							<c:out value="${requestScope.noticeContent}"/>
 						</pre>
 					</div>
-		<%-- 			<div class="prevNext">
-						<div class="prev_next">
-							<span class="next_sel">이전글</span>
-							<h4 onclick="Nextmove">공지사항입니다.</h4>
-							<span class="date_bottom">2021-01-31</span>
-						</div>
-						
-						<div class="prev_next">
-							<span class="next_sel">다음글</span>
-							<h4 onclick="Nextmove">등급 관련 안내</h4>
-							<span class="date_bottom">2021-01-31</span>
-						</div>
-					</div> --%>
 					
 					<!-- 목록버튼 -->
 					<div class="list_btn">
@@ -91,8 +78,6 @@
 							<span><a onclick="return confirm('삭제하시겠습니까?')" href="/notice/deleteNotice?noticeNo=${requestScope.noticeNo}">삭제</a></span>
 						</div> 	
 					</c:if>
-            		
-            		
             		
 					
 					
