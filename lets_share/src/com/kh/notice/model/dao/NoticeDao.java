@@ -364,7 +364,7 @@ public class NoticeDao {
 		String query = 
 				  "SELECT * FROM ("
 				+ "    SELECT ROWNUM NUM, R.*"
-				+ "        FROM (SELECT * FROM SH_NOTICE WHERE "+select+" LIKE '?' AND NOTICE_TYPE='notice' AND NOTICE_DELETE IS NULL ORDER BY NOTICE_DATE DESC) R"
+				+ "        FROM (SELECT * FROM SH_NOTICE WHERE "+select+" LIKE ? AND NOTICE_TYPE='notice' AND NOTICE_DELETE IS NULL ORDER BY NOTICE_DATE DESC) R"
 				+ ") WHERE NUM BETWEEN ? AND ?";
 		try {
 			pstm = conn.prepareStatement(query);
