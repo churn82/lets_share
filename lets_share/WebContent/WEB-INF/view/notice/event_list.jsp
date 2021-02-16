@@ -56,9 +56,8 @@
 		<div class="tab_content">
 			<form id="search_bar">
 				<select id="search_sel" name="select">
-					<option value="sel_all">전체  ▼ </option>
-					<option value="sel_title">제목</option>
-					<option value="sel_content">내용</option>
+					<option value="NOTICE_TITLE">제목</option>
+					<option value="NOTICE_CONTENT">내용</option>
 				</select>			
 				<input type="text" class="searchText" name="searchText" placeholder="검색어를 입력하세요.">
 				<button class="search_btn" onclick="searchList">조회</button>		
@@ -98,39 +97,72 @@
 								${noticeList.noticeView}
 							</td>
 						</tr>
-					<script type="text/javascript">
-					function changeWriter(){
-						location.href="eventWriter";	//writer에서 바꿈
-					}
-					
-					</script>
 					</c:forEach>
 						
 					
 					</tbody>				
 				</table>
 			
-			
-			
-			</div>
-		
+			</div>	
+				<!-- 게시판 페이지 번호 -->
+					<c:choose>
+						<c:when test='${select==""}'>
+							<div class="paging">
+								<a class="page_btn" href="/notice/eventList?page=${firstPage-1}" style="background-color: white; color:black">&lt;</a>
+								<c:forEach var="page" items="${pageList}">
+								<c:choose>
+									<c:when test = "${page==currentPage}">
+										<a class="page_btn" href="/notice/eventList?page=${page}" style="background-color: #FF9900">
+											${page}
+										</a>
+									</c:when>
+									<c:otherwise>
+										<a class="page_btn" href="/notice/eventList?page=${page}">
+											${page}
+										</a>
+									</c:otherwise>
+								</c:choose>
+								</c:forEach>
+								<a class="page_btn" href="/notice/eventList?page=${lastPage+1}" style="background-color: white; color:black">&gt;</a>
+							</div>		
+						</c:when>
+						<c:otherwise>
+							<div class="paging">
+								<a class="page_btn" href="/notice/eventList?select=${select}&searchText=${searchText}&page=${firstPage-1}" style="background-color: white; color:black">&lt;</a>
+								<c:forEach var="page" items="${pageList}">
+								<c:choose>
+									<c:when test = "${page==currentPage}">
+										<a class="page_btn" href="/notice/eventList?select=${select}&searchText=${searchText}&page=${page}" style="background-color: #FF9900">
+											${page}
+										</a>
+									</c:when>
+									<c:otherwise>
+										<a class="page_btn" href="/notice/eventList?select=${select}&searchText=${searchText}&page=${page}">
+											${page}
+										</a>
+									</c:otherwise>
+								</c:choose>
+								</c:forEach>
+								<a class="page_btn" href="/notice/eventList?select=${select}&searchText=${searchText}&page=${lastPage+1}" style="background-color: white; color:black">&gt;</a>
+							</div>
+						</c:otherwise>
+					</c:choose>
 				
-				<%-- 게시판 페이지 번호 --%>
-				<ul class="paging">
-					<c:forEach var="i" begin="0" end="4">
-						<li><a class="page_btn" href="/notice/eventList?=${startNum+i}">${1+i}</a></li>
-					</c:forEach>
-				</ul>
 				
 				
 				
-				
-				<%-- 글쓰기 버튼 --%>
+				<!-- 글쓰기 버튼 -->
 				<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mbId eq 'admin'}">
 					<div class="write_btn">
 						<button id="write" onclick="changeWriter()">글쓰기</button>				
 					</div>	
 				</c:if>
+					
+					<script type="text/javascript">
+						function changeWriter(){
+							location.href="eventWriter";
+						}
+					</script>
 					
 					
 										
