@@ -393,8 +393,9 @@ public class NoticeController extends HttpServlet {
 		//저장한 vo를 service단을 통해 dao로 전달
 		noticeService.deleteNoticeBoard(noticeNo);//notice로 바꿔야 함
 		
-		request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
-		  .forward(request, response);
+		//request.getRequestDispatcher("/WEB-INF/view/notice/notice_list.jsp")
+		//  .forward(request, response);
+		response.sendRedirect("/notice/noticeList");
 	}
 	
 	
