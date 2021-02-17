@@ -70,7 +70,6 @@ public class GroupController extends HttpServlet {
 		
 		String groupSId = request.getParameter("groupId");
 		int groupId = Integer.parseInt(groupSId);
-		System.out.println(groupId);
 		
 		//3. SH_STAND_BY 그룹에 대기중인 인원의 데이터를 Arraylist로 가져온다 ()
 		ArrayList<GroupStandBy> standByList = groupService.getStandByList(groupId);
@@ -83,7 +82,6 @@ public class GroupController extends HttpServlet {
 		//5. SH_GROUP 데이터를 가져온다
 		Group group = groupService.getGroup(groupId);
 		request.setAttribute("group", group);
-		System.out.println(group.getAutoDate());
 		
 		//6. SH_SER_CODE 정보를 가져온다 
 		int servicePerDay = groupService.getServicePerDay(group.getServiceCode());
@@ -255,16 +253,17 @@ public class GroupController extends HttpServlet {
 	
 	//그룹 가입 거절
 	protected void refuseGroup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("test");
 		String groupSId = request.getParameter("groupId");
 		int groupId = Integer.parseInt(groupSId);
 		String memberId = request.getParameter("userId");
 		int res = groupService.refuse(groupId, memberId);
-		if(res==1) {
-			request.setAttribute("msg", "정상적으로 거절되었습니다");
-			request.setAttribute("url", "/group/view?groupId="+groupId);
-			request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
-			.forward(request, response);
-		}
+
+		request.setAttribute("msg", "정상적으로 거절되었습니다");
+		request.setAttribute("url", "/group/view?groupId="+groupId);
+		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+		.forward(request, response);
+		
 	}
 
 	//입금 신청(sms주석처리)
@@ -275,6 +274,7 @@ public class GroupController extends HttpServlet {
 		
 		Member member = (Member) request.getSession().getAttribute("user");
 		String memberId = member.getMbId();
+		String memberName = member.getMbName();
 		
 		int payDate = Integer.parseInt(payDateS);
 		int servicePerDay = Integer.parseInt(servicePerDayS);
@@ -295,6 +295,12 @@ public class GroupController extends HttpServlet {
 			
 			SMS sms = new SMS();
 			sms.sendSMS(to, content);
+			
+			Member leader = memberService.selectMemberById(group.getMemberId());
+			String toLeader = leader.getMbtel();
+			String contentLeader = "Let's Share 입니다. \n["+memberName+"] 입금신청 \n결제금액 : "+sum+"원";
+			
+			sms.sendSMS(toLeader, contentLeader);
 		}
 		request.setAttribute("msg", "정상적으로 입금신청 되었습니다.");
 		request.setAttribute("url", "/group/view?groupId="+groupId);
@@ -331,7 +337,7 @@ public class GroupController extends HttpServlet {
 		String shareID = group.getShareId();
 		String sharePW = group.getSharePw();
 		String to = member.getMbtel(); // 전송할 전화번호
-		String content = "Let's Share 입니다.\n입금이 확인되어 ID,PW 안내드립니다.\n아이디 : "+shareID+"\n비밀번호 :"+sharePW; 
+		String content = "Let's Share 입니다.\n입금이 확인되어 ID,PW 안내드립니다.\nID:"+shareID+"/PW:"+sharePW; 
 		SMS sms = new SMS();
 		sms.sendSMS(to, content);
 		
@@ -443,6 +449,15 @@ public class GroupController extends HttpServlet {
 		request.setAttribute("msg", "그룹 탈퇴 되었습니다.");
 		request.setAttribute("url", "/index");
 		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp").forward(request, response);
+		
+		//3. 탈퇴했다고 알려주자 그룹장에게 sms
+		Group group = groupService.getGroup(groupId);
+		Member leader = memberService.selectMemberById(group.getMemberId());
+		String toLeader = leader.getMbtel();
+		String contentLeader = "Let's Share 입니다. \n그룹원이 탈퇴했습니다. \n서비스 ID/PW 변경하십시오.";
+		SMS sms = new SMS();
+		sms.sendSMS(toLeader, contentLeader);
+		
 	}
 
 	//그룹 해지
