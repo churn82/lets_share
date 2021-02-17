@@ -76,7 +76,7 @@
     		//1. 각 멤버의 만기일
    			memberIdArr.forEach((e,i)=>{
    				calendar.addEventSource([{
-   					title : e + " 만기일",
+   					title : e + " 만료일",
    					start : memberExpArr[i],
    					color : "purple"
    				}]);
@@ -84,7 +84,7 @@
     		//2. 그룹 해산일
     		if(groupLastDay){
     			calendar.addEventSource([{
-    				title : "그룹 해산",
+    				title : "그룹 해지",
     				start : groupLastDay,
     				color : "red"
     			}]);
