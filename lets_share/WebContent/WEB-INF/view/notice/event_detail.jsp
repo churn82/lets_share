@@ -45,10 +45,10 @@
 			<!-- tab_menu 시작 -->
 			<ul class="tab_menu">
 				<li class="n_menu">
-					<a href="">공지사항</a>
+					<a href="${context}/notice/noticeList">공지사항</a>
 				</li>
 				<li class="e_menu">
-					<a href="">이벤트</a>
+					<a href="${context}/notice/eventList">이벤트</a>
 				</li>
 			</ul>
 			<!-- tab_menu 끝 -->
@@ -122,17 +122,6 @@
 			location.href="/notice/eventList";
 			
 		}
-	
-	
-		
-		
-			
-			
-		}
-		
-		
-		
-	
 	</script>
 	
 

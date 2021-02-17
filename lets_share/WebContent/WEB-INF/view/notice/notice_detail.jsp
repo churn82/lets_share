@@ -112,8 +112,6 @@
 				location.href="/notice/noticeList";
 				
 			}
-		
-		
 		</script>
 
 	</body>
