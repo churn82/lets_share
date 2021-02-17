@@ -210,9 +210,11 @@
 						<div class="">
 							<button onclick="IdPwConfirm(${group.getGroupId()})">ID/PW 확인</button>
 						</div>
-						<div class="">
+						<c:if test="${group.getLastDay() == null}">
+				    	<div class="">
 							<button><a href="#ex1" rel="modal:open">서비스 결제</a></button>
 						</div>
+					    </c:if>
 						<div class="">
 							<button><a href="#ex3" rel="modal:open">그룹 탈퇴</a></button>
 						</div>
