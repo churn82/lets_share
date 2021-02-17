@@ -45,6 +45,8 @@ public class NoticeController extends HttpServlet {
 			eventWriterImpl(request, response); break;
 		case "beforeUpdate" :
 			beforeUpdate(request, response); break;
+		case "beforeUpdateNotice" :
+			beforeUpdateNotice(request, response); break;
 		case "updateRequest" :
 			updateRequest(request, response); break;	
 		case "deleteEvent" :
@@ -334,6 +336,19 @@ public class NoticeController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/notice/updateEvent.jsp")
 		.forward(request, response);	
 	}
+	
+	//수정전 
+	protected void beforeUpdateNotice(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+		
+		Notice notice = new Notice();
+		notice = noticeService.beforeUpdate(noticeNo);
+		request.setAttribute("notice", notice);
+		
+		request.getRequestDispatcher("/WEB-INF/view/notice/updateNotice.jsp")
+		.forward(request, response);	
+	}
+	
 	
 	
 	//수정요청

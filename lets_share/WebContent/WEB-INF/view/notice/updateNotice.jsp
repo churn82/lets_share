@@ -13,17 +13,14 @@
 	
 	<div id="page-wrapper">
 	
-	<!-- Header -->
 	<div id="header">
 
-		<!-- Inner -->
 		<div class="inner">
 			<header>
 				<h1><a href="${context}/index" id="logo">Let's Share</a></h1>
 			</header>
 		</div>
 
-		<!-- Nav -->
 		<nav id="nav">
 			<ul>
 				<li><a href="${context}/index">Home</a></li>
@@ -36,59 +33,49 @@
 
 	</div>
 
-<!-- Main -->
-<!-- <div class="wrapper style1"> -->
-<div id="main">
+<div id="main"><%-- <div class="wrapper style1"> --%>
 	<div class="section">
-		<h2>공지사항</h2>
+		<h2>수정</h2>
 			
-			<!-- tab_menu 시작 -->
-			<ul class="tab_menu">
-				<li class="n_menu">
-					<a href="/notice/noticeList">공지사항</a>
-				</li>
-				<li class="e_menu">
-					<a href="/notice/eventList">이벤트</a>
-				</li>
-			</ul>
-			<!-- tab_menu 끝 -->
-			
-			<!-- 내용 시작 -->
-			<div class="content_wrap">
-				<div class="content">
-					<div class="content_header">
-						<h3>제목 : ${requestScope.noticeTitle}</h3>
-						<span class="date">작성날짜 : ${requestScope.noticeDate}</span>
+	<div class="content_wrap">
+		<div class="content">
+			<form action="/notice/updateRequest" id="update" name="${requestScope.notice.noticeNo}" method="post">
+				<div class="form form_title">
+					<div class="title_wrap">
+						<div class="form_space">제목</div>
 					</div>
-					<div class="content_body">
-						<pre id="text">
-							<c:out value="${requestScope.noticeContent}"/>
-						</pre>
-					</div>
-					
-					<!-- 목록버튼 -->
-					<div class="list_btn">
-						<button onclick="goList()">목록</button>
-					</div>
-					
-					<!-- 수정,삭제 버튼 -->
-				<c:if test="${sessionScope.user.mbId != null && sessionScope.user.mblevel eq 'MB10'}">
-					<div class="update_btn">
-						<span><a href="/notice/beforeUpdateNotice?noticeNo=${requestScope.noticeNo}">수정</a></span>
-						<span><a onclick="return confirm('삭제하시겠습니까?')" href="/notice/deleteNotice?noticeNo=${requestScope.noticeNo}">삭제</a></span>
-					</div> 	
-				</c:if>
-            		
-					
-					
-				
+					<input type="text" name="title" required="required" value="${requestScope.notice.noticeTitle}"/>
+          		</div>
+				<div class="form form_content">
+		            <div class="form_space">내용</div>
+		            <textarea rows="10" name="contents" required="required">${requestScope.notice.noticeContent}</textarea>
 				</div>
+					
+			
+			<!-- submit 버튼 -->
+			<div class="submits">
+				<!-- 카테고리 -->
+				<div class="cate_sel">
+					<label for="cate">카테고리: </label>
+					<select name="writer_cate" class="wrap_option">
+						<option value="notice">공지사항</option>
+						<option value="event">이벤트</option>
+					</select>
+				</div>
+				<button type="submit" onclick='goList()'>수정</button>
+			</div>
+			<input type="hidden" value='${requestScope.notice.noticeNo}' name='noticeNo'/>
+			<!-- 목록버튼 -->
+			<div class="list_btn">
+				<button onclick='goList()'>목록</button>
+			</div>
+			</form>
+		</div>
 		
-		</div>			
+	</div>			
 	</div>
 </div>
 		
-<!-- </div> -->
 
 			<!-- Footer -->
 				<div id="footer">
@@ -110,8 +97,8 @@
 		<script type="text/javascript">
 			function goList(){
 				location.href="/notice/noticeList";
-				
 			}
+		
 		</script>
 
 	</body>
