@@ -4,7 +4,7 @@ Let's Share 세미프로젝트입니다.
 
 ### 프로젝트 개요
 넷플릭스, 왓챠 등 OTT서비스 계정을 공유하여,  
-최대 월 요금 1/4까지 저렴하게 사용하길 원하는 이용자들을 매칭하는 사이트 구축
+최대 월 요금 1/4까지 저렴하게 사용하길 원하는 이용자들을 매칭하는 사이트 구축<br>
 <a href="https://docs.google.com/presentation/d/1ydpyzi6bno3yTmBvenid9PhjRNSdw5vkIZXZXCPD60A/edit#slide=id.gbe4ffb5cc4_4_2">발표장표링크</a>
 
 
